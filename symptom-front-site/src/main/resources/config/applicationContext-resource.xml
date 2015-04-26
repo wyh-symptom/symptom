@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:repository="http://www.springframework.org/schema/data/repository"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/data/repository http://www.springframework.org/schema/data/repository/spring-repository-1.5.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+
+	<!-- 启用 annotation事务 -->
+	<tx:annotation-driven order="10"
+		transaction-manager="transactionManager" />
+
+	<bean id="realDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${database.driverClassName}" />
+		<property name="url" value="${database.url}" />
+		<property name="username" value="${database.username}" />
+		<property name="password" value="${database.password}" />
+		<property name="defaultAutoCommit" value="false" />
+		<property name="maxActive" value="${cp.maxActive}" />
+		<property name="maxIdle" value="${cp.maxIdle}" />
+		<property name="minIdle" value="${cp.minIdle}" />
+		<property name="maxWait" value="${cp.maxWait}" />
+	</bean>
+
+	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+		<constructor-arg index="0" ref="realDataSource" />
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- MyBatis -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="typeAliasesPackage" value="com.chenfeng.symptom.domain.model.mybatis" />
+		<property name="mapperLocations" value="classpath:/META-INF/mybatis/*Mapper.xml" />
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage"
+			value="com.chenfeng.symptom.domain.repository.mybatis" />
+		<property name="annotationClass"
+			value="com.chenfeng.symptom.domain.common.annotation.MyBatisRepository" />
+	</bean>
+
+</beans>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver" />
+				<property name="url" value="jdbc:mysql://localhost/jimoties" />
+				<property name="username" value="root" />
+				<property name="password" value="root" />
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<mapper resource="jp/co/toyata/vc/jimoties/repository/mybatis/MstAdministratorMapper.xml" />
+		<mapper resource="jp/co/toyata/vc/jimoties/repository/mybatis/MstAdministratorMapper.xml" />
+		<mapper resource="jp/co/toyata/vc/jimoties/repository/mybatis/MstAreaMapper.xml" />
+		<mapper resource="jp/co/toyata/vc/jimoties/repository/mybatis/MstAvatarMapper.xml" />
+		<mapper resource="jp/co/toyata/vc/jimoties/repository/mybatis/MstPickupMapper.xml" />
+		<mapper resource="jp/co/toyata/vc/jimoties/repository/mybatis/MstSysNotificationMapper.xml" />
+		<mapper resource="jp/co/toyata/vc/jimoties/repository/mybatis/MstUserDetailInfoMapper.xml" />
+		<mapper resource="jp/co/toyata/vc/jimoties/repository/mybatis/MstUserInfoMapper.xml" />
+		<mapper resource="jp/co/toyata/vc/jimoties/repository/mybatis/MstUserInfoMapper.xml" />
+		<mapper resource="jp/co/toyata/vc/jimoties/repository/mybatis/TrnBeepMapper.xml" />
+		<mapper resource="jp/co/toyata/vc/jimoties/repository/mybatis/TrnFavoritePostMapper.xml" />
+		<mapper resource="jp/co/toyata/vc/jimoties/repository/mybatis/TrnPostMapper.xml" />
+		<mapper resource="jp/co/toyata/vc/jimoties/repository/mybatis/TrnSpamPostMapper.xml" />
+		<mapper resource="jp/co/toyata/vc/jimoties/repository/mybatis/WrkAreaRankingMapper.xml" />
+		<mapper resource="jp/co/toyata/vc/jimoties/repository/mybatis/WrkPushNewCommentMapper.xml" />
+		<mapper resource="jp/co/toyata/vc/jimoties/repository/mybatis/WrkSentAreaMapper.xml" />
+	</mappers>
+</configuration>
