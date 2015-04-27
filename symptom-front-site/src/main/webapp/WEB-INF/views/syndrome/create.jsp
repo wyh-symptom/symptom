@@ -33,16 +33,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="syndromeElementStart" class="col-sm-2 control-label">症素A:</label>
-                                <div class="col-sm-6">
+                                <label for="syndromeElementStart" class="col-sm-2 control-label">症素关系:</label>
+                                <div class="col-sm-3">
                                     <input type="text" class="form-control"
                                         name="syndromeElementStart" id="syndromeElementStart"
                                         placeholder="症素A">
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="syndromeElementEnd" class="col-sm-2 control-label">症素B:</label>
-                                <div class="col-sm-6">
+                                <div class="col-sm-3">
                                     <input type="text" class="form-control"
                                         name="syndromeElementEnd" id="syndromeElementEnd"
                                         placeholder="症素B">
