@@ -44,6 +44,6 @@
 		</div>
 	</div>
 
-	<script src="${SPM_CONTEXT}/js/views/syndrome/list.js"></script>
+	<script src="${SPM_CONTEXT}/js/views/syndrome_element/list.js"></script>
 </body>
 </html>

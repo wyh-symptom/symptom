@@ -63,6 +63,6 @@
         </div>
     </div>
 
-    <script src="${SPM_CONTEXT}/js/views/syndrome/create.js"></script>
+    <script src="${SPM_CONTEXT}/js/views/syndrome_element/create.js"></script>
 </body>
 </html>
