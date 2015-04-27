@@ -5,6 +5,6 @@
 	<div class="list-group">
 		<a href="${SPM_CONTEXT}/syndrome/list" class="list-group-item bind-menu-syndrome">症状管理</a> 
 		<a href="${SPM_CONTEXT}/syndrome/list" class="list-group-item bind-menu-syndrome-element">症素管理</a>
-		<a href="${SPM_CONTEXT}/syndrome/search" class="list-group-item bind-menu-syndrome-image">有向图</a> 
+		<a href="${SPM_CONTEXT}/syndrome/search" class="list-group-item bind-menu-syndrome-search">有向图</a> 
 	</div>
 </div>
