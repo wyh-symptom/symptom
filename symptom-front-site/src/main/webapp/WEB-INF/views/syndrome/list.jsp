@@ -15,6 +15,7 @@
 			<div class="col-sm-10">
 			    <p class="text-right">
 					<a href="${SPM_CONTEXT}/syndrome/create"><button type="button" class="btn btn-info">创建</button></a>
+					<a href="${SPM_CONTEXT}/syndrome/search"><button type="button" class="btn btn-info">查询</button></a>
 				</p>
                 
 				<table class="table table-striped table-bordered">
