@@ -9,7 +9,7 @@
   
     <http>
         <intercept-url pattern="/syndrome/*" access="ROLE_USER" />
-        <form-login login-page="/user/login" default-target-url="/syndrome/search" authentication-failure-url="/user/login?error=true"/>
+        <form-login login-page="/user/login" default-target-url="/syndrome/list" authentication-failure-url="/user/login?error=true"/>
         <logout logout-success-url="/user/login"/>
     </http>
     <authentication-manager>

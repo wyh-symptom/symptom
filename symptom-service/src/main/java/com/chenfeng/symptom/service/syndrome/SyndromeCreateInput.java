@@ -5,6 +5,8 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
 public class SyndromeCreateInput {
+    private Long id;
+    
 	@NotBlank
     @Size(max = 100)
     private String symptomName;
@@ -51,5 +53,13 @@ public class SyndromeCreateInput {
 
     public void setSyndromeElementEnd(String syndromeElementEnd) {
         this.syndromeElementEnd = syndromeElementEnd;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
