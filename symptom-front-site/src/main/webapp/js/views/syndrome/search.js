@@ -1,7 +1,7 @@
 (function($) {
 
 	var constant = {
-		MENU_CSS : '.bind-menu-syndrome',
+		MENU_CSS : '.bind-menu-syndrome-image',
 		ADD_BUTTON : '.bind-search-add-button',
 		REMOVE_BUTTON : '.bind-search-remove-button',
 		SYMPTOM_NAME_SELECT : '.bind-search-symptom-name-select'
@@ -51,7 +51,7 @@
 						var $desc = $self.closest('div .form-group').find('select[name="description"]');
 						$desc.empty();
 						$.each(item.syndromes , function(i, n) {
-							$desc.append(jQuery("<option>adffd</option>").attr({'value':n.description}).text(n.description));
+							$desc.append(jQuery("<option></option>").attr({'value':n.syndromeElementStart + "__" + n.syndromeElementEnd}).text(n.description));
 						});
 					}
 				});
