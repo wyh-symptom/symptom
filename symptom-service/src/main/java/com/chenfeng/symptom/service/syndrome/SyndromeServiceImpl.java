@@ -30,10 +30,6 @@ public class SyndromeServiceImpl extends CrudServiceImpl<Syndrome, Long, Syndrom
         Syndrome syndrome = new Syndrome();
         BeanUtils.copyProperties(syndromeCreateInput, syndrome);
         repository.insertSelective(syndrome);
-//        SyndromeElement syndromeElement = new SyndromeElement();
-//        BeanUtils.copyProperties(syndromeCreateInput, syndromeElement);
-//        syndromeElement.setIsRelate(Constant.SYNDROME_ELEMENT_RELATE_TRUE);
-//        syndromeElementMapper.insertSelective(syndromeElement);
     }
 
 	@Override
