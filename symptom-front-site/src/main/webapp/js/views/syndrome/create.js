@@ -1,7 +1,7 @@
 (function($) {
 
 	var constant = {
-		MENU_CSS : '.bind-menu-syndrome-create',
+		MENU_CSS : '.bind-menu-syndrome',
 		CREATE_FROM : '.bind-create-from',
 		CREATE_SUBMIT_BUTTON : '.bind-create-submit-button',
 		SYMPTOM_NAME : '症状名',

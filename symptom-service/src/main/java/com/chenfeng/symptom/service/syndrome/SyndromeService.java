@@ -24,5 +24,13 @@ public interface SyndromeService extends CrudService<Syndrome, Long> {
      * @date 2015年4月25日 下午9:25:54
      */
     List<SyndromeInitOutput> findSyndromeInitData();
+
+    /**
+     * 
+     * @return
+     *
+     * @author wangyuhao
+     */
+    List<Syndrome> findAll();
     
 }

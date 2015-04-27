@@ -70,4 +70,10 @@ public class SyndromeServiceImpl extends CrudServiceImpl<Syndrome, Long, Syndrom
 		
 		return syndromeInitOutputs;
 	}
+
+    @Override
+    public List<Syndrome> findAll() {
+        
+        return repository.findAll();
+    }
 }
