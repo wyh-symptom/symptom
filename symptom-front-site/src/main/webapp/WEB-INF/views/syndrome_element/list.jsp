@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>症状列表</title>
+<title>症素列表</title>
 <%@include file="../common/resource.jsp"%>
 </head>
 <body>
@@ -14,32 +14,35 @@
 			<%@ include file="../common/menu.jsp"%>
 			<div class="col-sm-10">
 			    <p class="text-right">
-					<a href="${SPM_CONTEXT}/syndrome/create"><button type="button" class="btn btn-info">创建</button></a>
+					<a href="${SPM_CONTEXT}/syndrome/element/create"><button type="button" class="btn btn-info">创建</button></a>
 				</p>
                 
 				<table class="table table-striped table-bordered">
                         <thead>
                           <tr>
                             <th>ID</th>
-                            <th>症状名</th>
-                            <th>描述</th>
                             <th>症素A</th>
                             <th>症素B</th>
-                            <th colspan="3"></th>
+                            <th>症素关系</th>
+                            <th colspan="2"></th>
                           </tr>
                         </thead>
-                        <tbody data-bind="foreach: {data: syndromes, as: 'syndrome'}">
+                        <tbody data-bind="foreach: {data: syndromeElements, as: 'syndromeElement'}">
                           <tr>
-                            <th data-bind="text: syndrome.id">1</th>
-                            <td data-bind="text: syndrome.symptomName">Mark</td>
-                            <td data-bind="text: syndrome.description">Mark</td>
-                            <td data-bind="text: syndrome.syndromeElementEnd">Mark</td>
-                            <td data-bind="text: syndrome.syndromeElementStart">Mark</td>
-                            <td><a data-bind="attr: { href: '${SPM_CONTEXT}/syndrome/update/' + syndrome.id() }">修改</a></td>
+                            <th data-bind="text: syndromeElement.id">1</th>
+                            <td data-bind="text: syndromeElement.syndromeElementStart">Mark</td>
+                            <td data-bind="text: syndromeElement.syndromeElementEnd">Mark</td>
+                            <!-- ko if: syndromeElement.isRelate() == 1 -->
+	                            <td>是</td>
+						    <!-- /ko -->
+                            <!-- ko if: syndromeElement.isRelate() == 0 -->
+                                <td>否</td>
+						    <!-- /ko -->
+                            <td><a data-bind="attr: { href: '${SPM_CONTEXT}/syndrome/element/update/' + syndromeElement.id() }">修改</a></td>
                             <td><a href="#" data-bind="click: deleteItem">删除</a></td>
                           </tr>
                         </tbody>
-                      </table>
+                    </table>
 			</div>
 		</div>
 	</div>

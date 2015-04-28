@@ -11,10 +11,10 @@
         http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
     
     <!-- 加载本地的 properties 文件 -->
-    <context:property-placeholder
-        location="classpath*:/system.properties" />
+    <context:property-placeholder location="classpath*:/system.properties" />
     
     <context:annotation-config />
+    <context:component-scan base-package="com.chenfeng.symptom.common.handler" />
     <context:component-scan base-package="com.chenfeng.symptom.domain" />
     <context:component-scan base-package="com.chenfeng.symptom.service" />
     

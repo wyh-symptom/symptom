@@ -1,9 +1,11 @@
 (function($) {
 
 	var constant = {
-		MENU_CSS : '.bind-menu-syndrome-element',
+		MENU_CSS : '.bind-menu-syndrome',
 		CREATE_FROM : '.bind-create-from',
 		CREATE_SUBMIT_BUTTON : '.bind-create-submit-button',
+		SYMPTOM_NAME : '症状名',
+		DESCRIPTION : '症状描述',
 		SYNDROME_ELEMENT_START : '症素A',
 		SYNDROME_ELEMENT_END : '症素A'
 	};
@@ -15,6 +17,14 @@
 				errorClass : 'help-block',
 				focusInvalid : false,
 				rules : {
+					symptomName : {
+						required : [ constant.SYMPTOM_NAME, true ],
+						maxlength : 100
+					},
+					description : {
+						required : [ constant.DESCRIPTION, true ],
+						maxlength : 5000
+					},
 					syndromeElementStart : {
 						required : [ constant.SYNDROME_ELEMENT_START, true ],
 						maxlength : 100
