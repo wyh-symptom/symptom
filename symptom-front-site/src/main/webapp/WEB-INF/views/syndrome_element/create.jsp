@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>新建症状</title>
+<title>创建</title>
 <%@include file="../common/resource.jsp"%>
 </head>
 <body>

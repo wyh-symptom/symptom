@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>症状列表</title>
+<title>症素列表</title>
 <%@include file="../common/resource.jsp"%>
 </head>
 <body>
