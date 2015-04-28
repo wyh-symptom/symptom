@@ -67,4 +67,18 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
+    <!-- <error-page>
+        <error-code>404</error-code>
+        <location>/public/404.html</location>
+    </error-page>
+
+    <error-page>
+        <exception-type>java.lang.SecurityException</exception-type>
+        <location>/public/403.html</location>
+    </error-page>
+    
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/public/500.html</location>
+    </error-page> -->
 </web-app>

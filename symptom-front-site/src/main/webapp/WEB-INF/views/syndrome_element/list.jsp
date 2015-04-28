@@ -42,7 +42,7 @@
                             <td><a href="#" data-bind="click: deleteItem">删除</a></td>
                           </tr>
                         </tbody>
-                      </table>
+                    </table>
 			</div>
 		</div>
 	</div>

@@ -21,7 +21,8 @@ public class SyndromeElementServiceImpl extends
 	@Resource
 	@Override
 	public void setRepository(SyndromeElementMapper syndromeElementMapper) {
-		super.setRepository(syndromeElementMapper);
+
+	    super.setRepository(syndromeElementMapper);
 	}
 
 	@Override
