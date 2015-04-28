@@ -14,6 +14,8 @@ public class SyndromeElementInput {
     @NotBlank
     @Size(max = 100)
     private String syndromeElementEnd;
+    
+    private Integer isRelate;
 
     public String getSyndromeElementStart() {
         return syndromeElementStart;
@@ -38,4 +40,16 @@ public class SyndromeElementInput {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public Integer getIsRelate() {
+        if (isRelate == null) {
+            return 0;
+        }
+        return isRelate;
+    }
+
+    public void setIsRelate(Integer isRelate) {
+        this.isRelate = isRelate;
+    }
+
 }

@@ -25,7 +25,7 @@
                             <th>描述</th>
                             <th>症素A</th>
                             <th>症素B</th>
-                            <th colspan="3"></th>
+                            <th colspan="2"></th>
                           </tr>
                         </thead>
                         <tbody data-bind="foreach: {data: syndromes, as: 'syndrome'}">
@@ -33,8 +33,8 @@
                             <th data-bind="text: syndrome.id">1</th>
                             <td data-bind="text: syndrome.symptomName">Mark</td>
                             <td data-bind="text: syndrome.description">Mark</td>
-                            <td data-bind="text: syndrome.syndromeElementEnd">Mark</td>
                             <td data-bind="text: syndrome.syndromeElementStart">Mark</td>
+                            <td data-bind="text: syndrome.syndromeElementEnd">Mark</td>
                             <td><a data-bind="attr: { href: '${SPM_CONTEXT}/syndrome/update/' + syndrome.id() }">修改</a></td>
                             <td><a href="#" data-bind="click: deleteItem">删除</a></td>
                           </tr>

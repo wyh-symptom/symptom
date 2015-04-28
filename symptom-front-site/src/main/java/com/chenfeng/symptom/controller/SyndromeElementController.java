@@ -37,7 +37,7 @@ public class SyndromeElementController {
     public String doCreateSympotm(@Valid SyndromeElementInput syndromeElementInput) {
         
         syndromeElementService.create(syndromeElementInput);
-        return "syndrome_element/list";
+        return "redirect:/syndrome/element/list";
     }
     
     @RequestMapping(value = "list", method = RequestMethod.GET)
@@ -68,7 +68,7 @@ public class SyndromeElementController {
         SyndromeElement syndromeElement = new SyndromeElement();
         BeanUtils.copyProperties(syndromeElementUpdateInput, syndromeElement);
         syndromeElementService.update(syndromeElement);
-        return "redirect:/syndrome_element/list";
+        return "redirect:/syndrome/element/list";
     }
 
     @RequestMapping(value = "delete/{id}", method = RequestMethod.DELETE)

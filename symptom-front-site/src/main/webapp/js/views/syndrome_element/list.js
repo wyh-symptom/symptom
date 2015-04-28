@@ -1,22 +1,22 @@
 (function($) {
 
 	var constant = {
-			MENU_CSS : '.bind-menu-syndrome'
+			MENU_CSS : '.bind-menu-syndrome-element'
 	};
 
 	var viewModel = {
-		syndromes : ko.observableArray([])
+		syndromeElements : ko.observableArray([])
 	};
 
 	var format = {
-		formatInit : function(syndromes) {
-			$.each(syndromes, function(i, n) {
+		formatInit : function(syndromeElements) {
+			$.each(syndromeElements, function(i, n) {
 				n.deleteItem = function(n) {
 					$.ajax({
 						type : 'DELETE',
-						url : $.SPM.context + '/syndrome/delete/' + n.id(),
+						url : $.SPM.context + '/syndrome/element/delete/' + n.id(),
 						success : function() {
-							viewModel.syndromes.remove(n);
+							viewModel.syndromeElements.remove(n);
 						}
 					});
 				};
@@ -33,12 +33,12 @@
 		initData : function() {
 			$.ajax({
 				type : 'POST',
-				url : $.SPM.context + '/syndrome/list',
+				url : $.SPM.context + '/syndrome/element/list',
 				dataType : 'JSON',
 				success : function(data) {
 					var temp = ko.mapping.fromJS(data);
 					format.formatInit(temp());
-					viewModel.syndromes(temp());
+					viewModel.syndromeElements(temp());
 				}
 			});
 		}
