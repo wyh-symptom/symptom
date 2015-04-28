@@ -52,9 +52,14 @@ public class SyndromeController {
     @RequestMapping(value = "search", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public String doSearchSympotm(@RequestParam("symptomName") List<String> symptomName , @RequestParam("description") List<String> description, Model model) {
-    	System.out.println(symptomName);
-    	System.out.println(description);
-    	return "syndrome/search";
+    	for (String des: description) {
+    		if ("".equals(des) || des == null) {		//如果为null，则需要对比该证状对应的所有证素关系
+    			
+    		} else {
+    			String[] relate = des.split("__");	//前台用__组装的数据 
+    		}
+    	}
+    	return "syndrome/image";
     }
 
     @RequestMapping(value = "init", method = RequestMethod.POST)
