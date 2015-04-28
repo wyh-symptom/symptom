@@ -35,7 +35,11 @@ public class SyndromeElementServiceImpl extends
 
 	@Override
 	public List<SyndromeElement> findAll() {
-		
 		return repository.findAll();
+	}
+
+	@Override
+	public List<SyndromeElement> findRelateByZs(SyndromeElement zs) {
+		return repository.findRelateByZs(zs);
 	}
 }

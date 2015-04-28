@@ -24,5 +24,12 @@ public interface SyndromeElementService extends CrudService<SyndromeElement, Lon
 	 * @date 2015年4月27日 下午10:29:39
 	 */
 	List<SyndromeElement> findAll();
+	
+	/**
+	 * 查找2个证素之间的关系
+	 * @param zs
+	 * @return
+	 */
+	List<SyndromeElement> findRelateByZs(SyndromeElement zs);
 
 }

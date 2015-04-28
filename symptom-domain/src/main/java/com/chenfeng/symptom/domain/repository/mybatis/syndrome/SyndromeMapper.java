@@ -17,5 +17,12 @@ public interface SyndromeMapper extends CrudMapper<Syndrome, Long> {
 	 * @date 2015年4月25日 下午9:27:40
 	 */
 	List<Syndrome> findAll();
+	
+	/**
+     * 通过症状名字查找
+     * @param zzName
+     * @return
+     */
+    List<Syndrome> findAllByZz(String zzName);
 
 }

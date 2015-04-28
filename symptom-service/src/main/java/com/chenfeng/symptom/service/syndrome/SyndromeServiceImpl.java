@@ -63,7 +63,11 @@ public class SyndromeServiceImpl extends CrudServiceImpl<Syndrome, Long, Syndrom
 
     @Override
     public List<Syndrome> findAll() {
-        
         return repository.findAll();
     }
+
+	@Override
+	public List<Syndrome> findAllByZz(String zzName) {
+		return repository.findAllByZz(zzName);
+	}
 }

@@ -1,6 +1,8 @@
 package com.chenfeng.symptom.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -20,12 +22,17 @@ import com.chenfeng.symptom.domain.model.mybatis.Syndrome;
 import com.chenfeng.symptom.service.syndrome.SyndromeCreateInput;
 import com.chenfeng.symptom.service.syndrome.SyndromeInitOutput;
 import com.chenfeng.symptom.service.syndrome.SyndromeService;
+import com.chenfeng.symptom.service.syndrome_element.SyndromeElementService;
+import com.chenfeng.symptom.util.Bz;
 
 @Controller
 @RequestMapping(value = "syndrome")
 public class SyndromeController {
     @Autowired
     private SyndromeService syndromeService;
+    
+    @Autowired
+    private SyndromeElementService syndromeElementService;
     
     @RequestMapping(value = "create", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
@@ -52,14 +59,39 @@ public class SyndromeController {
     @RequestMapping(value = "search", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public String doSearchSympotm(@RequestParam("symptomName") List<String> symptomName , @RequestParam("description") List<String> description, Model model) {
-    	for (String des: description) {
-    		if ("".equals(des) || des == null) {		//如果为null，则需要对比该证状对应的所有证素关系
-    			
+    	String des;
+    	List<Syndrome> list;
+    	List<String[]> relateList = new ArrayList<String[]>();
+    	for (int i = 0; i < symptomName.size(); i++ ) {
+    		des = description.get(i);
+    		if ("-1".equals(des) || des == null) {		//如果为null，则需要对比该证状对应的所有证素关系
+    			list = syndromeService.findAllByZz(symptomName.get(i));
+    			generateZsRelate(list, relateList);
     		} else {
     			String[] relate = des.split("__");	//前台用__组装的数据 
+    			relateList.add(relate);
     		}
     	}
+    	String[][] zs = new String[relateList.size()][2];
+    	for (int i = 0; i < relateList.size(); i++) {
+    		zs[i] = relateList.get(i);
+    	}
+    	Map<String, Object> result = Bz.findRelate(zs, syndromeElementService);
+    	net.sf.json.JSONObject json = net.sf.json.JSONObject.fromObject(result);
+    	model.addAttribute("result", json);
     	return "syndrome/image";
+    }
+    
+    /**
+     * 整理需要对比的证素
+     * @param list
+     * @param relateList
+     */
+    private void generateZsRelate(List<Syndrome> list, List<String[]> relateList){
+    	for (Syndrome zz:list) {
+    		String[] relate = {zz.getSyndromeElementStart(), zz.getSyndromeElementEnd()};
+    		relateList.add(relate);
+    	}
     }
 
     @RequestMapping(value = "init", method = RequestMethod.POST)

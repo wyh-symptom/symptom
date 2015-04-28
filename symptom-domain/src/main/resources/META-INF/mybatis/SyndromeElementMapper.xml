@@ -118,4 +118,11 @@
     <include refid="Base_Column_List" />
     from t_syndrome_element
   </select>
+  <!-- 查找任意2个证素之间的关系 -->
+  <select id="findRelateByZs" resultMap="BaseResultMap" parameterType="com.chenfeng.symptom.domain.model.mybatis.SyndromeElement">
+    select 
+    <include refid="Base_Column_List" />
+    from t_syndrome_element where syndrome_element_start = #{syndromeElementStart,jdbcType=VARCHAR} and
+      syndrome_element_end = #{syndromeElementEnd,jdbcType=VARCHAR} 
+  </select>
 </mapper>

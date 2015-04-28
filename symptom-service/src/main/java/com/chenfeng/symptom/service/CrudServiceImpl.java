@@ -61,7 +61,6 @@ public class CrudServiceImpl<T, ID extends Serializable, R extends CrudMapper<T,
      */
     @Override
     public T findOne(ID id) {
-    	
         T entity = repository.selectByPrimaryKey(id);
         if (entity == null) {
             throw new RuntimeException(id + "：找不到相应的资源");

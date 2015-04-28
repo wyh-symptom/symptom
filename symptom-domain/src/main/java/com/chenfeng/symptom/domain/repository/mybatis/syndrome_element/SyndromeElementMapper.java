@@ -17,5 +17,12 @@ public interface SyndromeElementMapper extends CrudMapper<SyndromeElement, Long>
 	 * @date 2015年4月27日 下午10:30:13
 	 */
 	List<SyndromeElement> findAll();
+	
+	/**
+	 * 查找2个证素之间的关系
+	 * @param zs
+	 * @return
+	 */
+	List<SyndromeElement> findRelateByZs(SyndromeElement zs);
     
 }

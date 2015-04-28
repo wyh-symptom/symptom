@@ -129,4 +129,10 @@
     <include refid="Base_Column_List" />
     from t_syndrome
   </select>
+  <!-- 通过症状名字查找所有的证素 -->
+  <select id="findAllByZz" resultMap="BaseResultMap" parameterType="String">
+    select 
+    <include refid="Base_Column_List" />
+    from t_syndrome where symptom_name = #{zzName,jdbcType=VARCHAR}
+  </select>
 </mapper>

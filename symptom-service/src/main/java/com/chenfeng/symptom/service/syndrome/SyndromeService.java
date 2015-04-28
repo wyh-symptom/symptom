@@ -33,4 +33,11 @@ public interface SyndromeService extends CrudService<Syndrome, Long> {
      */
     List<Syndrome> findAll();
     
+    /**
+     * 通过症状名字查找
+     * @param zzName
+     * @return
+     */
+    List<Syndrome> findAllByZz(String zzName);
+    
 }
