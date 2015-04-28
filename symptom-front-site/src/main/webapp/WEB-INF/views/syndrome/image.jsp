@@ -8,83 +8,7 @@
 <%@include file="../common/resource.jsp"%>
 <script src="${SPM_CONTEXT}/js/views/jmgraph/jmgraph.debug.js"></script>
 <script type="text/javascript" src="${SPM_CONTEXT}/js/views/jmgraph/images.js" ></script>
-<style>
-html,body,div{
-	width:100%;
-	height:100%;
-	margin:0;
-	padding:0;
-}
-
-table td.first {
-	width:150px;
-	vertical-align:top;
-	background-color: #ccc;
-}
-#components {
-	list-style: none;
-	padding:0;
-	margin: 0;	
-}
-#components li img {
-	max-height:22px;
-}
-#container {
-/*background-color: #000;*/
-width:100%;
-height:100%;
-display:block;
-overflow: auto;
-}
-#container {	
-	margin:0 auto;
-	border:1px solid #000;
-	background-color: #fff;
-	background: url('images/grid.png');
-}
-
-#expimagearea {
-	background-color: #303030;
-	color:blue;
-	border:1px solid #ccc;
-	width:600px;
-	height:400px;
-	overflow: auto;
-	position:absolute;
-	left:25%;
-	top:150px;
-}
-
-div.editor-menu {
-			position:absolute;
-			padding: 4px;
-			background-color: #fff;
-			width:auto;
-			height:auto;
-			display: inline;
-			min-width: 80px;
-			border: solid 1px #bbd6ec;
-		    border-radius: 3px;
-		    -webkit-border-radius: 3px;
-		    box-shadow: inset 0 0 2px #fff;
-		     -webkit-box-shadow: inset 0 0 2px #fff;
-		    -moz-box-shadow: inset 0 0 2px #fff;
-		}
-		div.editor-menu ul {
-			list-style: none;	
-			padding:0;
-			margin:0;		
-		}
-		div.editor-menu ul li {
-			cursor:pointer;	
-			color:blue;	
-			padding: 2px;	
-		}
-		div.editor-menu ul li:hover {
-			color:green;
-			background-color: #ccc;
-		}
-</style>
+<link rel="stylesheet" href="${SPM_CONTEXT}/css/jmgraph.css" />
 </head>
 <body>
 	<%@ include file="../common/header.jsp"%>
@@ -129,7 +53,8 @@ div.editor-menu {
 
 		<script type="text/javascript">
 
-		
+		$('.list-group-item-success').removeClass('list-group-item-success');
+		$('.bind-menu-syndrome-search').addClass('list-group-item-success');
 			
 				//初始化编辑器
 				var editor = new jmEditor({
@@ -350,25 +275,46 @@ div.editor-menu {
 
 				
 
-				var jsonData = {"relate":{"AB":1,"AC":1,"CD":1,"DF":1,"EH":1},"element":["A","B","C","E","F","D","H"]};
-				var elementArr = jsonData.element;
-				var relate = jsonData.relate;
-				var x = 0;y = 0;width = 60,height = 60;
-				for(var i = 0; i < elementArr.length; i++) {
-					cell = editor.addCell({position :{x:x,y:y},width:width,height:height,style:'process'});
-					cell.value(elementArr[i]);
-					x += 100;
-					y+= 100;
-				}
-				var cells = editor.getCells();
-				for (var i = 0; i < cells.length; i++) {
-					for (var j = 0; j < cells.length; j++) {
-						if (cells[i].value() == cells[j].value()) {
+				var jsonData = ${result};
+				if (jsonData.len > 0) {
+					var elementArr = jsonData.topList;		//顶点集合
+					var zeroArr = jsonData.zeroList;
+					var relate = jsonData.relate;
+					var x = 0;y = 0;width = 80,height = 60;
+					for (var i = 0; i < zeroArr.length; i++){	//先画出入度为0的那个证素。
+						x += 300;
+						cell = editor.addCell({position :{x:x,y:y},width:width,height:height,style:'process'});
+						cell.value(zeroArr[i]);
+					}
+					x = 0;
+					var cells = editor.getCells();
+					var flag = true;
+					for(var i = 0; i < elementArr.length; i++) {
+						flag = true;
+						for (var j = 0; j < cells.length; j++) {
+							if (elementArr[i] == cells[j].value()) {
+								flag = false;
+								break;
+							}
+						}
+						if (!flag) {	//避免证素重复。
 							continue;
 						}
-						var relateShip = relate[cells[i].value() + cells[j].value()];
-						if (relateShip == 1) {
-							cells[i].connect(cells[j]);
+						cell = editor.addCell({position :{x:x,y:y},width:width,height:height,style:'process'});
+						cell.value(elementArr[i]);
+						x += 100;
+						y += 100;
+					}
+					cells = editor.getCells();
+					for (var i = 0; i < cells.length; i++) {
+						for (var j = 0; j < cells.length; j++) {
+							if (cells[i].value() == cells[j].value()) {
+								continue;
+							}
+							var relateShip = relate[cells[i].value() + cells[j].value()];
+							if (relateShip == 1) {
+								cells[i].connect(cells[j]);
+							}
 						}
 					}
 				}
