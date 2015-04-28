@@ -32,8 +32,13 @@
                             <th data-bind="text: syndromeElement.id">1</th>
                             <td data-bind="text: syndromeElement.syndromeElementStart">Mark</td>
                             <td data-bind="text: syndromeElement.syndromeElementEnd">Mark</td>
-                            <td data-bind="text: syndromeElement.isRelate">Mark</td>
-                            <td><a data-bind="attr: { href: '${SPM_CONTEXT}/syndrome/update/' + syndromeElement.id() }">修改</a></td>
+                            <!-- ko if: syndromeElement.isRelate() == 1 -->
+	                            <td>是</td>
+						    <!-- /ko -->
+                            <!-- ko if: syndromeElement.isRelate() == 0 -->
+                                <td>否</td>
+						    <!-- /ko -->
+                            <td><a data-bind="attr: { href: '${SPM_CONTEXT}/syndrome/element/update/' + syndromeElement.id() }">修改</a></td>
                             <td><a href="#" data-bind="click: deleteItem">删除</a></td>
                           </tr>
                         </tbody>

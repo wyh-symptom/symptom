@@ -58,7 +58,7 @@ public class SyndromeElementController {
     @RequestMapping(value = "update/{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public String update(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("syndrome", syndromeElementService.findOne(id));
+        model.addAttribute("syndromeElement", syndromeElementService.findOne(id));
         return "syndrome_element/update";
     }
 
