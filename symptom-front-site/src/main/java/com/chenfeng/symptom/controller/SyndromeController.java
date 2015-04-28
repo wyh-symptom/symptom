@@ -39,7 +39,7 @@ public class SyndromeController {
     public String doCreateSympotm(@Valid SyndromeCreateInput syndromeCreateInput) {
         
         syndromeService.create(syndromeCreateInput);
-        return "redirect:syndrome/list";
+        return "redirect:/syndrome/list";
     }
     
     @RequestMapping(value = "search", method = RequestMethod.GET)
