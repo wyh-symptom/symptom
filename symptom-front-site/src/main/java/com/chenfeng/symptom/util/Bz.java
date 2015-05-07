@@ -14,154 +14,154 @@ import com.chenfeng.symptom.service.syndrome_element.SyndromeElementService;
 
 
 public class Bz {
-	
-	public static Map<String, Object> findRelate(String[][] zs, SyndromeElementService syndromeElementService){
-		List<String> topList = generateTopList(zs);
-		//´ÓÊı¾İ¿â²éÑ¯¶¥µã¼¯ºÏÖĞ¸öÖ¤ËØÖ®¼äµÄ¹ØÏµ,ĞÎ³ÉÒ»¸öĞÂµÄÖ¤ËØ¹ØÏµ¼¯ºÏ 
-		String[][] newZs = generateNewZs(topList, zs, syndromeElementService);
-		
-		boolean flag = true;
-		List<String> zeroList = new ArrayList<String>();	//Èë¶ÈÎª0µÄÖ¤ËØ¼¯ºÏ
-		for(String str : topList) {
-			for (int i = 0; i < zs.length;i++) {
-				if (str.equals(zs[i][1])) {	//Ö»Òª¶¥µã¼¯ºÏÈÎºÎÒ»¸öÖ¤ËØÊÇÖ¤ËØ¹ØÏµÁ´ºóÃæµÄÖ¤ËØ£¬Ôò¸Ã¶¥µã¼¯ºÏÖ¤ËØ²»ÊÇÈë¶ÈÎª0 µÄÄÇ¸öÖ¤ËØ
-					flag = false;
-					break;
-				}
-			}
-			if (flag) {
-				zeroList.add(str);
-			}
-		}
-		
-		int len = zeroList.size();
-		Map<String, Object> relateMap = new HashMap<String, Object>();
-		//List<String> zsList = new ArrayList<String>();	//»¡µÄ¼¯ºÏ
-		//int relate = 0;
-		/*String currentZs,compareZs;
-		for(int i = 0; i < topList.size(); i++) {
-			currentZs = topList.get(i);
-			for(int j = 0; j < topList.size(); j++) {
-				compareZs = topList.get(j);
-				if (currentZs.equals(compareZs)) {	//²»±È½ÏÖ¤ËØ±¾Éí
-					continue;
-				}
-				relate = compareElement(currentZs, compareZs, zs);
-				if (relate == 1) {
-					if (!relateMap.containsKey(currentZs + compareZs)) {
-						relateMap.put(currentZs + compareZs, relate);
-					}
-				}
-			}
-		}*/
-		//¸ù¾İĞÂµÄÖ¤ËØ¹ØÏµ¼¯ºÏÈ¥µôÖØ¸´µÄ
-		for (String[] relateArr : newZs) {
-			relateMap.put(relateArr[0] + relateArr[1], 1);
-		}
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("len", len);		//len´ú±í¿ÉÒÔ»­³ö¼¸¸öÓĞÏòÍ¼¡£
-		resultMap.put("zeroList", zeroList);
-		resultMap.put("relate", relateMap);
-		resultMap.put("topList", topList);
-		return resultMap;
-	}
-	
-	/**
-	 * Éú³ÉĞÂµÄÖ¤ËØ¹ØÏµ¼¯ºÏ
-	 * @param topList
-	 * @param zs
-	 */
-	private static String[][] generateNewZs(List<String> topList, String[][] zs, SyndromeElementService syndromeElementService) {
-		List<Map<Integer, String>> newRelateList = new ArrayList<Map<Integer,String>>();
-		int currentRelate = 0;
-		for (int i = 0; i < topList.size(); i++) {
-			for (int j = 0; j < topList.size(); j++) {
-				if (topList.get(i).equals(topList.get(j))) {	//²»±È½ÏÖ¤ËØ±¾Éí,µ«ÊÇÒª±È½ÏÏà»¥Ö®¼äµÄ¹ØÏµÈçA->B,»¹ĞèÒª±È½ÏB->A;
-					continue;
-				}
-				currentRelate = compareElement(topList.get(i), topList.get(j), syndromeElementService);
-				if (currentRelate == 1) {
-					Map<Integer, String> map = new HashMap<Integer, String>();
-					map.put(0, topList.get(i));
-					map.put(1, topList.get(j));
-					newRelateList.add(map);
-				}
-			}
-		}
-		
-		int len = newRelateList.size();
-		String[][] newZs = new String[zs.length + newRelateList.size()][2];
-		for (int i = 0; i < zs.length; i++) {
-			newZs[i][0] = zs[i][0];
-			newZs[i][1] = zs[i][1];
-		}
-		if (len > 0) {
-			for (int i = zs.length; i < newZs.length; i++) {
-				newZs[i][0] = newRelateList.get(newZs.length - i - 1).get(0);
-				newZs[i][1] = newRelateList.get(newZs.length - i - 1).get(1);
-			}
-		}
-		
-		return newZs;
-	}
+    
+    public static Map<String, Object> findRelate(String[][] zs, SyndromeElementService syndromeElementService){
+        List<String> topList = generateTopList(zs);
+        //ä»æ•°æ®åº“æŸ¥è¯¢é¡¶ç‚¹é›†åˆä¸­ä¸ªè¯ç´ ä¹‹é—´çš„å…³ç³»,å½¢æˆä¸€ä¸ªæ–°çš„è¯ç´ å…³ç³»é›†åˆ 
+        String[][] newZs = generateNewZs(topList, zs, syndromeElementService);
+        
+        boolean flag = true;
+        List<String> zeroList = new ArrayList<String>();    //å…¥åº¦ä¸º0çš„è¯ç´ é›†åˆ
+        for(String str : topList) {
+            for (int i = 0; i < zs.length;i++) {
+                if (str.equals(zs[i][1])) { //åªè¦é¡¶ç‚¹é›†åˆä»»ä½•ä¸€ä¸ªè¯ç´ æ˜¯è¯ç´ å…³ç³»é“¾åé¢çš„è¯ç´ ï¼Œåˆ™è¯¥é¡¶ç‚¹é›†åˆè¯ç´ ä¸æ˜¯å…¥åº¦ä¸º0 çš„é‚£ä¸ªè¯ç´ 
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag) {
+                zeroList.add(str);
+            }
+        }
+        
+        int len = zeroList.size();
+        Map<String, Object> relateMap = new HashMap<String, Object>();
+        //List<String> zsList = new ArrayList<String>();    //å¼§çš„é›†åˆ
+        //int relate = 0;
+        /*String currentZs,compareZs;
+        for(int i = 0; i < topList.size(); i++) {
+            currentZs = topList.get(i);
+            for(int j = 0; j < topList.size(); j++) {
+                compareZs = topList.get(j);
+                if (currentZs.equals(compareZs)) {  //ä¸æ¯”è¾ƒè¯ç´ æœ¬èº«
+                    continue;
+                }
+                relate = compareElement(currentZs, compareZs, zs);
+                if (relate == 1) {
+                    if (!relateMap.containsKey(currentZs + compareZs)) {
+                        relateMap.put(currentZs + compareZs, relate);
+                    }
+                }
+            }
+        }*/
+        //æ ¹æ®æ–°çš„è¯ç´ å…³ç³»é›†åˆå»æ‰é‡å¤çš„
+        for (String[] relateArr : newZs) {
+            relateMap.put(relateArr[0] + relateArr[1], 1);
+        }
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put("len", len);      //lenä»£è¡¨å¯ä»¥ç”»å‡ºå‡ ä¸ªæœ‰å‘å›¾ã€‚
+        resultMap.put("zeroList", zeroList);
+        resultMap.put("relate", relateMap);
+        resultMap.put("topList", topList);
+        return resultMap;
+    }
+    
+    /**
+     * ç”Ÿæˆæ–°çš„è¯ç´ å…³ç³»é›†åˆ
+     * @param topList
+     * @param zs
+     */
+    private static String[][] generateNewZs(List<String> topList, String[][] zs, SyndromeElementService syndromeElementService) {
+        List<Map<Integer, String>> newRelateList = new ArrayList<Map<Integer,String>>();
+        int currentRelate = 0;
+        for (int i = 0; i < topList.size(); i++) {
+            for (int j = 0; j < topList.size(); j++) {
+                if (topList.get(i).equals(topList.get(j))) {    //ä¸æ¯”è¾ƒè¯ç´ æœ¬èº«,ä½†æ˜¯è¦æ¯”è¾ƒç›¸äº’ä¹‹é—´çš„å…³ç³»å¦‚A->B,è¿˜éœ€è¦æ¯”è¾ƒB->A;
+                    continue;
+                }
+                currentRelate = compareElement(topList.get(i), topList.get(j), syndromeElementService);
+                if (currentRelate == 1) {
+                    Map<Integer, String> map = new HashMap<Integer, String>();
+                    map.put(0, topList.get(i));
+                    map.put(1, topList.get(j));
+                    newRelateList.add(map);
+                }
+            }
+        }
+        
+        int len = newRelateList.size();
+        String[][] newZs = new String[zs.length + newRelateList.size()][2];
+        for (int i = 0; i < zs.length; i++) {
+            newZs[i][0] = zs[i][0];
+            newZs[i][1] = zs[i][1];
+        }
+        if (len > 0) {
+            for (int i = zs.length; i < newZs.length; i++) {
+                newZs[i][0] = newRelateList.get(newZs.length - i - 1).get(0);
+                newZs[i][1] = newRelateList.get(newZs.length - i - 1).get(1);
+            }
+        }
+        
+        return newZs;
+    }
 
-	/**
-	 * ²éÑ¯Êı¾İ¿â£¬±È½ÏÁ½¸öÖ¤ËØÖ®¼äµÄ¹ØÏµ
-	 * @param element
-	 * @param compareElement
-	 * @return
-	 */
-	public static int compareElement(String element, String compareElement, SyndromeElementService syndromeElementService) {
-		SyndromeElementInput zs = new SyndromeElementInput();
-		zs.setSyndromeElementStart(element);
-		zs.setSyndromeElementEnd(compareElement);
-		SyndromeElement zs0 = new SyndromeElement();
-		BeanUtils.copyProperties(zs, zs0);
-		List<SyndromeElement>  list = syndromeElementService.findRelateByZs(zs0);
-		int relate = (list != null && list.size() > 0) ? list.get(0).getIsRelate() : 0;
-		return relate;
-	}
-	
-	/**
-	 * ±È½Ï2¸öÖ¤ËØÖ®¼äµÄ¹ØÏµ
-	 * @param element
-	 * @param compareElement
-	 * @param zs
-	 */
-	public static int compareElement(String element, String compareElement, String[][] zs) {
-		int relate = 0;
-		for(int i = 0; i < zs.length; i++) {
-			if (element.equals(zs[i][0]) && compareElement.equals(zs[i][1])) {
-				relate = 1;
-				break;
-			}
-		}
-		return relate;
-	}
-	
-	/**
-	 * Éú³É¶¥µã¼¯ºÏ
-	 * @return
-	 */
-	public static List<String> generateTopList(String[][] zs) {
-		List<String> topList = new LinkedList<String>();
-		for (String[] key:zs) {
-			for (String str:key) {
-				if (!topList.contains(str)){
-					topList.add(str);
-				}
-			}
-			
-		}
-		return topList;
-	}
+    /**
+     * æŸ¥è¯¢æ•°æ®åº“ï¼Œæ¯”è¾ƒä¸¤ä¸ªè¯ç´ ä¹‹é—´çš„å…³ç³»
+     * @param element
+     * @param compareElement
+     * @return
+     */
+    public static int compareElement(String element, String compareElement, SyndromeElementService syndromeElementService) {
+        SyndromeElementInput zs = new SyndromeElementInput();
+        zs.setSyndromeElementStart(element);
+        zs.setSyndromeElementEnd(compareElement);
+        SyndromeElement zs0 = new SyndromeElement();
+        BeanUtils.copyProperties(zs, zs0);
+        List<SyndromeElement>  list = syndromeElementService.findRelateByZs(zs0);
+        int relate = (list != null && list.size() > 0) ? list.get(0).getIsRelate() : 0;
+        return relate;
+    }
+    
+    /**
+     * æ¯”è¾ƒ2ä¸ªè¯ç´ ä¹‹é—´çš„å…³ç³»
+     * @param element
+     * @param compareElement
+     * @param zs
+     */
+    public static int compareElement(String element, String compareElement, String[][] zs) {
+        int relate = 0;
+        for(int i = 0; i < zs.length; i++) {
+            if (element.equals(zs[i][0]) && compareElement.equals(zs[i][1])) {
+                relate = 1;
+                break;
+            }
+        }
+        return relate;
+    }
+    
+    /**
+     * ç”Ÿæˆé¡¶ç‚¹é›†åˆ
+     * @return
+     */
+    public static List<String> generateTopList(String[][] zs) {
+        List<String> topList = new LinkedList<String>();
+        for (String[] key:zs) {
+            for (String str:key) {
+                if (!topList.contains(str)){
+                    topList.add(str);
+                }
+            }
+            
+        }
+        return topList;
+    }
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		String[][] zs = {{"A","B"}, {"A","C"},{"C", "D"},{"B", "F"},{"D","F"}};
-		//findRelate(zs);
-	}
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
+//        String[][] zs = {{"A","B"}, {"A","C"},{"C", "D"},{"B", "F"},{"D","F"}};
+        //findRelate(zs);
+    }
 
 }
