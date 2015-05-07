@@ -9,7 +9,7 @@
 
 	var viewModel = {
 		keys : ko.observableArray([]),
-		itemCount : ko.observable(1)
+		values : ko.observableArray([])
 	};
 
 	var bindEvent = {
@@ -18,23 +18,11 @@
 				$(this).closest('div .control-group').append(
 						$(this).closest('div .row').clone(true));
 
-				viewModel.itemCount(viewModel.itemCount() + 1);
-				if (viewModel.itemCount() > 1) {
-					$(constant.REMOVE_BUTTON).show();
-				} else {
-					$(constant.REMOVE_BUTTON).hide();
-				}
 			});
 		},
 		bindRemoveElement : function() {
 			$(constant.REMOVE_BUTTON).on('click', function() {
 				$(this).closest('div .row').remove();
-				viewModel.itemCount(viewModel.itemCount() - 1);
-				if (viewModel.itemCount() > 1) {
-					$(constant.REMOVE_BUTTON).show();
-				} else {
-					$(constant.REMOVE_BUTTON).hide();
-				}
 			});
 		},
 		bindMenuCss : function() {
@@ -43,20 +31,17 @@
 			$(constant.MENU_CSS).addClass('list-group-item-success');
 		},
 		bindKeyChange : function() {
-			$(constant.SYMPTOM_NAME_SELECT).on('change', function() {
-				var $self = $(this);
-				var sn = $self.val();
-				$.each(viewModel.keys(), function(i, item) {
-					if (item.symptomName === sn) {
-						var $desc = $self.closest('div .form-group').find('select[name="description"]');
-						$desc.empty();
-						$desc.append(jQuery("<option></option>").attr({'value':"-1"}).text("请选择"));
-						$.each(item.syndromes , function(i, n) {
-							$desc.append(jQuery("<option></option>").attr({'value':n.syndromeElementStart + "__" + n.syndromeElementEnd}).text(n.description));
-						});
-					}
-				});
-			});
+			
+		}
+	};
+
+	var search = {
+		init : function() {
+			ko.applyBindings(viewModel);
+			bindEvent.bindMenuCss();
+			bindEvent.bindAddElement();
+			bindEvent.bindRemoveElement();
+			bindEvent.bindKeyChange();
 		},
 		initData : function() {
 			$.ajax({
@@ -70,18 +55,8 @@
 		}
 	};
 
-	var search = {
-		init : function() {
-			ko.applyBindings(viewModel);
-			bindEvent.bindMenuCss();
-			bindEvent.bindAddElement();
-			bindEvent.bindRemoveElement();
-			bindEvent.bindKeyChange();
-			bindEvent.initData();
-		}
-	};
-
 	$(function() {
 		search.init();
+		search.initData();
 	});
 })(jQuery);
