@@ -16,14 +16,12 @@
 			<div class="col-sm-10">
 			    <div class="row">
 			        <div class="col-sm-4">
-			             <input type="text" class="form-control"  placeholder="症状名">
+			             <input type="text" class="form-control bind-search-symptom-name" placeholder="症状名">
 			        </div>
                     <div class="col-sm-4">
-                        <select class="form-control" name="symptomName">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                        </select>
+                        <select class="form-control bind-search-symptom-name-select" 
+                                            data-bind="options: selectSymptomNames,  optionsText: 'symptomName', 
+                                              optionsValue: 'symptomName', event: {change: $root.selectSymptomNameChange }"></select>
                     </div>
 			    </div>
 			    <h1></h1>
@@ -31,50 +29,30 @@
 			        <div class="col-sm-4">
 	                    <div class="panel panel-primary">
                           <div class="panel-heading">症状名</div>
-                          <div class="list-group">
-                              <a href="#" class="list-group-item list-group-item-info">
+                          <div class="list-group" data-bind="foreach: { data: keys, as: 'key' }">
+                              <a href="#" data-bind="text: key.symptomName, css: checkedCss, click: onClick">
                                                                                         症素
                               </a>
-                              <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
-                              <a href="#" class="list-group-item">Morbi leo risus</a>
-                              <a href="#" class="list-group-item">Porta ac consectetur ac</a>
-                              <a href="#" class="list-group-item">Vestibulum at eros</a>
                             </div>
                         </div>
 			        </div>
 			        <div class="col-sm-4">
 			            <div class="panel panel-primary">
 						  <div class="panel-heading">症素</div>
-						  <div class="list-group">
-                              <a href="#" class="list-group-item list-group-item-info">
+						  <div class="list-group" data-bind="foreach: { data: values, as: 'value' }">
+                              <a href="#" data-bind="text: value.description, css: checkedCss, click: onClick">
                                                                                         症素
                               </a>
-                              <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
-                              <a href="#" class="list-group-item">Morbi leo risus</a>
-                              <a href="#" class="list-group-item">Porta ac consectetur ac</a>
-                              <a href="#" class="list-group-item">Vestibulum at eros</a>
                             </div>
 						</div>
 			        </div>
 			        <div class="col-sm-4">
 	                    <div class="panel panel-primary">
                           <div class="panel-heading">检索条件</div>
-                          <ul class="list-group">
+                          <ul class="list-group" data-bind="foreach: { data: symptoms, as: 'symptom' }">
 						    <li class="list-group-item">
-						      <a class="badge">X</a>
-						      <span>Cras justo odio</span>
-						    </li>
-						    <li class="list-group-item">
-						      <a class="badge">X</a>
-						      <span>Cras justo odio</span>
-						    </li>
-						    <li class="list-group-item">
-						      <a class="badge">X</a>
-						      <span>Cras justo odio</span>
-						    </li>
-						    <li class="list-group-item">
-						      <a class="badge">X</a>
-						      <span>Cras justo odio</span>
+						      <a class="badge" data-bind="click: symptom.onDelete">X</a>
+						      <span data-bind="text: symptom.symptomName">Cras justo odio</span>
 						    </li>
 						  </ul>
                         </div>
@@ -83,9 +61,14 @@
 				<h1></h1>
 				<div class="magage-box">
                     <form class="form-horizontal bind-search-from" action="${SPM_CONTEXT}/syndrome/search" method="post">
+                        <!-- ko foreach: { data: symptoms, as: 'symptom' } -->
+                            <input type="hidden" name="symptomName" data-bind="value: symptom.symptomName">
+                            <input type="hidden" name="description" data-bind="value: symptom.description">
+                        <!-- /ko -->
+                        
                         <div class="form-group container-fluid">
                             <div class="col-sm-offset-4 col-sm-6">
-                                <button type="submit" class="btn btn-success bind-search-search-button">提交</button>
+                                <button type="button" class="btn btn-success bind-search-submit-button">提交</button>
                             </div>
                         </div>
                     </form>
@@ -93,8 +76,5 @@
 			</div>
 		</div>
 	</div>
-	
-	
-
 </body>
 </html>
