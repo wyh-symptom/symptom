@@ -7,15 +7,15 @@
             http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
 	<http auto-config="false">
-		<intercept-url pattern="/syndrome/element/*" access="ROLE_USER" />
-		<intercept-url pattern="/syndrome/create*" access="ROLE_USER" />
-		<intercept-url pattern="/syndrome/search*" access="ROLE_ADMIN" />
-		<intercept-url pattern="/syndrome/init*" access="ROLE_ADMIN" />
-		<intercept-url pattern="/syndrome/list*" access="ROLE_USER" />
-		<intercept-url pattern="/syndrome/update*" access="ROLE_USER" />
-		<intercept-url pattern="/syndrome/delete*" access="ROLE_USER" />
+		<intercept-url pattern="/syndrome/element/*" access="ROLE_ADMIN" />
+		<intercept-url pattern="/syndrome/create*" access="ROLE_ADMIN" />
+		<intercept-url pattern="/syndrome/search*" access="ROLE_USER,ROLE_ADMIN" />
+		<intercept-url pattern="/syndrome/init*" access="ROLE_USER,ROLE_ADMIN" />
+		<intercept-url pattern="/syndrome/list*" access="ROLE_ADMIN" />
+		<intercept-url pattern="/syndrome/update*" access="ROLE_ADMIN" />
+		<intercept-url pattern="/syndrome/delete*" access="ROLE_ADMIN" />
 
-		<form-login login-page="/user/login" default-target-url="/syndrome/list"
+		<form-login login-page="/user/login" default-target-url="/syndrome/search"
 			authentication-failure-url="/user/login?error=true" />
 		<logout logout-success-url="/user/login" />
 	</http>
@@ -25,7 +25,7 @@
 	<authentication-manager>
 		<authentication-provider>
 			<user-service>
-				<user name="admin" password="admin" authorities="ROLE_ADMIN, ROLE_USER" />
+				<user name="admin" password="admin" authorities="ROLE_ADMIN" />
 				<user name="user" password="user" authorities="ROLE_USER" />
 			</user-service>
 		</authentication-provider>
