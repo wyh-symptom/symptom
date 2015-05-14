@@ -1,8 +1,10 @@
 package com.chenfeng.symptom.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -60,19 +62,39 @@ public class SyndromeController {
     @ResponseStatus(HttpStatus.OK)
     public String doSearchSympotm(@RequestParam("symptomName") List<String> symptomName , @RequestParam("description") List<String> description, Model model) {
     	String des;
-    	List<Syndrome> list;
-    	List<String[]> relateList = new ArrayList<String[]>();
-    	for (int i = 0; i < symptomName.size(); i++ ) {
+    	//List<String[]> relateList = new ArrayList<String[]>();
+    	//有向图的规则是选择任意一种证状中任意一组证素关系的相互组合。比如{A-B,C-D},{B-C,D->E}。形成2*2的4种组合。
+    	//如果没有选择证素，则该证状不做任何证素组合。
+    	//description  = 症状名字 + && + 症状描素  + && + start + ## + end
+    	String zzSplitStr = "&&";
+    	String relateSplitStr = "##";
+    	Map<String, List<String[]>> map = new HashMap<String, List<String[]>>();
+    	String[] desArr;
+    	String[] relateArr;
+    	List<String[]> relateList = null;
+    	String zz;
+    	List<String> keyList = new ArrayList<String>();
+    	for (int i = 0; i < description.size(); i++ ) {
     		des = description.get(i);
-    		if ("-1".equals(des) || des == null) {		//如果为null，则需要对比该证状对应的所有证素关系
-    			list = syndromeService.findAllByZz(symptomName.get(i));
-    			generateZsRelate(list, relateList);
+    		desArr = des.split(zzSplitStr);
+    		zz = desArr[1];
+    		relateArr = desArr[2].split(relateSplitStr);
+    		if (map.containsKey(zz)) {	//包含这个症状，则取出其描素的list，将当前元素添加进去
+    			relateList = map.get(zz);
     		} else {
-    			String[] relate = des.split("__");	//前台用__组装的数据 
-    			relateList.add(relate);
+    			keyList.add(zz);
+    			relateList = new ArrayList<String[]>();
     		}
+    		relateList.add(relateArr);
+    		map.put(zz, relateList);
     	}
-    	String[][] zs = new String[relateList.size()][2];
+    	
+    	
+    	for (int i = 0; i < keyList.size(); i++) {
+    		List<String[]> list = map.get(keyList.get(i));
+    	}
+    	int mapSize = map.size();
+    	String[][] zs = new String[mapSize][2];
     	for (int i = 0; i < relateList.size(); i++) {
     		zs[i] = relateList.get(i);
     	}
