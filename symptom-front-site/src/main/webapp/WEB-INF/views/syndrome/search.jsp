@@ -38,7 +38,7 @@
 			        </div>
 			        <div class="col-sm-4">
 			            <div class="panel panel-primary">
-						  <div class="panel-heading">症素</div>
+						  <div class="panel-heading">描素</div>
 						  <div class="list-group" data-bind="foreach: { data: values, as: 'value' }">
                               <a href="#" data-bind="text: value.description, css: checkedCss, click: onClick">
                                                                                         症素
@@ -48,7 +48,7 @@
 			        </div>
 			        <div class="col-sm-4">
 	                    <div class="panel panel-primary">
-                          <div class="panel-heading">检索条件</div>
+                          <div class="panel-heading">已选症状</div>
                           <ul class="list-group" data-bind="foreach: { data: symptoms, as: 'symptom' }">
 						    <li class="list-group-item">
 						      <a class="badge" data-bind="click: symptom.onDelete">X</a>
@@ -63,9 +63,10 @@
                     <form class="form-horizontal bind-search-from" action="${SPM_CONTEXT}/syndrome/search" method="post">
                         <!-- ko foreach: { data: symptoms, as: 'symptom' } -->
                             <input type="hidden" name="symptomName" data-bind="value: symptom.symptomName">
-                            <input type="hidden" name="description" data-bind="value: symptom.description">
+                            <input type="hidden" name="description" 
+                            data-bind="value: symptom.symptomName + '&&' + symptom.description + '&&' + symptom.syndromeElementStart + '##' + symptom.syndromeElementEnd">
                         <!-- /ko -->
-                        
+                         
                         <div class="form-group container-fluid">
                             <div class="col-sm-offset-4 col-sm-6">
                                 <button type="button" class="btn btn-success bind-search-submit-button">提交</button>
