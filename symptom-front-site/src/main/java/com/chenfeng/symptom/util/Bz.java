@@ -162,6 +162,20 @@ public class Bz {
     public static void main(String[] args) {
 //        String[][] zs = {{"A","B"}, {"A","C"},{"C", "D"},{"B", "F"},{"D","F"}};
         //findRelate(zs);
+    	Map<Integer, List<Integer>> map = new HashMap<Integer, List<Integer>>();
+    	List<Integer> list1 = new ArrayList();
+    	list1.add(1);
+    	List<Integer> list2 = new ArrayList();
+    	list2.add(2);
+    	list2.add(3);
+    	List<Integer> list3 = new ArrayList();
+    	list3.add(4);
+    	list3.add(5);
+    	map.put(1, list1);
+    	map.put(2, list2);
+    	map.put(3, list3);
+    	
+    	//本身世不知道list的个数。现在有一个这样的map的结构，实现取集合中一个元素形成新的集合 ，就是1 * 2 * 2=4中组合嘛。
     }
 
 }

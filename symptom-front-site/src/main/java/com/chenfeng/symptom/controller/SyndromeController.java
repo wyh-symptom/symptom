@@ -77,7 +77,7 @@ public class SyndromeController {
     	for (int i = 0; i < description.size(); i++ ) {
     		des = description.get(i);
     		desArr = des.split(zzSplitStr);
-    		zz = desArr[1];
+    		zz = desArr[0];
     		relateArr = desArr[2].split(relateSplitStr);
     		if (map.containsKey(zz)) {	//包含这个症状，则取出其描素的list，将当前元素添加进去
     			relateList = map.get(zz);
@@ -89,8 +89,8 @@ public class SyndromeController {
     		map.put(zz, relateList);
     	}
     	
-    	
-    	for (int i = 0; i < keyList.size(); i++) {
+    	int zzLen = keyList.size();	//总共选择的症状个数
+    	for (int i = 0; i < zzLen; i++) {
     		List<String[]> list = map.get(keyList.get(i));
     	}
     	int mapSize = map.size();
