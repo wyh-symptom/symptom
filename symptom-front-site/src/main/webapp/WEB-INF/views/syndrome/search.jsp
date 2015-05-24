@@ -52,7 +52,7 @@
                           <ul class="list-group" data-bind="foreach: { data: symptomNames, as: 'symptom' }">
 						    <li class="list-group-item">
 						      <a class="badge" data-bind="click: symptom.onDelete">X</a>
-						      <span data-bind="text: symptom.symptomName">Cras justo odio</span>
+						      <span data-bind="text: symptom.symptomName"></span>
 						    </li>
 						  </ul>
                         </div>
