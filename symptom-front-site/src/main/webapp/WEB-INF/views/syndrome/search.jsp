@@ -49,7 +49,7 @@
 			        <div class="col-sm-4">
 	                    <div class="panel panel-primary">
                           <div class="panel-heading">已选症状</div>
-                          <ul class="list-group" data-bind="foreach: { data: symptoms, as: 'symptom' }">
+                          <ul class="list-group" data-bind="foreach: { data: symptomNames, as: 'symptom' }">
 						    <li class="list-group-item">
 						      <a class="badge" data-bind="click: symptom.onDelete">X</a>
 						      <span data-bind="text: symptom.symptomName">Cras justo odio</span>

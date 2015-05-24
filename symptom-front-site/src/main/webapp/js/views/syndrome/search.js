@@ -12,6 +12,7 @@
 		keys : ko.observableArray([]),
 		values : ko.observableArray([]),
 		symptoms : ko.observableArray([]),
+		symptomNames : ko.observableArray([]),
 		selectSymptomNames : ko.observableArray([]),
 		selectSymptomNameChange : function(item) {
 			var symptomNameSelect = $(constant.SEARCH_SYMPTOM_NAME_SELECT).val();
@@ -40,11 +41,27 @@
 						common.switchCss(values, n);
 						viewModel.symptoms.remove(n);
 						viewModel.symptoms.push(n); 
-					};
-					n.onDelete = function() {
-						if (confirm("你确认要删除该条件！")) {
-							viewModel.symptoms.remove(n);
-						}
+
+						var sn = {"symptomName" : n.symptomName};
+						sn.onDelete = function() {
+							if (confirm("你确认要删除该条件！")) {
+								viewModel.symptomNames.remove(sn);
+								var array = [];
+								$.each(viewModel.symptoms(), function(i, item) {
+									if(sn.symptomName != item.symptomName) {
+										array.push(item);
+									}
+								});
+								viewModel.symptoms(array);
+							}
+						};
+						$.each(viewModel.symptomNames(), function(i, syn) {
+							if (syn.symptomName == n.symptomName) {
+								viewModel.symptomNames.remove(syn);
+							}
+						});
+						viewModel.symptomNames.push(sn); 
+						
 					};
 					n.checkedCss = ko.observable('list-group-item');
 				});
