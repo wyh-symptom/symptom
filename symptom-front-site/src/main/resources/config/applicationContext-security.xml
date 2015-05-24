@@ -16,9 +16,11 @@
 		<intercept-url pattern="/syndrome/delete*" access="ROLE_ADMIN" />
 
 		<form-login login-page="/user/login" default-target-url="/syndrome/search"
-			authentication-failure-url="/user/login?error=true" />
+			authentication-failure-url="/user/login?error=true" authentication-success-handler-ref="loginSuccessHandler" />
 		<logout logout-success-url="/user/login" />
 	</http>
+
+    <beans:bean id="loginSuccessHandler" class="com.chenfeng.symptom.common.handler.LoginSuccessHandler" />
 
 	<global-method-security jsr250-annotations="enabled" />
 
