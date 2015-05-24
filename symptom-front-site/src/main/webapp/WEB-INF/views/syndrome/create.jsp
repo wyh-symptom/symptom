@@ -48,7 +48,9 @@
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-6">
                                     <button type="button"
-                                        class="btn btn-primary bind-create-submit-button">提交</button>
+                                        class="btn btn-primary bind-create-submit-button">保存</button>
+                                    <button type="button"
+                                        class="btn btn-primary bind-create-submit-button-next">保存并创建下一条</button>
                                 </div>
                             </div>
                         </div>

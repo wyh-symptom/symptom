@@ -4,6 +4,7 @@
 		MENU_CSS : '.bind-menu-syndrome',
 		CREATE_FROM : '.bind-create-from',
 		CREATE_SUBMIT_BUTTON : '.bind-create-submit-button',
+		CREATE_SUBMIT_BUTTON_NEXT : '.bind-create-submit-button-next',
 		SYMPTOM_NAME : '症状名',
 		DESCRIPTION : '症状描述',
 		SYNDROME_ELEMENT_START : '症素A',
@@ -52,7 +53,33 @@
 		doValidate : function() {
 			$(constant.CREATE_SUBMIT_BUTTON).on('click', function() {
 				if ($(constant.CREATE_FROM).validate().form()) {
-					$(constant.CREATE_FROM).submit();
+					/*$(constant.CREATE_FROM).submit();*/
+					$(constant.CREATE_SUBMIT_BUTTON).attr('disabled', 'disabled');
+					$.ajax({
+						type : 'POST',
+						url : $.SPM.context + '/syndrome/create',
+						data: $(constant.CREATE_FROM).serialize(),
+						success : function() {
+//							$(constant.CREATE_SUBMIT_BUTTON).removeAttr('disabled');
+							window.location.href = $.SPM.context + '/syndrome/list';
+						}
+					});
+				}
+			});
+			
+			$(constant.CREATE_SUBMIT_BUTTON_NEXT).on('click', function() {
+				if ($(constant.CREATE_FROM).validate().form()) {
+					/*$(constant.CREATE_FROM).submit();*/
+					$(constant.CREATE_SUBMIT_BUTTON_NEXT).attr('disabled', 'disabled');
+					$.ajax({
+						type : 'POST',
+						url : $.SPM.context + '/syndrome/create',
+						data: $(constant.CREATE_FROM).serialize(),
+						success : function() {
+							alert("创建成功!");
+							$(constant.CREATE_SUBMIT_BUTTON_NEXT).removeAttr('disabled');
+						}
+					});
 				}
 			});
 		},
