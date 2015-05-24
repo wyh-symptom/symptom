@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -45,10 +44,10 @@ public class SyndromeController {
     
     @RequestMapping(value = "create", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public String doCreateSympotm(@Valid SyndromeCreateInput syndromeCreateInput) {
+    @ResponseBody
+    public void doCreateSympotm(@Valid SyndromeCreateInput syndromeCreateInput) {
         
         syndromeService.create(syndromeCreateInput);
-        return "redirect:/syndrome/list";
     }
     
     @RequestMapping(value = "search", method = RequestMethod.GET)
