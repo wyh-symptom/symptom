@@ -40,10 +40,12 @@
                           </tr>
                         </tbody>
                       </table>
+                      <ul id="paginator"></ul>
 			</div>
 		</div>
 	</div>
-
+	
+    
 	<script src="${SPM_CONTEXT}/js/views/syndrome/list.js"></script>
 </body>
 </html>
