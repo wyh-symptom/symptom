@@ -55,11 +55,13 @@
 								viewModel.symptoms(array);
 							}
 						};
+						var array = [];
 						$.each(viewModel.symptomNames(), function(i, syn) {
-							if (syn.symptomName == n.symptomName) {
-								viewModel.symptomNames.remove(syn);
+							if (syn.symptomName != n.symptomName) {
+								array.push(syn);
 							}
 						});
+						viewModel.symptomNames(array);
 						viewModel.symptomNames.push(sn); 
 						
 					};
