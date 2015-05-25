@@ -60,7 +60,7 @@
 				</div>
 				<h1></h1>
 				<div class="magage-box">
-                    <form class="form-horizontal bind-search-from" action="${SPM_CONTEXT}/syndrome/search" method="post">
+                    <form class="form-horizontal bind-search-from" action="${SPM_CONTEXT}/syndrome/search" method="post" target="_blank">
                         <!-- ko foreach: { data: symptoms, as: 'symptom' } -->
                             <input type="hidden" name="symptomName" data-bind="value: symptom.symptomName">
                             <input type="hidden" name="description" 

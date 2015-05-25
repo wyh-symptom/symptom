@@ -156,20 +156,47 @@ public class Bz {
         return topList;
     }
     
-    public static void test(Map<Integer, List<Integer>> map, int index, String prefix){
-    	
-    	int size = map.size();
-    	for (int i = index; i < size;i++) {
-    		for (int k = 0; k < map.get(i).size(); k++) {
-    			prefix += Integer.toString(map.get(i).get(k));
-    			test(map, i+1, prefix);
-    			if (index == size - 1) {
-    				System.out.println(prefix + "==" + index);
-    			}
-    		}
-    	}
-    }
+    public static List<Map<Integer, String[]>> recursivecalc(Map<Integer, List<String[]>> map,
+			int[] idx, int index, boolean mark, List<Map<Integer, String[]>> list) {
+		if (index < 0)
+			return list;
 
+		if (idx[index] >= map.get(index).size()) {
+			index--;
+			if (index < 0)
+				return list;
+
+			idx[index]++;
+
+			mark = true;
+		} else {
+			if (mark) {
+				for (int i = index + 1; i < idx.length; i++) {
+					idx[i] = 0;
+				}
+				index = map.size() - 1;
+			}
+
+			showComposition(map, idx, list);
+			idx[index]++;
+			mark = false;
+		}
+		
+		recursivecalc(map, idx, index, mark, list);
+		return list;
+		
+	}
+    
+    public static void showComposition(Map<Integer, List<String[]>> map,
+			int[] idx, List<Map<Integer, String[]>> list) {
+    	Map<Integer, String[]> zsZh = new HashMap<Integer, String[]>();
+		for (int i = 0; i < map.size(); i++) {
+			zsZh.put(i, map.get(i).get(idx[i]));
+		}
+		list.add(zsZh);
+	}
+    
+    
     /**
      * @param args
      */
@@ -188,9 +215,8 @@ public class Bz {
     	map.put(0, list1);
     	map.put(1, list2);
     	map.put(2, list3);
-    	test(map, 0, "");
-    	
-    	//本身世不知道list的个数。现在有一个这样的map的结构，实现取集合中一个元素形成新的集合 ，就是1 * 2 * 2=4中组合嘛。
+    	map.put(2, list3);
     }
+
 
 }

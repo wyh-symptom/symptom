@@ -25,6 +25,7 @@ import com.chenfeng.symptom.service.syndrome.SyndromeInitOutput;
 import com.chenfeng.symptom.service.syndrome.SyndromeService;
 import com.chenfeng.symptom.service.syndrome_element.SyndromeElementService;
 import com.chenfeng.symptom.util.Bz;
+import com.mysql.fabric.xmlrpc.base.Array;
 
 @Controller
 @RequestMapping(value = "syndrome")
@@ -88,18 +89,34 @@ public class SyndromeController {
     		map.put(zz, relateList);
     	}
     	
+    	Map<Integer, List<String[]>> dataMap = new HashMap<Integer, List<String[]>>();
+    	int index = 0;
+    	for(String key:map.keySet()) {
+    		dataMap.put(index, map.get(key));
+    		index++;
+    	}
     	int zzLen = keyList.size();	//总共选择的症状个数
-    	for (int i = 0; i < zzLen; i++) {
-    		List<String[]> list = map.get(keyList.get(i));
+    	int indexs[] = new int[zzLen];
+    	for(int i = 0; i < zzLen; i++){
+    		indexs[i] = 0;
     	}
-    	int mapSize = zzLen;
-    	String[][] zs = new String[mapSize][2];
-    	for (int i = 0; i < relateList.size(); i++) {
-    		zs[i] = relateList.get(i);
+    	List<Map<Integer, String[]>> list = new ArrayList<Map<Integer, String[]>>();	//每一个map 就是一组可以生成有向图的证素关系
+    	Bz.recursivecalc(dataMap, indexs, indexs.length - 1, false, list);
+    	Map<Integer, String[]> zuHe = null;
+    	List<Map<String, Object>> resultList = new ArrayList<Map<String,Object>>();
+    	for (int k = 0; k < list.size(); k++) {
+    		zuHe = list.get(k);
+    		String[][] relate = new String[zuHe.size()][2];
+    		for (int m : zuHe.keySet()){
+    			relate[m] = zuHe.get(m);
+    		}
+    		Map<String, Object> result = Bz.findRelate(relate, syndromeElementService);
+    		resultList.add(result);
     	}
-    	Map<String, Object> result = Bz.findRelate(zs, syndromeElementService);
-    	net.sf.json.JSONObject json = net.sf.json.JSONObject.fromObject(result);
+    	
+    	net.sf.json.JSONArray json = net.sf.json.JSONArray.fromObject(resultList);
     	model.addAttribute("result", json);
+    	System.out.println(json);
     	return "syndrome/image";
     }
     
