@@ -39,5 +39,14 @@ public interface SyndromeService extends CrudService<Syndrome, Long> {
      * @return
      */
     List<Syndrome> findAllByZz(String zzName);
+
+    /**
+     * 
+     * @param syndromeUpdateInput
+     * @return
+     *
+     * @author wangyuhao
+     */
+    Syndrome update(SyndromeCreateInput syndromeUpdateInput);
     
 }

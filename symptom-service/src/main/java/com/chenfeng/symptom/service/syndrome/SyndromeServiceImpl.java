@@ -70,4 +70,19 @@ public class SyndromeServiceImpl extends CrudServiceImpl<Syndrome, Long, Syndrom
 	public List<Syndrome> findAllByZz(String zzName) {
 		return repository.findAllByZz(zzName);
 	}
+	
+	@Override
+	@Transactional
+	public Syndrome update(SyndromeCreateInput syndromeUpdateInput) {
+	    Syndrome syndrome = new Syndrome();
+        BeanUtils.copyProperties(syndromeUpdateInput, syndrome);
+        this.update(syndrome);
+        
+        syndrome = repository.findNextSyndromeById(syndrome.getId());
+        if (syndrome == null) {
+            syndrome = repository.findFirstSyndrome();
+        }
+        
+	    return syndrome;
+	}
 }

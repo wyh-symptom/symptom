@@ -7,7 +7,6 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -147,10 +146,12 @@ public class SyndromeController {
 
     @RequestMapping(value = "update", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public String update(@Valid SyndromeCreateInput syndromeUpdateInput) {
-        Syndrome syndrome = new Syndrome();
-        BeanUtils.copyProperties(syndromeUpdateInput, syndrome);
-        syndromeService.update(syndrome);
+    public String update(@Valid SyndromeCreateInput syndromeUpdateInput, @RequestParam("isNext") Boolean isNext) {
+        Syndrome nextSyndrome = syndromeService.update(syndromeUpdateInput);
+        
+        if (isNext) {
+            return "redirect:/syndrome/update/"+nextSyndrome.getId();
+        }
         return "redirect:/syndrome/list";
     }
 

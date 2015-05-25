@@ -2,6 +2,8 @@ package com.chenfeng.symptom.domain.repository.mybatis.syndrome;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.chenfeng.symptom.domain.common.annotation.MyBatisRepository;
 import com.chenfeng.symptom.domain.model.mybatis.Syndrome;
 import com.chenfeng.symptom.domain.repository.mybatis.CrudMapper;
@@ -24,5 +26,22 @@ public interface SyndromeMapper extends CrudMapper<Syndrome, Long> {
      * @return
      */
     List<Syndrome> findAllByZz(String zzName);
+
+    /**
+     * 
+     * @param id
+     * @return
+     *
+     * @author wangyuhao
+     */
+    Syndrome findNextSyndromeById(@Param("id") Long id);
+
+    /**
+     * 
+     * @return
+     *
+     * @author wangyuhao
+     */
+    Syndrome findFirstSyndrome();
 
 }

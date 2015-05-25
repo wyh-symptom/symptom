@@ -2,12 +2,29 @@
 
 	var constant = {
 		MENU_CSS : '.bind-menu-syndrome',
-		CREATE_FROM : '.bind-create-from',
-		CREATE_SUBMIT_BUTTON : '.bind-create-submit-button',
+		CREATE_FROM : '.bind-update-from',
+		CREATE_SUBMIT_BUTTON : '.bind-update-submit-button',
+		CREATE_SUBMIT_BUTTON_NEXT : '.bind-update-submit-button-next',
 		SYMPTOM_NAME : '症状名',
 		DESCRIPTION : '症状描述',
 		SYNDROME_ELEMENT_START : '症素A',
 		SYNDROME_ELEMENT_END : '症素A'
+	};
+	
+	var viewModel = {
+		isNext : ko.observable('false'),
+		update : function() {
+			if ($(constant.CREATE_FROM).validate().form()) {
+				viewModel.isNext('false');
+				$(constant.CREATE_FROM).submit();
+			}
+		},
+		updateAndNext : function() {
+			if ($(constant.CREATE_FROM).validate().form()) {
+				viewModel.isNext('true');
+				$(constant.CREATE_FROM).submit();
+			}
+		}
 	};
 
 	var bindEvent = {
@@ -49,13 +66,21 @@
 				}
 			});
 		},
-		doValidate : function() {
-			$(constant.CREATE_SUBMIT_BUTTON).on('click', function() {
-				if ($(constant.CREATE_FROM).validate().form()) {
-					$(constant.CREATE_FROM).submit();
-				}
-			});
-		},
+//		doValidate : function() {
+//			$(constant.CREATE_SUBMIT_BUTTON).on('click', function() {
+//				alert("asdfasdf");
+//				if ($(constant.CREATE_FROM).validate().form()) {
+//					viewModel.isNext('false');
+//					$(constant.CREATE_FROM).submit();
+//				}
+//			});
+//			$(constant.CREATE_SUBMIT_BUTTON_NEXT).on('click', function() {
+//				if ($(constant.CREATE_FROM).validate().form()) {
+//					viewModel.isNext('true');
+//					$(constant.CREATE_FROM).submit();
+//				}
+//			});
+//		},
 		bindMenuCss : function() {
 			$(".list-group-item-success")
 					.removeClass("list-group-item-success");
@@ -65,8 +90,9 @@
 
 	var create = {
 		init : function() {
+			ko.applyBindings(viewModel);
 			bindEvent.validateFrom();
-			bindEvent.doValidate();
+//			bindEvent.doValidate();
 			bindEvent.bindMenuCss();
 		}
 	};
