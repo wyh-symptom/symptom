@@ -76,6 +76,9 @@
 						url : $.SPM.context + '/syndrome/create',
 						data: $(constant.CREATE_FROM).serialize(),
 						success : function() {
+							$(constant.CREATE_FROM).find('textarea[name="description"]').val('');
+							$(constant.CREATE_FROM).find('input[name="syndromeElementStart"]').val('');
+							$(constant.CREATE_FROM).find('input[name="syndromeElementEnd"]').val('');
 							alert("创建成功!");
 							$(constant.CREATE_SUBMIT_BUTTON_NEXT).removeAttr('disabled');
 						}
