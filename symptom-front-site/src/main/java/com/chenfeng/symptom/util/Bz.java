@@ -155,6 +155,20 @@ public class Bz {
         }
         return topList;
     }
+    
+    public static void test(Map<Integer, List<Integer>> map, int index, String prefix){
+    	
+    	int size = map.size();
+    	for (int i = index; i < size;i++) {
+    		for (int k = 0; k < map.get(i).size(); k++) {
+    			prefix += Integer.toString(map.get(i).get(k));
+    			test(map, i+1, prefix);
+    			if (index == size - 1) {
+    				System.out.println(prefix + "==" + index);
+    			}
+    		}
+    	}
+    }
 
     /**
      * @param args
@@ -166,14 +180,15 @@ public class Bz {
     	List<Integer> list1 = new ArrayList();
     	list1.add(1);
     	List<Integer> list2 = new ArrayList();
-    	list2.add(2);
+    	//list2.add(2);
     	list2.add(3);
     	List<Integer> list3 = new ArrayList();
     	list3.add(4);
     	list3.add(5);
-    	map.put(1, list1);
-    	map.put(2, list2);
-    	map.put(3, list3);
+    	map.put(0, list1);
+    	map.put(1, list2);
+    	map.put(2, list3);
+    	test(map, 0, "");
     	
     	//本身世不知道list的个数。现在有一个这样的map的结构，实现取集合中一个元素形成新的集合 ，就是1 * 2 * 2=4中组合嘛。
     }

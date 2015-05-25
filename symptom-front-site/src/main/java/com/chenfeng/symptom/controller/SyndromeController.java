@@ -92,7 +92,7 @@ public class SyndromeController {
     	for (int i = 0; i < zzLen; i++) {
     		List<String[]> list = map.get(keyList.get(i));
     	}
-    	int mapSize = map.size();
+    	int mapSize = zzLen;
     	String[][] zs = new String[mapSize][2];
     	for (int i = 0; i < relateList.size(); i++) {
     		zs[i] = relateList.get(i);
