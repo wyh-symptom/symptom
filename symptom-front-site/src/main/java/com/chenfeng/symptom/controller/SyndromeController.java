@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.chenfeng.symptom.domain.common.pagehelper.Page;
 import com.chenfeng.symptom.domain.model.mybatis.Syndrome;
 import com.chenfeng.symptom.service.syndrome.SyndromeCreateInput;
 import com.chenfeng.symptom.service.syndrome.SyndromeInitOutput;
@@ -132,9 +133,9 @@ public class SyndromeController {
     @RequestMapping(value = "list", method = RequestMethod.POST)
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public List<Syndrome> doList() {
+    public Page<Syndrome> doList(@RequestParam(required = false, defaultValue = "1", value = "page") int page ) {
         
-        return syndromeService.findAll();
+        return syndromeService.findPageSyndrome(page);
     }
 
     @RequestMapping(value = "update/{id}", method = RequestMethod.GET)

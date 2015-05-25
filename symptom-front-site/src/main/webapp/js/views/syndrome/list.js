@@ -31,14 +31,14 @@
 					.removeClass("list-group-item-success");
 			$(constant.MENU_CSS).addClass("list-group-item-success");
 		},
-		bindPaginator : function() {
+		bindPaginator : function(currentPage, totalPages) {
 			var options = {
 				size:'normal',
-				alignment:'center',
-				bootstrapMajorVersion:3,
-				currentPage: 3,
+				currentPage: currentPage,
+				totalPages: totalPages,
 				numberOfPages: 10,
-				totalPages:11,
+				bootstrapMajorVersion:3,
+				alignment:'center',
 				tooltipTitles: function (type, page, current) {
 	                switch (type) {
 	                case "first":
@@ -53,22 +53,22 @@
 	                    return "第" + page + "页";
 	                }
 	            },
-	            pageUrl: function(type, page, current){
-
-	                return "http://example.com/list/page/"+page;
-
+	            onPageClicked: function(e,originalEvent,type,page){
+	            	bindEvent.getData(page - 1);
 	            }
 			}
 			
 			$(constant.PAGINATOR).bootstrapPaginator(options);
 		},
-		initData : function() {
+		getData : function(page) {
 			$.ajax({
 				type : 'POST',
 				url : $.SPM.context + '/syndrome/list',
 				dataType : 'JSON',
+				data : {page: page},
 				success : function(data) {
-					var temp = ko.mapping.fromJS(data);
+					var temp = ko.mapping.fromJS(data.content);
+					bindEvent.bindPaginator(data.currentPage + 1, data.totalPages);
 					format.formatInit(temp());
 					viewModel.syndromes(temp());
 				}
@@ -80,8 +80,7 @@
 		init : function() {
 			ko.applyBindings(viewModel);
 			bindEvent.bindMenuCss();
-			bindEvent.bindPaginator();
-			bindEvent.initData();
+			bindEvent.getData(0);
 		}
 	};
 

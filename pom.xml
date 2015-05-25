@@ -107,6 +107,11 @@
 				<artifactId>log4jdbc-remix</artifactId>
 				<version>0.2.7</version>
 			</dependency>
+			<dependency>
+				<groupId>com.github.jsqlparser</groupId>
+				<artifactId>jsqlparser</artifactId>
+				<version>0.9.1</version>
+			</dependency>
 			<!-- mybatis end -->
 
 			<!-- validation start -->

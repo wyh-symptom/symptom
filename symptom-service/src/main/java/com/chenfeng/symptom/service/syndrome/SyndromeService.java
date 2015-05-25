@@ -2,6 +2,8 @@ package com.chenfeng.symptom.service.syndrome;
 
 import java.util.List;
 
+import com.chenfeng.symptom.domain.common.pagehelper.CountablePage;
+import com.chenfeng.symptom.domain.common.pagehelper.Page;
 import com.chenfeng.symptom.domain.model.mybatis.Syndrome;
 import com.chenfeng.symptom.service.CrudService;
 
@@ -48,5 +50,14 @@ public interface SyndromeService extends CrudService<Syndrome, Long> {
      * @author wangyuhao
      */
     Syndrome update(SyndromeCreateInput syndromeUpdateInput);
+
+    /**
+     * 
+     * @param page
+     * @return
+     *
+     * @author wangyuhao
+     */
+    Page<Syndrome> findPageSyndrome(int page);
     
 }

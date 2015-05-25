@@ -151,4 +151,11 @@
     FROM t_syndrome
     ORDER BY id ASC LIMIT 1
   </select>
+
+  <select id="findPageSyndrome" resultMap="BaseResultMap" >
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM t_syndrome
+    ORDER BY id ASC
+  </select>
 </mapper>
