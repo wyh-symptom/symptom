@@ -2,7 +2,10 @@ package com.chenfeng.symptom.domain.repository.mybatis.syndrome_element;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
+
 import com.chenfeng.symptom.domain.common.annotation.MyBatisRepository;
+import com.chenfeng.symptom.domain.common.pagehelper.Page;
 import com.chenfeng.symptom.domain.model.mybatis.SyndromeElement;
 import com.chenfeng.symptom.domain.repository.mybatis.CrudMapper;
 
@@ -24,5 +27,14 @@ public interface SyndromeElementMapper extends CrudMapper<SyndromeElement, Long>
 	 * @return
 	 */
 	List<SyndromeElement> findRelateByZs(SyndromeElement zs);
+
+	/**
+	 * 
+	 * @param rowBounds
+	 * @return
+	 *
+	 * @author wangyuhao
+	 */
+    Page<SyndromeElement> findPageSyndromeElement(RowBounds rowBounds);
     
 }

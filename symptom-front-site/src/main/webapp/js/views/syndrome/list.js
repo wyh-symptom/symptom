@@ -2,7 +2,7 @@
 
 	var constant = {
 		MENU_CSS : '.bind-menu-syndrome',
-		PAGINATOR : '#paginator',
+		PAGINATOR : '#paginator'
 	};
 
 	var viewModel = {

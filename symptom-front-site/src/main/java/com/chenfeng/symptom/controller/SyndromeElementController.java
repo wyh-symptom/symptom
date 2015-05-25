@@ -12,9 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.chenfeng.symptom.domain.common.pagehelper.Page;
 import com.chenfeng.symptom.domain.model.mybatis.SyndromeElement;
 import com.chenfeng.symptom.service.syndrome_element.SyndromeElementInput;
 import com.chenfeng.symptom.service.syndrome_element.SyndromeElementService;
@@ -50,9 +52,9 @@ public class SyndromeElementController {
     @RequestMapping(value = "list", method = RequestMethod.POST)
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public List<SyndromeElement> doList() {
+    public Page<SyndromeElement> doList(@RequestParam(required = false, defaultValue = "1", value = "page") int page) {
         
-        return syndromeElementService.findAll();
+        return syndromeElementService.findPageSyndromeElement(page);
     }
 
     @RequestMapping(value = "update/{id}", method = RequestMethod.GET)
