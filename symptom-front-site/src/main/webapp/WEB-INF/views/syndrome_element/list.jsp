@@ -43,6 +43,7 @@
                           </tr>
                         </tbody>
                     </table>
+                <ul id="paginator"></ul>                    
 			</div>
 		</div>
 	</div>

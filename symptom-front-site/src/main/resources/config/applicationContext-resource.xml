@@ -40,6 +40,19 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="typeAliasesPackage" value="com.chenfeng.symptom.domain.model.mybatis" />
 		<property name="mapperLocations" value="classpath:/META-INF/mybatis/*Mapper.xml" />
+		
+		<property name="plugins">
+			<array>
+				<bean class="com.chenfeng.symptom.domain.common.pagehelper.PageHelper">
+					<property name="properties">
+						<value>
+							dialect=mysql
+							rowBoundsWithCount=true
+						</value>
+					</property>
+				</bean>
+			</array>
+		</property>
 	</bean>
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">

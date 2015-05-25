@@ -7,7 +7,6 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.chenfeng.symptom.domain.common.pagehelper.Page;
 import com.chenfeng.symptom.domain.model.mybatis.Syndrome;
 import com.chenfeng.symptom.service.syndrome.SyndromeCreateInput;
 import com.chenfeng.symptom.service.syndrome.SyndromeInitOutput;
@@ -133,9 +133,9 @@ public class SyndromeController {
     @RequestMapping(value = "list", method = RequestMethod.POST)
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public List<Syndrome> doList() {
+    public Page<Syndrome> doList(@RequestParam(required = false, defaultValue = "1", value = "page") int page ) {
         
-        return syndromeService.findAll();
+        return syndromeService.findPageSyndrome(page);
     }
 
     @RequestMapping(value = "update/{id}", method = RequestMethod.GET)
@@ -147,10 +147,12 @@ public class SyndromeController {
 
     @RequestMapping(value = "update", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public String update(@Valid SyndromeCreateInput syndromeUpdateInput) {
-        Syndrome syndrome = new Syndrome();
-        BeanUtils.copyProperties(syndromeUpdateInput, syndrome);
-        syndromeService.update(syndrome);
+    public String update(@Valid SyndromeCreateInput syndromeUpdateInput, @RequestParam("isNext") Boolean isNext) {
+        Syndrome nextSyndrome = syndromeService.update(syndromeUpdateInput);
+        
+        if (isNext) {
+            return "redirect:/syndrome/update/"+nextSyndrome.getId();
+        }
         return "redirect:/syndrome/list";
     }
 

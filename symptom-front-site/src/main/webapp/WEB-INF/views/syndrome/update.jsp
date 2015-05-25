@@ -14,7 +14,7 @@
 		    <%@ include file="../common/menu.jsp" %>
             <div class="col-sm-10">
                 <div class="magage-box">
-                    <form class="form-horizontal bind-create-from"
+                    <form class="form-horizontal bind-update-from"
                         action="${SPM_CONTEXT}/syndrome/update" method="post">
                         <div class="control-group">
                             <div class="form-group">
@@ -49,11 +49,15 @@
                                         name="syndromeElementEnd" id="syndromeElementEnd"
                                         value="${syndrome.syndromeElementEnd }" placeholder="症素B">
                                 </div>
+                                <input type="hidden" name="isNext" data-bind="value: isNext">
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-6">
                                     <button type="button"
-                                        class="btn btn-primary bind-create-submit-button">更新</button>
+                                        class="btn btn-primary bind-update-submit-button" data-bind="click: update">更新</button>
+                                        
+                                    <button type="button"
+                                        class="btn btn-primary bind-update-submit-button-next" data-bind="click: updateAndNext">保存并更新下一条</button>
                                 </div>
                             </div>
                         </div>
@@ -63,6 +67,6 @@
         </div>
     </div>
 
-    <script src="${SPM_CONTEXT}/js/views/syndrome/create.js"></script>
+    <script src="${SPM_CONTEXT}/js/views/syndrome/update.js"></script>
 </body>
 </html>

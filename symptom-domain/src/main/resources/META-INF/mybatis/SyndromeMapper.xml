@@ -129,10 +129,33 @@
     <include refid="Base_Column_List" />
     from t_syndrome
   </select>
+  
   <!-- 通过症状名字查找所有的证素 -->
   <select id="findAllByZz" resultMap="BaseResultMap" parameterType="String">
     select 
     <include refid="Base_Column_List" />
     from t_syndrome where symptom_name = #{zzName,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="findNextSyndromeById" resultMap="BaseResultMap" >
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM t_syndrome 
+    WHERE id &gt; #{id,jdbcType=BIGINT} 
+    ORDER BY id ASC LIMIT 1
+  </select>
+
+  <select id="findFirstSyndrome" resultMap="BaseResultMap" >
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM t_syndrome
+    ORDER BY id ASC LIMIT 1
+  </select>
+
+  <select id="findPageSyndrome" resultMap="BaseResultMap" >
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM t_syndrome
+    ORDER BY id ASC
   </select>
 </mapper>

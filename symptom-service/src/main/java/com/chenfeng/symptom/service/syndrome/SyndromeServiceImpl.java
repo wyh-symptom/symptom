@@ -7,10 +7,13 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.chenfeng.symptom.common.constant.Constant;
+import com.chenfeng.symptom.domain.common.pagehelper.Page;
 import com.chenfeng.symptom.domain.model.mybatis.Syndrome;
 import com.chenfeng.symptom.domain.repository.mybatis.syndrome.SyndromeMapper;
 import com.chenfeng.symptom.service.CrudServiceImpl;
@@ -70,4 +73,25 @@ public class SyndromeServiceImpl extends CrudServiceImpl<Syndrome, Long, Syndrom
 	public List<Syndrome> findAllByZz(String zzName) {
 		return repository.findAllByZz(zzName);
 	}
+	
+	@Override
+	@Transactional
+	public Syndrome update(SyndromeCreateInput syndromeUpdateInput) {
+	    Syndrome syndrome = new Syndrome();
+        BeanUtils.copyProperties(syndromeUpdateInput, syndrome);
+        this.update(syndrome);
+        
+        syndrome = repository.findNextSyndromeById(syndrome.getId());
+        if (syndrome == null) {
+            syndrome = repository.findFirstSyndrome();
+        }
+        
+	    return syndrome;
+	}
+
+    @Override
+    public Page<Syndrome> findPageSyndrome(int page) {
+        
+        return repository.findPageSyndrome(new RowBounds(page * Constant.PAGE_SIZE, Constant.PAGE_SIZE));
+    }
 }
