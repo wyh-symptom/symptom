@@ -13,10 +13,22 @@
 		<div class="row">
 			<%@ include file="../common/menu.jsp"%>
 			<div class="col-sm-10">
-			    <p class="text-right">
-					<a href="${SPM_CONTEXT}/syndrome/create"><button type="button" class="btn btn-info">创建</button></a>
-				</p>
-                
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="input-group">
+							<input type="text" name="syndromeName" class="form-control" data-bind="value: syndromeName" placeholder="症状名..."> 
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button" data-bind="click: search">查询</button>
+							</span>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<p class="text-right">
+							<a href="${SPM_CONTEXT}/syndrome/create"><button type="button" class="btn btn-info">创建</button></a>
+						</p>
+					</div>
+				</div>
+
 				<table class="table table-striped table-bordered">
                         <thead>
                           <tr>

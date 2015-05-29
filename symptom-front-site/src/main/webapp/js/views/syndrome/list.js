@@ -6,7 +6,11 @@
 	};
 
 	var viewModel = {
-		syndromes : ko.observableArray([])
+		syndromes : ko.observableArray([]),
+		syndromeName : ko.observable(""),
+		search : function() {
+			bindEvent.getData(0, this.syndromeName());
+		}
 	};
 
 	var format = {
@@ -54,21 +58,26 @@
 	                }
 	            },
 	            onPageClicked: function(e,originalEvent,type,page){
-	            	bindEvent.getData(page - 1);
+	            	bindEvent.getData(page - 1, viewModel.syndromeName());
 	            }
 			}
 			
 			$(constant.PAGINATOR).bootstrapPaginator(options);
 		},
-		getData : function(page) {
+		getData : function(page, syndromeName) {
 			$.ajax({
 				type : 'POST',
 				url : $.SPM.context + '/syndrome/list',
 				dataType : 'JSON',
-				data : {page: page},
+				data : {page: page, syndromeName: syndromeName},
 				success : function(data) {
-					var temp = ko.mapping.fromJS(data.content);
-					bindEvent.bindPaginator(data.currentPage + 1, data.totalPages);
+					console.debug(data);
+					var temp = ko.mapping.fromJS(data.content); 
+					if(data.totalPages > 0) {
+						bindEvent.bindPaginator(data.currentPage + 1, data.totalPages);
+					} else {
+						$(constant.PAGINATOR).empty();
+					}
 					format.formatInit(temp());
 					viewModel.syndromes(temp());
 				}
@@ -80,7 +89,7 @@
 		init : function() {
 			ko.applyBindings(viewModel);
 			bindEvent.bindMenuCss();
-			bindEvent.getData(0);
+			bindEvent.getData(0, '');
 		}
 	};
 

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -90,8 +91,13 @@ public class SyndromeServiceImpl extends CrudServiceImpl<Syndrome, Long, Syndrom
 	}
 
     @Override
-    public Page<Syndrome> findPageSyndrome(int page) {
+    public Page<Syndrome> findPageSyndrome(int page, String syndromeName) {
+        if (StringUtils.isBlank(syndromeName)) {
+            syndromeName = null;
+        }  else {
+            syndromeName = syndromeName.trim();
+        }
         
-        return repository.findPageSyndrome(new RowBounds(page * Constant.PAGE_SIZE, Constant.PAGE_SIZE));
+        return repository.findPageSyndrome(new RowBounds(page * Constant.PAGE_SIZE, Constant.PAGE_SIZE), syndromeName);
     }
 }

@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 import com.chenfeng.symptom.domain.common.annotation.MyBatisRepository;
-import com.chenfeng.symptom.domain.common.pagehelper.CountablePage;
 import com.chenfeng.symptom.domain.common.pagehelper.Page;
 import com.chenfeng.symptom.domain.model.mybatis.Syndrome;
 import com.chenfeng.symptom.domain.repository.mybatis.CrudMapper;
@@ -49,11 +48,12 @@ public interface SyndromeMapper extends CrudMapper<Syndrome, Long> {
 
     /**
      * 
+     * @param syndromeName
      * @param rowBounds
      * @return
      *
      * @author wangyuhao
      */
-    Page<Syndrome> findPageSyndrome(RowBounds rowBounds);
+    Page<Syndrome> findPageSyndrome(RowBounds rowBounds, @Param("syndromeName") String syndromeName);
 
 }

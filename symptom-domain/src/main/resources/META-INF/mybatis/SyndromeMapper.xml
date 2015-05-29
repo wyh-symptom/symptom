@@ -156,6 +156,9 @@
     SELECT 
     <include refid="Base_Column_List" />
     FROM t_syndrome
+    <if test="syndromeName != null">
+        WHERE symptom_name LIKE CONCAT(#{syndromeName,jdbcType=VARCHAR},"%") 
+    </if>
     ORDER BY id ASC
   </select>
 </mapper>
