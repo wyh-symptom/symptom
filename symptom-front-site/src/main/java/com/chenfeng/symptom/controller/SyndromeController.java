@@ -150,9 +150,10 @@ public class SyndromeController {
     @RequestMapping(value = "list", method = RequestMethod.POST)
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public Page<Syndrome> doList(@RequestParam(required = false, defaultValue = "1", value = "page") int page ) {
+    public Page<Syndrome> doList(@RequestParam(required = false, defaultValue = "1", value = "page") int page, 
+            @RequestParam("syndromeName") String syndromeName) {
         
-        return syndromeService.findPageSyndrome(page);
+        return syndromeService.findPageSyndrome(page, syndromeName);
     }
 
     @RequestMapping(value = "update/{id}", method = RequestMethod.GET)
