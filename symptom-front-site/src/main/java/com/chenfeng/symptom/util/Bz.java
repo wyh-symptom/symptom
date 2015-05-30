@@ -17,15 +17,15 @@ public class Bz {
     
     public static Map<String, Object> findRelate(String[][] zs, SyndromeElementService syndromeElementService){
         List<String> topList = generateTopList(zs);
-        //从数据库查询顶点集合中个证素之间的关系,形成一个新的证素关系集合 
+        //从数据库查询顶点集合中个证素之间的关系,形成一个新的证素关系集合 0->start,1->end 2->关系类型
         String[][] newZs = generateNewZs(topList, zs, syndromeElementService);
         
         boolean flag = true;
         List<String> zeroList = new ArrayList<String>();    //入度为0的证素集合
         for(String str : topList) {
         	flag = true;
-            for (int i = 0; i < zs.length;i++) {
-                if (str.equals(zs[i][1])) { //只要顶点集合任何一个证素是证素关系链后面的证素，则该顶点集合证素不是入度为0 的那个证素
+            for (int i = 0; i < newZs.length;i++) {
+                if (str.equals(newZs[i][1])) { //只要顶点集合任何一个证素是证素关系链后面的证素，则该顶点集合证素不是入度为0 的那个证素
                     flag = false;
                     break;
                 }
@@ -57,7 +57,7 @@ public class Bz {
         }*/
         //根据新的证素关系集合去掉重复的
         for (String[] relateArr : newZs) {
-            relateMap.put(relateArr[0] + relateArr[1], 1);
+            relateMap.put(relateArr[0] + relateArr[1], relateArr[2]);
         }
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("len", len);      //len代表可以画出几个有向图。
@@ -74,32 +74,35 @@ public class Bz {
      */
     private static String[][] generateNewZs(List<String> topList, String[][] zs, SyndromeElementService syndromeElementService) {
         List<Map<Integer, String>> newRelateList = new ArrayList<Map<Integer,String>>();
-        int currentRelate = 0;
+        int[] currentRelate = new int[2];
         for (int i = 0; i < topList.size(); i++) {
             for (int j = 0; j < topList.size(); j++) {
-                if (topList.get(i).equals(topList.get(j))) {    //不比较证素本身,但是要比较相互之间的关系如A->B,还需要比较B->A;
+                if (i == j || topList.get(i).equals(topList.get(j))) {    //不比较证素本身,但是要比较相互之间的关系如A->B,还需要比较B->A;
                     continue;
                 }
                 currentRelate = compareElement(topList.get(i), topList.get(j), syndromeElementService);
-                if (currentRelate == 1) {
+                if (currentRelate[0] == 2) {
                     Map<Integer, String> map = new HashMap<Integer, String>();
                     map.put(0, topList.get(i));
                     map.put(1, topList.get(j));
+                    map.put(2, Integer.toString(currentRelate[1]));
                     newRelateList.add(map);
                 }
             }
         }
         
         int len = newRelateList.size();
-        String[][] newZs = new String[zs.length + newRelateList.size()][2];
+        String[][] newZs = new String[zs.length + len][3];
         for (int i = 0; i < zs.length; i++) {
             newZs[i][0] = zs[i][0];
             newZs[i][1] = zs[i][1];
+            newZs[i][2] = "1";	//默认设置为因果关系
         }
         if (len > 0) {
             for (int i = zs.length; i < newZs.length; i++) {
                 newZs[i][0] = newRelateList.get(newZs.length - i - 1).get(0);
                 newZs[i][1] = newRelateList.get(newZs.length - i - 1).get(1);
+                newZs[i][2] = newRelateList.get(newZs.length - i - 1).get(2);
             }
         }
         
@@ -110,9 +113,9 @@ public class Bz {
      * 查询数据库，比较两个证素之间的关系
      * @param element
      * @param compareElement
-     * @return
+     * @return {关系,关系类型}
      */
-    public static int compareElement(String element, String compareElement, SyndromeElementService syndromeElementService) {
+    public static int[] compareElement(String element, String compareElement, SyndromeElementService syndromeElementService) {
         SyndromeElementInput zs = new SyndromeElementInput();
         zs.setSyndromeElementStart(element);
         zs.setSyndromeElementEnd(compareElement);
@@ -120,7 +123,9 @@ public class Bz {
         BeanUtils.copyProperties(zs, zs0);
         List<SyndromeElement>  list = syndromeElementService.findRelateByZs(zs0);
         int relate = (list != null && list.size() > 0) ? list.get(0).getIsRelate() : 0;
-        return relate;
+        int relateType = (list != null && list.size() > 0) ? list.get(0).getRelateType() : 0;	//关系类型
+        int[] returnArr = {relate , relateType};
+        return returnArr;
     }
     
     /**
@@ -157,6 +162,15 @@ public class Bz {
         return topList;
     }
     
+    /**
+     * 形成全排列
+     * @param map
+     * @param idx
+     * @param index
+     * @param mark
+     * @param list
+     * @return
+     */
     public static List<Map<Integer, String[]>> recursivecalc(Map<Integer, List<String[]>> map,
 			int[] idx, int index, boolean mark, List<Map<Integer, String[]>> list) {
 		if (index < 0)

@@ -77,6 +77,9 @@ public class SyndromeController {
     	for (int i = 0; i < description.size(); i++ ) {
     		des = description.get(i);
     		desArr = des.split(zzSplitStr);
+    		if (desArr[1].equals("其他")) {
+    			continue;
+    		}
     		zz = desArr[0];
     		relateArr = desArr[2].split(relateSplitStr);
     		if (map.containsKey(zz)) {	//包含这个症状，则取出其描素的list，将当前元素添加进去
@@ -96,12 +99,14 @@ public class SyndromeController {
     		index++;
     	}
     	int zzLen = keyList.size();	//总共选择的症状个数
+    	
     	int indexs[] = new int[zzLen];
     	for(int i = 0; i < zzLen; i++){
     		indexs[i] = 0;
     	}
     	List<Map<Integer, String[]>> list = new ArrayList<Map<Integer, String[]>>();	//每一个map 就是一组可以生成有向图的证素关系
     	Bz.recursivecalc(dataMap, indexs, indexs.length - 1, false, list);
+    	
     	Map<Integer, String[]> zuHe = null;
     	List<Map<String, Object>> resultList = new ArrayList<Map<String,Object>>();
     	for (int k = 0; k < list.size(); k++) {

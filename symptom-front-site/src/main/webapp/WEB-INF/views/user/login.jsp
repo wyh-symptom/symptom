@@ -20,7 +20,7 @@
         </div>
 		</c:if>
 		<form class="form-signin" action="${SPM_CONTEXT }/j_spring_security_check" method="post">
-			<h2 class="form-signin-heading">ISO—R中医智能辨证决策支持系统（1.0）</h2>
+			<h2 class="form-signin-heading">登陆</h2>
 			<label for="inputEmail" class="sr-only">Email address</label> 
 			<input type="text" name="j_username" class="form-control" placeholder="用户名" required autofocus> 
 			<label for="inputPassword" class="sr-only">Password</label> 

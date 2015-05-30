@@ -44,7 +44,7 @@
                                 <label for="relateType" class="col-sm-2 control-label">关系类型:</label>
                                 <div class="col-sm-6">
                                 	<select class="form-control" name="relateType" id="relateType">
-                                		<option value="">请选择关系类型</option>
+                                		<option value="0">请选择关系类型</option>
                                 		<c:forEach items="${relateTypes}" var="type">
                                 			<c:if test="${type.key == syndromeElement.relateType}">
                                 				<option value="${type.key}" selected="selected">${type.value}</option>

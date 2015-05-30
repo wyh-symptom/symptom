@@ -227,7 +227,7 @@ function init(){
 				var cells = editor.getSelectedCells();//获取所有选择的元素
 				//如果只选中一个
 				if(cells.length == 1) {
-					document.getElementById('txtname').value = cell.value();
+					//document.getElementById('txtname').value = cell.value();
 				}
 			}						
 		}	
@@ -236,7 +236,7 @@ function init(){
 				var cns = editor.getSelectedConnects();//获取所有选择的连线
 				//如果只选中一个
 				if(cns.length == 1) {
-					document.getElementById('txtname').value = cell.value();
+					//document.getElementById('txtname').value = cell.value();
 				}
 			}
 		}				
@@ -297,6 +297,8 @@ function init(){
 
 
 $(function(){	//默认显示第一张图
+	document.getElementById('txtname').html = "";
+	document.getElementById('txtdes').html = "";
 	$("#preImage").hide();	//默认隐藏 前一张  按钮
 	if (!global_data || global_data.length <= 0){
 		$("#preImage").hide();
@@ -341,10 +343,18 @@ function draw(data) {
 	var editor = init();
 	var jsonData = data;
 	if (jsonData.len > 0) {
+		
 		var elementArr = jsonData.topList;		//顶点集合
 		var zeroArr = jsonData.zeroList;
 		var relate = jsonData.relate;
-		var x = 0;y = 0;width = 80,height = 60;
+		var x = 0;y = 0;width = 120,height = 80;
+		if (jsonData.len == 1) {	//入度为0的集合长度
+			document.getElementById('txtname').html = "该有向图符合ISO-R筛选法则";
+			document.getElementById('txtdes').html = "根节点证素:"+ zeroArr[0] + "   <br/>关键证素:";
+		} else {
+			document.getElementById('txtname').html = "该有向图不符合ISO-R筛选法则";
+			document.getElementById('txtdes').html = "";
+		}
 		for (var i = 0; i < zeroArr.length; i++){	//先画出入度为0的那个证素。
 			x = global_width / 2;
 			y += i * 100;
@@ -366,7 +376,7 @@ function draw(data) {
 			if (!flag) {	//避免证素重复。
 				continue;
 			}
-			cell = editor.addCell({position :{x:x,y:y},width:width,height:height,style:'process'});
+			cell = editor.addCell({position :{x:x,y:y},width:width,height:height,style:'subflow'});
 			cell.value(elementArr[i]);
 			x += 100;
 			y += 100;
@@ -378,8 +388,14 @@ function draw(data) {
 					continue;
 				}
 				var relateShip = relate[cells[i].value() + cells[j].value()];
+				var text = "";
+				//cell1.connect(cell2,null,'连线');
 				if (relateShip == 1) {
 					cells[i].connect(cells[j]);
+				} else if (relateShip == 2) {
+					cells[i].connect(cells[j], null, '从属关系');
+				} else if (relateShip == 3) {
+					cells[i].connect(cells[j], null, '并列关系');
 				}
 			}
 		}
@@ -419,9 +435,9 @@ function draw(data) {
 			</div>
 				</td>
 				<td style="vertical-align:top;">
-					<label for="txtname">名称:</label><input id="txtname" name="txtname" type="text" />
+					<label for="txtname">备注:</label><textarea id="txtname" name="txtname" cols="5" rows="3"></textarea>
 					<br />
-					<label for="txtdes">说明:</label><input id="txtdes" name="txtdes" type="text" />					
+					<label for="txtdes">说明:</label><textarea id="txtdes" name="txtdes" cols="5" rows="3"></textarea>				
 				</td>
 			</tr>
 		</table>
