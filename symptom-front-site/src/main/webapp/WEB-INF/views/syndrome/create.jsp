@@ -18,10 +18,22 @@
                         action="${SPM_CONTEXT}/syndrome/create" method="post">
                         <div class="control-group">
                             <div class="form-group">
-                                <label for="symptomName" class="col-sm-2 control-label">症状名:</label>
+                                <label for="symptomName" class="col-sm-2 control-label">症状名称:</label>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control" name="symptomName"
-                                        id="symptomName" placeholder="症状名">
+                                        id="symptomName" placeholder="症状名称">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="symptomCategory" class="col-sm-2 control-label">症状种类:</label>
+                                <div class="col-sm-6">
+                                	<select class="form-control" name="symptomCategory" id="symptomCategory">
+                                		<option value="">请选择症状种类</option>
+                                	
+                                		<c:forEach items="${zzCategory}" var="categeory">
+                                			<option value="${categeory}">${categeory}</option>
+                                		</c:forEach>
+                                	</select>
                                 </div>
                             </div>
                             <div class="form-group">

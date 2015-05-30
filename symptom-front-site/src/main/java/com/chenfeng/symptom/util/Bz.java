@@ -23,6 +23,7 @@ public class Bz {
         boolean flag = true;
         List<String> zeroList = new ArrayList<String>();    //入度为0的证素集合
         for(String str : topList) {
+        	flag = true;
             for (int i = 0; i < zs.length;i++) {
                 if (str.equals(zs[i][1])) { //只要顶点集合任何一个证素是证素关系链后面的证素，则该顶点集合证素不是入度为0 的那个证素
                     flag = false;

@@ -18,12 +18,29 @@
                         action="${SPM_CONTEXT}/syndrome/update" method="post">
                         <div class="control-group">
                             <div class="form-group">
-                                <label for="symptomName" class="col-sm-2 control-label">症状名:</label>
+                                <label for="symptomName" class="col-sm-2 control-label">症状名称:</label>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control" name="symptomName"
-                                        id="symptomName" value="${syndrome.symptomName }" placeholder="症状名">
+                                        id="symptomName" value="${syndrome.symptomName }" placeholder="症状名称">
                                     
                                     <input type="hidden" name="id" value="${syndrome.id }">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="symptomCategory" class="col-sm-2 control-label">症状种类:</label>
+                                <div class="col-sm-6">
+                                	<select class="form-control" name="symptomCategory" id="symptomCategory">
+                                		<option value="">请选择症状种类</option>
+                                	
+                                		<c:forEach items="${zzCategory}" var="categeory">
+                                			<c:if test="${categeory == syndrome.symptomCategory}">
+                                				<option value="${categeory}" selected="selected">${categeory}</option>
+                                			</c:if>
+                                			<c:if test="${categeory != syndrome.symptomCategory}">
+                                				<option value="${categeory}">${categeory}</option>
+                                			</c:if>
+                                		</c:forEach>
+                                	</select>
                                 </div>
                             </div>
                             <div class="form-group">

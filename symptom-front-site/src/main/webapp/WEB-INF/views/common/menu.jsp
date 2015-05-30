@@ -9,7 +9,7 @@
 			<a href="${SPM_CONTEXT}/syndrome/element/list" class="list-group-item bind-menu-syndrome-element">症素管理</a> 
 		</security:authorize>
 		<security:authorize ifAllGranted="ROLE_USER">
-    		<a href="${SPM_CONTEXT}/syndrome/search" class="list-group-item bind-menu-syndrome-search">有向图</a> 
+    		<a href="${SPM_CONTEXT}/syndrome/search" class="list-group-item bind-menu-syndrome-search">症状种</a> 
 		</security:authorize>
 	</div>
 </div>

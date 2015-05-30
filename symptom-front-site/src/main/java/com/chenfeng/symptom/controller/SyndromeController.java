@@ -120,17 +120,6 @@ public class SyndromeController {
     	return "syndrome/image";
     }
     
-    /**
-     * 整理需要对比的证素
-     * @param list
-     * @param relateList
-     */
-    private void generateZsRelate(List<Syndrome> list, List<String[]> relateList){
-    	for (Syndrome zz:list) {
-    		String[] relate = {zz.getSyndromeElementStart(), zz.getSyndromeElementEnd()};
-    		relateList.add(relate);
-    	}
-    }
 
     @RequestMapping(value = "init", method = RequestMethod.POST)
     @ResponseBody

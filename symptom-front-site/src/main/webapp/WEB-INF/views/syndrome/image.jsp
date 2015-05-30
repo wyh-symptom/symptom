@@ -346,11 +346,13 @@ function draw(data) {
 		var relate = jsonData.relate;
 		var x = 0;y = 0;width = 80,height = 60;
 		for (var i = 0; i < zeroArr.length; i++){	//先画出入度为0的那个证素。
-			x += 300;
+			x = global_width / 2;
+			y += i * 100;
 			cell = editor.addCell({position :{x:x,y:y},width:width,height:height,style:'process'});
 			cell.value(zeroArr[i]);
 		}
 		x = 0;
+		y = 0;
 		var cells = editor.getCells();
 		var flag = true;
 		for(var i = 0; i < elementArr.length; i++) {

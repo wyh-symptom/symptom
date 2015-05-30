@@ -23,6 +23,7 @@
                             <th>ID</th>
                             <th>症素A</th>
                             <th>症素B</th>
+                            <th>关系类型</th>
                             <th>症素关系</th>
                             <th colspan="2"></th>
                           </tr>
@@ -37,6 +38,16 @@
 						    <!-- /ko -->
                             <!-- ko if: syndromeElement.isRelate() == 0 -->
                                 <td>否</td>
+						    <!-- /ko -->
+						    <td data-bind="text: syndromeElement.syndromeElementEnd">Mark</td>
+                            <!-- ko if: syndromeElement.relateType() == 1 -->
+	                            <td>因果关系</td>
+						    <!-- /ko -->
+                            <!-- ko if: syndromeElement.relateType() == 2 -->
+                                <td>从属关系</td>
+						    <!-- /ko -->
+						     <!-- ko if: syndromeElement.relateType() == 3 -->
+                                <td>并列关系</td>
 						    <!-- /ko -->
                             <td><a data-bind="attr: { href: '${SPM_CONTEXT}/syndrome/element/update/' + syndromeElement.id() }">修改</a></td>
                             <td><a href="#" data-bind="click: deleteItem">删除</a></td>

@@ -31,12 +31,27 @@
 										placeholder="症素B">
 								</div>
 								
+								
+								
 								<div class="checkbox col-sm-1">
                                     <label> 
                                        <input name="isRelate" value="1" type="checkbox">
                                     </label>
                                 </div>
 							</div>
+							
+							<div class="form-group">
+                                <label for="relateType" class="col-sm-2 control-label">关系类型:</label>
+                                <div class="col-sm-6">
+                                	<select class="form-control" name="relateType" id="relateType">
+                                		<option value="">请选择关系类型</option>
+                                	
+                                		<c:forEach items="${relateTypes}" var="type">
+                                				<option value="${type.key}">${type.value}</option>
+                                		</c:forEach>
+                                	</select>
+                                </div>
+                            </div>
 
 							
 							<div class="form-group">

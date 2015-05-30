@@ -10,8 +10,19 @@ public class SyndromeCreateInput {
 	@NotBlank
     @Size(max = 100)
     private String symptomName;
+	
+	@Size(max = 100)
+    private String symptomCategory;
     
-    @NotBlank
+    public String getSymptomCategory() {
+		return symptomCategory;
+	}
+
+	public void setSymptomCategory(String symptomCategory) {
+		this.symptomCategory = symptomCategory;
+	}
+
+	@NotBlank
     @Size(max = 5000)
     private String description;
 

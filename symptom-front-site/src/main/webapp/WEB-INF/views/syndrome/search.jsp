@@ -16,7 +16,7 @@
 			<div class="col-sm-10">
 			    <div class="row">
 			        <div class="col-sm-4">
-			             <input type="text" class="form-control bind-search-symptom-name" placeholder="症状名">
+			         	请输入症状：<input type="text" class="form-control bind-search-symptom-name" placeholder="症状名称">
 			        </div>
                     <div class="col-sm-4">
                         <select class="form-control bind-search-symptom-name-select" 
@@ -28,27 +28,25 @@
 			    <div class="row">
 			        <div class="col-sm-4">
 	                    <div class="panel panel-primary">
-                          <div class="panel-heading">症状名</div>
+                          <div class="panel-heading">症状名称</div>
                           <div class="list-group" data-bind="foreach: { data: keys, as: 'key' }">
                               <a href="#" data-bind="text: key.symptomName, css: checkedCss, click: onClick">
-                                                                                        症素
                               </a>
                             </div>
                         </div>
 			        </div>
 			        <div class="col-sm-4">
 			            <div class="panel panel-primary">
-						  <div class="panel-heading">描素</div>
+						  <div class="panel-heading">症状属</div>
 						  <div class="list-group" data-bind="foreach: { data: values, as: 'value' }">
                               <a href="#" data-bind="text: value.description, css: checkedCss, click: onClick">
-                                                                                        症素
                               </a>
                             </div>
 						</div>
 			        </div>
 			        <div class="col-sm-4">
 	                    <div class="panel panel-primary">
-                          <div class="panel-heading">已选症状</div>
+                          <div class="panel-heading">已选症状集合</div>
                           <ul class="list-group" data-bind="foreach: { data: symptomNames, as: 'symptom' }">
 						    <li class="list-group-item">
 						      <a class="badge" data-bind="click: symptom.onDelete">X</a>

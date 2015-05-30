@@ -15,6 +15,16 @@ public class SyndromeElementInput {
     @Size(max = 100)
     private String syndromeElementEnd;
     
+    public Integer getRelateType() {
+		return relateType;
+	}
+
+	public void setRelateType(Integer relateType) {
+		this.relateType = relateType;
+	}
+
+	private Integer relateType;
+    
     private Integer isRelate;
 
     public String getSyndromeElementStart() {

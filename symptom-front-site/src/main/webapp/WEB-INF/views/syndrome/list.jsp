@@ -34,6 +34,7 @@
                           <tr>
                             <th>ID</th>
                             <th>症状名</th>
+                            <th>种类</th>
                             <th>描述</th>
                             <th>症素A</th>
                             <th>症素B</th>
@@ -44,6 +45,7 @@
                           <tr>
                             <th data-bind="text: syndrome.id">1</th>
                             <td data-bind="text: syndrome.symptomName">Mark</td>
+                            <td data-bind="text: syndrome.symptomCategory">Mark</td>
                             <td data-bind="text: syndrome.description">Mark</td>
                             <td data-bind="text: syndrome.syndromeElementStart">Mark</td>
                             <td data-bind="text: syndrome.syndromeElementEnd">Mark</td>
