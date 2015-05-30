@@ -14,17 +14,26 @@
 		<div class="row">
 			<%@ include file="../common/menu.jsp"%>
 			<div class="col-sm-10">
-			    <div class="row">
-			        <div class="col-sm-4">
-			         	请输入症状：<input type="text" class="form-control bind-search-symptom-name" placeholder="症状名称">
-			        </div>
-                    <div class="col-sm-4">
-                        <select class="form-control bind-search-symptom-name-select" 
-                                            data-bind="options: selectSymptomNames,  optionsText: 'symptomName', 
-                                              optionsValue: 'symptomName', event: {change: $root.selectSymptomNameChange }"></select>
-                    </div>
-			    </div>
-			    <h1></h1>
+				<div class="row">
+					<form class="form-horizontal bind-create-from">
+						<div class="control-group">
+							<div class="col-sm-8">
+								<div class="form-group">
+									<label for="symptomName" class="col-sm-2 control-label">请输入症状：</label>
+									<div class="col-sm-4">
+										<input type="text" class="form-control bind-search-symptom-name" placeholder="症状名称">
+									</div>
+									<div class="col-sm-4">
+										<select class="form-control bind-search-symptom-name-select"
+											data-bind="options: selectSymptomNames,  optionsText: 'symptomName', 
+		                                              optionsValue: 'symptomName', event: {change: $root.selectSymptomNameChange }"></select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				
 			    <div class="row">
 			        <div class="col-sm-4">
 	                    <div class="panel panel-primary">
