@@ -91,6 +91,20 @@ function init(){
 	//指定进程图为一个圆
 	style.shape = 'arc';
 	editor.regStyle('process',style);
+	
+	var start_process_style = jmUtils.clone(style);
+	start_process_style.fill = '#7D9EC0';	//开始元素背景颜色
+	editor.regStyle('start_process',start_process_style);
+	start_process_style.fill = 'red';
+	editor.regStyle('start_process_selected',start_process_style);
+	
+	var max_process_style = jmUtils.clone(style);
+	max_process_style.fill = '#7D9EC0';	//max元素背景颜色
+	editor.regStyle('max_process',max_process_style);
+	max_process_style.fill = 'red';
+	editor.regStyle('max_process_selected',max_process_style);
+	
+	
 	//复制一个进程选择样式
 	var processselectedstyle = jmUtils.clone(style);
 	//注册选择状态
@@ -143,11 +157,15 @@ function init(){
 
     //开始样式,不可改变大小，背景透明
 	var startstyle = jmUtils.clone(style);
+	startstyle.fill = '#7D9EC0';	//开始元素背景颜色
 	//startstyle.fill = 'transparent';
 	startstyle.resizable = false;
 	startstyle.shape = 'arc';
 	editor.regStyle('start',startstyle);
 	editor.regStyle('start_selected',startstyle);
+	
+	
+
 
 	//结束样式
 	var endstyle = jmUtils.clone(startstyle);
@@ -344,43 +362,42 @@ function draw(data) {
 	var jsonData = data;
 	if (jsonData.len > 0) {
 		
-		var elementArr = jsonData.topList;		//顶点集合
+		var elementArr = jsonData.subList;		//顶点集合
 		var zeroArr = jsonData.zeroList;
 		var relate = jsonData.relate;
+		var maxArr = jsonData.maxList;		//度最大的证素集合
 		var x = 0;y = 0;width = 120,height = 80;
 		if (jsonData.len == 1) {	//入度为0的集合长度
 			document.getElementById('txtname').html = "该有向图符合ISO-R筛选法则";
-			document.getElementById('txtdes').html = "根节点证素:"+ zeroArr[0] + "   <br/>关键证素:";
+			document.getElementById('txtdes').html = jsonData.des;
 		} else {
 			document.getElementById('txtname').html = "该有向图不符合ISO-R筛选法则";
 			document.getElementById('txtdes').html = "";
 		}
 		for (var i = 0; i < zeroArr.length; i++){	//先画出入度为0的那个证素。
 			x = global_width / 2;
-			y += i * 100;
-			cell = editor.addCell({position :{x:x,y:y},width:width,height:height,style:'process'});
+			y += global_height / jsonData.len;
+			cell = editor.addCell({position :{x:x,y:y},width:width,height:height,style:'start_process'});
 			cell.value(zeroArr[i]);
 		}
+		
 		x = 0;
 		y = 0;
-		var cells = editor.getCells();
-		var flag = true;
-		for(var i = 0; i < elementArr.length; i++) {
-			flag = true;
-			for (var j = 0; j < cells.length; j++) {
-				if (elementArr[i] == cells[j].value()) {
-					flag = false;
-					break;
-				}
-			}
-			if (!flag) {	//避免证素重复。
-				continue;
-			}
-			cell = editor.addCell({position :{x:x,y:y},width:width,height:height,style:'subflow'});
+		
+		for (var j = 0; j < maxArr.len; j++) {
+			cell = editor.addCell({position :{x:x,y:y},width:width,height:height,style:'max_process'});
 			cell.value(elementArr[i]);
 			x += 100;
 			y += 100;
 		}
+		
+		for(var i = 0; i < elementArr.length; i++) {	//画出其他非顶点集合
+			cell = editor.addCell({position :{x:x,y:y},width:width,height:height,style:'process'});
+			cell.value(elementArr[i]);
+			x += 100;
+			y += 100;
+		}
+		
 		cells = editor.getCells();
 		for (var i = 0; i < cells.length; i++) {
 			for (var j = 0; j < cells.length; j++) {
