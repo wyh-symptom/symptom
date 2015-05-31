@@ -388,7 +388,6 @@ function draw(data) {
 		//x = 0;
 		//y = 0;
 		
-		
 		for (var i = 0; i < zeroArr.length; i++){	//先画出入度为0的那个证素。
 			x += 120;
 			y += 100;
@@ -406,7 +405,7 @@ function draw(data) {
 				}
 			}
 			if (repeat)
-				break;
+				continue;
 			
 			x += 120;
 			y += 120;
