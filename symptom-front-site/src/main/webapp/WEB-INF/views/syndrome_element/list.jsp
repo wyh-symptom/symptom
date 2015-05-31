@@ -23,8 +23,8 @@
                             <th>ID</th>
                             <th>症素A</th>
                             <th>症素B</th>
-                            <th>关系类型</th>
                             <th>症素关系</th>
+                            <th>关系类型</th>
                             <th colspan="2"></th>
                           </tr>
                         </thead>
@@ -39,7 +39,6 @@
                             <!-- ko if: syndromeElement.isRelate() == 0 -->
                                 <td>否</td>
 						    <!-- /ko -->
-						    <td data-bind="text: syndromeElement.syndromeElementEnd">Mark</td>
                             <!-- ko if: syndromeElement.relateType() == 1 -->
 	                            <td>因果关系</td>
 						    <!-- /ko -->

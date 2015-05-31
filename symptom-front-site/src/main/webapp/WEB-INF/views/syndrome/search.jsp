@@ -16,7 +16,7 @@
 			<div class="col-sm-10">
 			    <div class="row">
 			        <div class="col-sm-4">
-			         	请输入症状：<input type="text" class="form-control bind-search-symptom-name" placeholder="症状名称">
+			         	<input type="text" class="form-control bind-search-symptom-name" placeholder="症状名称">
 			        </div>
                     <div class="col-sm-4">
                         <select class="form-control bind-search-symptom-name-select" 

@@ -52,7 +52,7 @@ public class Bz {
         resultMap.put("subList", topList);
         resultMap.put("maxList", maxList);
         if (len == 1) {
-        	String des = "根节点证素:"+ zeroList.get(0) + "   <br/>关键证素:";
+        	String des = "根节点证素:"+ zeroList.get(0) + "   关键证素:";
         	for (int i = 0; i < maxList.size(); i++) {
         		des += maxList.get(i) + ",";
         	}
@@ -75,7 +75,7 @@ public class Bz {
                     continue;
                 }
                 currentRelate = compareElement(topList.get(i), topList.get(j), syndromeElementService);
-                if (currentRelate[0] == 2) {
+                if (currentRelate[0] == 1) {
                     Map<Integer, String> map = new HashMap<Integer, String>();
                     map.put(0, topList.get(i));
                     map.put(1, topList.get(j));
@@ -142,7 +142,7 @@ public class Bz {
     				currentMax ++;
     			}
     		}
-    		if (currentMax > max) {
+    		if (currentMax >= max) {
     			map.put(currentMaxZs, currentMax);
     			max = currentMax;
     		}

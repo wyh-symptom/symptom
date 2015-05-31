@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>查询</title>
+<title>症状种</title>
 <%@include file="../common/resource.jsp"%>
 <script src="${SPM_CONTEXT}/js/views/jmgraph/jmgraph.debug.js"></script>
 <script type="text/javascript" src="${SPM_CONTEXT}/js/views/jmgraph/images.js" ></script>
@@ -90,18 +90,21 @@ function init(){
 
 	//指定进程图为一个圆
 	style.shape = 'arc';
+	
 	editor.regStyle('process',style);
 	
 	var start_process_style = jmUtils.clone(style);
 	start_process_style.fill = '#7D9EC0';	//开始元素背景颜色
+	start_process_style.width = 200;
+	start_process_style.height = 80;
 	editor.regStyle('start_process',start_process_style);
-	start_process_style.fill = 'red';
 	editor.regStyle('start_process_selected',start_process_style);
 	
 	var max_process_style = jmUtils.clone(style);
-	max_process_style.fill = '#7D9EC0';	//max元素背景颜色
+	max_process_style.fill = '#8B8970';	//max元素背景颜色
+	max_process_style.width = 200;
+	max_process_style.height = 80;
 	editor.regStyle('max_process',max_process_style);
-	max_process_style.fill = 'red';
 	editor.regStyle('max_process_selected',max_process_style);
 	
 	
@@ -137,6 +140,8 @@ function init(){
 	//style.stroke = 'rgb(248,195,60)';
 	style.resizable = true;
 	style.shape = 'rect';
+	style.width = 200;
+    style.height = 80;
 	editor.regStyle('subflow',style);
 	editor.regStyle('subflow_selected',style);
 
@@ -345,6 +350,9 @@ $(function(){	//默认显示第一张图
 			if (curr_index > 0) {	//当前大于第一张，则显示前一张按钮
 				$("#preImage").show();
 			}
+			if(curr_index == total - 1) {
+				$("#nextImage").hide();
+			} 
 			if (curr_index != total - 1) { //不是最后一张 则显示下一张按钮
 				$("#nextImage").show();
 			}
@@ -366,37 +374,55 @@ function draw(data) {
 		var zeroArr = jsonData.zeroList;
 		var relate = jsonData.relate;
 		var maxArr = jsonData.maxList;		//度最大的证素集合
-		var x = 0;y = 0;width = 120,height = 80;
+		var x = 0;y = 0;width = 200,height = 80;
 		if (jsonData.len == 1) {	//入度为0的集合长度
-			document.getElementById('txtname').html = "该有向图符合ISO-R筛选法则";
-			document.getElementById('txtdes').html = jsonData.des;
+			document.getElementById('txtname').value = "该有向图符合ISO-R筛选法则";
+			document.getElementById('txtdes').value = jsonData.des;
 		} else {
-			document.getElementById('txtname').html = "该有向图不符合ISO-R筛选法则";
-			document.getElementById('txtdes').html = "";
+			document.getElementById('txtname').value = "该有向图不符合ISO-R筛选法则";
+			document.getElementById('txtdes').value = "";
 		}
+		
+		
+		
+		//x = 0;
+		//y = 0;
+		
+		
 		for (var i = 0; i < zeroArr.length; i++){	//先画出入度为0的那个证素。
-			x = global_width / 2;
-			y += global_height / jsonData.len;
-			cell = editor.addCell({position :{x:x,y:y},width:width,height:height,style:'start_process'});
+			x += 120;
+			y += 100;
+			cell = editor.addCell({position :{x:x,y:y},style:'start_process'});
 			cell.value(zeroArr[i]);
 		}
 		
-		x = 0;
-		y = 0;
-		
-		for (var j = 0; j < maxArr.len; j++) {
-			cell = editor.addCell({position :{x:x,y:y},width:width,height:height,style:'max_process'});
-			cell.value(elementArr[i]);
-			x += 100;
-			y += 100;
+		for (var j = 0; j < maxArr.length; j++) {
+			cells = editor.getCells();
+			repeat = false;
+			for (var k = 0; k < cells.length; k++) {
+				if (cells[k].value() == maxArr[j]) {
+					repeat = true;
+					break;
+				}
+			}
+			if (repeat)
+				break;
+			
+			x += 120;
+			y += 120;
+			cell = editor.addCell({position :{x:x,y:y},style:'max_process'});
+			cell.value(maxArr[j]);
+			
 		}
 		
 		for(var i = 0; i < elementArr.length; i++) {	//画出其他非顶点集合
-			cell = editor.addCell({position :{x:x,y:y},width:width,height:height,style:'process'});
+			x += 120;
+			y += 120;
+			cell = editor.addCell({position :{x:x,y:y},style:'subflow'});
 			cell.value(elementArr[i]);
-			x += 100;
-			y += 100;
+			
 		}
+		
 		
 		cells = editor.getCells();
 		for (var i = 0; i < cells.length; i++) {
@@ -447,14 +473,18 @@ function draw(data) {
 				<td></td>
 			</tr>
 			<tr>
+			<td colspan="2">
+			<label for="txtname">备注:</label><input id="txtname" name="txtname" size="100"/>
+			<br/>
+			<label for="txtdes">说明:</label><input id="txtdes" name="txtdes" size="100"/>	
+			</td>
+			</tr>
+			<tr>
 				<td>
 			<div id="container">				
 			</div>
 				</td>
 				<td style="vertical-align:top;">
-					<label for="txtname">备注:</label><textarea id="txtname" name="txtname" cols="5" rows="3"></textarea>
-					<br />
-					<label for="txtdes">说明:</label><textarea id="txtdes" name="txtdes" cols="5" rows="3"></textarea>				
 				</td>
 			</tr>
 		</table>
