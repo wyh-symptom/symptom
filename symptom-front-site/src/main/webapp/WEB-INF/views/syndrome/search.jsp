@@ -6,6 +6,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>查询</title>
 <%@include file="../common/resource.jsp"%>
+<link rel="stylesheet" href="${SPM_CONTEXT}/css/jquery.treegrid.css" />
+<script src="${SPM_CONTEXT}/js/lib/bootstrap/jquery.treegrid.js"></script>
+<script src="${SPM_CONTEXT}/js/lib/bootstrap/jquery.treegrid.bootstrap3.js"></script>
 <script src="${SPM_CONTEXT}/js/views/syndrome/search.js"></script>
 </head>
 <body>
@@ -38,17 +41,56 @@
 			        <div class="col-sm-4">
 	                    <div class="panel panel-primary">
                           <div class="panel-heading">症状名称</div>
+                          <!-- <div class="list-group" data-bind="foreach: { data: syndromeCategoryNames, as: 'syndromeCategory' }">
+                              <a href="#" data-bind="text: syndromeCategory.syndromeCategoryName, css: checkedCss, click: onClick">
+                              </a>
+                            </div> -->
+
+                                
+
+							<table class="table tree-2 table-bordered table-striped table-condensed">
+								<tbody data-bind="foreach: { data: keys, as: 'key' }">
+									<tr data-bind="css: key.treegrCss">
+										<td data-bind="click: onClick">
+											<span data-bind="css: key.treeIconCss"></span>
+											<!-- ko text: key.syndromeCategoryName -->
+											     Root node 1
+											<!-- /ko -->
+										</td>
+									</tr>
+									<!-- ko foreach: { data: key.syndromeNames, as: 'sn' } -->
+									<tr data-bind="css: sn.treegrCss, visible: $parent.isVisible">
+										<td data-bind="click: sn.onClick">
+											<span class="treegrid-indent"></span>
+											<span class="treegrid-expander"></span>
+											<!-- ko text: sn.symptomName -->
+											    Node 1-1
+											<!-- /ko -->
+										</td>
+									</tr>
+									<!-- /ko -->
+								</tbody>
+							</table>
+
+						</div>
+			        </div>
+			        
+			        
+			        <!-- <div class="col-sm-3">
+	                    <div class="panel panel-primary">
+                          <div class="panel-heading">症状名称</div>
                           <div class="list-group" data-bind="foreach: { data: keys, as: 'key' }">
                               <a href="#" data-bind="text: key.symptomName, css: checkedCss, click: onClick">
                               </a>
                             </div>
                         </div>
-			        </div>
+			        </div> -->
+			        
 			        <div class="col-sm-4">
 			            <div class="panel panel-primary">
 						  <div class="panel-heading">症状属</div>
 						  <div class="list-group" data-bind="foreach: { data: values, as: 'value' }">
-                              <a href="#" data-bind="text: value.description, css: checkedCss, click: onClick">
+                              <a href="#" data-bind="text: ($index() +1) + '：' +value.description, css: checkedCss, click: onClick">
                               </a>
                             </div>
 						</div>
@@ -58,7 +100,7 @@
                           <div class="panel-heading">已选症状集合</div>
                           <ul class="list-group" data-bind="foreach: { data: symptomNames, as: 'symptom' }">
 						    <li class="list-group-item">
-						      <a class="badge" data-bind="click: symptom.onDelete">X</a>
+						      <!-- <a class="badge" data-bind="click: symptom.onDelete">X</a> -->
 						      <span data-bind="text: symptom.symptomName"></span>
 						    </li>
 						  </ul>
