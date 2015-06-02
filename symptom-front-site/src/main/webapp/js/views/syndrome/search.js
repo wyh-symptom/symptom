@@ -17,7 +17,6 @@
 		selectSymptomNameChange : function(item) {
 			var symptomNameSelect = $(constant.SEARCH_SYMPTOM_NAME_SELECT).val();
 			$.each(item.keys(), function(i, n) {
-				console.debug(n.syndromeNames);
 				$.each(n.syndromeNames, function(j, sn) {
 					if (sn.symptomName == symptomNameSelect) {
 						n.onClick();
@@ -117,7 +116,6 @@
 		},
 		bindInputSymptomNameChange : function() {
 			$(constant.SEARCH_SYMPTOM_NAME).on('change', function() {
-				console.debug(viewModel.keys());
 				var temp = $(constant.SEARCH_SYMPTOM_NAME).val();
 				viewModel.selectSymptomNames([]);
 				$.each(viewModel.keys(), function(i, item) {
