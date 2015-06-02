@@ -39,41 +39,13 @@
 							n.isChecked(true);
 				            n.checkedCss('list-group-item list-group-item-info');
 						}
-						console.debug(n);
 						
+						viewModel.symptomNames([]);
 						$.each(viewModel.symptoms(), function(i, syn) {
-							var sn = {"symptomName" : n.symptomName};
-							if (!viewModel.symptomNames.indexOf(sn)) {
-								viewModel.symptomNames.push(sn);
+							if (viewModel.symptomNames.indexOf(syn.symptomName+"") == -1) {
+								viewModel.symptomNames.push(syn.symptomName+"");
 							}
 						});
-						
-//						common.switchCss(values, n);
-//						viewModel.symptoms.remove(n);
-//						viewModel.symptoms.push(n); 
-//
-//						var sn = {"symptomName" : n.symptomName};
-//						sn.onDelete = function() {
-//							if (confirm("你确认要删除该条件！")) {
-//								viewModel.symptomNames.remove(sn);
-//								var array = [];
-//								$.each(viewModel.symptoms(), function(i, item) {
-//									if(sn.symptomName != item.symptomName) {
-//										array.push(item);
-//									}
-//								});
-//								viewModel.symptoms(array);
-//							}
-//						};
-//						var array = [];
-//						$.each(viewModel.symptomNames(), function(i, syn) {
-//							if (syn.symptomName != n.symptomName) {
-//								array.push(syn);
-//							}
-//						});
-//						viewModel.symptomNames(array);
-//						viewModel.symptomNames.push(sn); 
-						
 					};
 				});
 			};

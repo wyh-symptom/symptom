@@ -75,17 +75,6 @@
 						</div>
 			        </div>
 			        
-			        
-			        <!-- <div class="col-sm-3">
-	                    <div class="panel panel-primary">
-                          <div class="panel-heading">症状名称</div>
-                          <div class="list-group" data-bind="foreach: { data: keys, as: 'key' }">
-                              <a href="#" data-bind="text: key.symptomName, css: checkedCss, click: onClick">
-                              </a>
-                            </div>
-                        </div>
-			        </div> -->
-			        
 			        <div class="col-sm-4">
 			            <div class="panel panel-primary">
 						  <div class="panel-heading">症状属</div>
@@ -98,10 +87,10 @@
 			        <div class="col-sm-4">
 	                    <div class="panel panel-primary">
                           <div class="panel-heading">已选症状集合</div>
-                          <ul class="list-group" data-bind="foreach: { data: symptomNames, as: 'symptom' }">
+                          <ul class="list-group" data-bind="foreach: symptomNames">
 						    <li class="list-group-item">
 						      <!-- <a class="badge" data-bind="click: symptom.onDelete">X</a> -->
-						      <span data-bind="text: symptom.symptomName"></span>
+						      <span data-bind="text: $data"></span>
 						    </li>
 						  </ul>
                         </div>
