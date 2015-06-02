@@ -17,9 +17,13 @@
 		selectSymptomNameChange : function(item) {
 			var symptomNameSelect = $(constant.SEARCH_SYMPTOM_NAME_SELECT).val();
 			$.each(item.keys(), function(i, n) {
-				if (n.symptomName == symptomNameSelect) {
-					n.onClick();
-				}
+				console.debug(n.syndromeNames);
+				$.each(n.syndromeNames, function(j, sn) {
+					if (sn.symptomName == symptomNameSelect) {
+						n.onClick();
+						sn.onClick();
+					}
+				});
 			});
 		},
 	};
@@ -71,15 +75,14 @@
 				n.treeIconCss = ko.observable('treegrid-expander glyphicon glyphicon-plus');
 				n.isVisible = ko.observable(false);
 				n.onClick = function() {
-					if(n.isVisible()) {
-						n.isVisible(false);
-						n.treegrCss('treegrid-' + n.treegrid + ' treegrid-collapsed');
-						n.treeIconCss('treegrid-expander glyphicon glyphicon-plus');
-					} else {
-						n.isVisible(true);
-						n.treegrCss('treegrid-' + n.treegrid + ' treegrid-expanded');
-						n.treeIconCss('treegrid-expander glyphicon glyphicon-minus');
-					}
+					$.each(data, function(k, sn) {
+						sn.isVisible(false);
+						sn.treegrCss('treegrid-' + n.treegrid + ' treegrid-collapsed');
+						sn.treeIconCss('treegrid-expander glyphicon glyphicon-plus');
+					});
+					n.isVisible(true);
+					n.treegrCss('treegrid-' + n.treegrid + ' treegrid-expanded');
+					n.treeIconCss('treegrid-expander glyphicon glyphicon-minus');
 				}
 				
 				$.each(n.syndromeNames, function(j, item) {
@@ -114,12 +117,16 @@
 		},
 		bindInputSymptomNameChange : function() {
 			$(constant.SEARCH_SYMPTOM_NAME).on('change', function() {
+				console.debug(viewModel.keys());
 				var temp = $(constant.SEARCH_SYMPTOM_NAME).val();
 				viewModel.selectSymptomNames([]);
 				$.each(viewModel.keys(), function(i, item) {
-					if (item.symptomName.indexOf(temp) >= 0) {
-						viewModel.selectSymptomNames.push(item);
-					}
+					$.each(item.syndromeNames, function(j, n) {
+						
+						if (n.symptomName.indexOf(temp) >= 0) {
+							viewModel.selectSymptomNames.push(n);
+						}
+					});
 				});
 			});
 		},
@@ -148,11 +155,5 @@
 
 	$(function() {
 		search.init();
-		
-		$('.tree-2').treegrid({
-            expanderExpandedClass: 'glyphicon glyphicon-minus',
-            expanderCollapsedClass: 'glyphicon glyphicon-plus',
-            initialState: 'collapsed'
-        });
 	});
 })(jQuery);
