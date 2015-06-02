@@ -36,25 +36,9 @@ public class Bz {
         }
         
         int len = zeroList.size();
+        //计算度最多的证素
+        List<String> maxList = calucMaxZs(topList, newZs);
         Map<String, Object> relateMap = new HashMap<String, Object>();
-        //List<String> zsList = new ArrayList<String>();    //弧的集合
-        //int relate = 0;
-        /*String currentZs,compareZs;
-        for(int i = 0; i < topList.size(); i++) {
-            currentZs = topList.get(i);
-            for(int j = 0; j < topList.size(); j++) {
-                compareZs = topList.get(j);
-                if (currentZs.equals(compareZs)) {  //不比较证素本身
-                    continue;
-                }
-                relate = compareElement(currentZs, compareZs, zs);
-                if (relate == 1) {
-                    if (!relateMap.containsKey(currentZs + compareZs)) {
-                        relateMap.put(currentZs + compareZs, relate);
-                    }
-                }
-            }
-        }*/
         //根据新的证素关系集合去掉重复的
         for (String[] relateArr : newZs) {
             relateMap.put(relateArr[0] + relateArr[1], relateArr[2]);
@@ -63,7 +47,17 @@ public class Bz {
         resultMap.put("len", len);      //len代表可以画出几个有向图。
         resultMap.put("zeroList", zeroList);
         resultMap.put("relate", relateMap);
-        resultMap.put("topList", topList);
+        topList.removeAll(zeroList);
+        topList.removeAll(maxList);
+        resultMap.put("subList", topList);
+        resultMap.put("maxList", maxList);
+        if (len == 1) {
+        	String des = "根节点证素:"+ zeroList.get(0) + "   <br/>关键证素:";
+        	for (int i = 0; i < maxList.size(); i++) {
+        		des += maxList.get(i) + ",";
+        	}
+        	resultMap.put("des", des.substring(0, des.length() - 1));
+        }
         return resultMap;
     }
     
@@ -123,27 +117,45 @@ public class Bz {
         BeanUtils.copyProperties(zs, zs0);
         List<SyndromeElement>  list = syndromeElementService.findRelateByZs(zs0);
         int relate = (list != null && list.size() > 0) ? list.get(0).getIsRelate() : 0;
-        int relateType = (list != null && list.size() > 0) ? list.get(0).getRelateType() : 0;	//关系类型
+        int relateType = (list != null && list.size() > 0) ? list.get(0).getRelateType() : 1;	//关系类型
         int[] returnArr = {relate , relateType};
         return returnArr;
     }
     
     /**
-     * 比较2个证素之间的关系
-     * @param element
-     * @param compareElement
-     * @param zs
+     * 获取入度最大的证素(出度和入度之和)
+     * @param top
      */
-    public static int compareElement(String element, String compareElement, String[][] zs) {
-        int relate = 0;
-        for(int i = 0; i < zs.length; i++) {
-            if (element.equals(zs[i][0]) && compareElement.equals(zs[i][1])) {
-                relate = 1;
-                break;
-            }
-        }
-        return relate;
+    public static List<String> calucMaxZs(List<String> top, String[][] zsRelate){
+    	int max = 0;
+    	int currentMax = 0;
+		String currentMaxZs = "";
+		Map<String, Integer> map = new HashMap<String, Integer>();
+    	for (int i = 0; i < top.size(); i++) {
+    		currentMax = 0;
+    		currentMaxZs = top.get(i);
+    		for (int j = 0; j < zsRelate.length; j++){
+    			if (zsRelate[j][0].equals(currentMaxZs)) {
+    				currentMax ++;
+    			}
+    			if (zsRelate[j][1].equals(currentMaxZs)) {
+    				currentMax ++;
+    			}
+    		}
+    		if (currentMax > max) {
+    			map.put(currentMaxZs, currentMax);
+    			max = currentMax;
+    		}
+    	}
+    	List<String> maxList = new ArrayList<String>();
+    	for (String zs : map.keySet()) {
+    		if (max == map.get(zs)) {
+    			maxList.add(zs);
+    		}
+    	}
+    	return maxList;
     }
+    
     
     /**
      * 生成顶点集合
@@ -222,15 +234,17 @@ public class Bz {
     	List<Integer> list1 = new ArrayList();
     	list1.add(1);
     	List<Integer> list2 = new ArrayList();
-    	//list2.add(2);
+    	list2.add(2);
     	list2.add(3);
     	List<Integer> list3 = new ArrayList();
+    	list3.add(1);
+    	list3.add(2);
+    	list3.add(3);
     	list3.add(4);
     	list3.add(5);
-    	map.put(0, list1);
-    	map.put(1, list2);
-    	map.put(2, list3);
-    	map.put(2, list3);
+    	list3.removeAll(list2);
+    	System.out.println(list3);
+    	
     }
 
 
