@@ -16,7 +16,7 @@
 				<div class="row">
 					<div class="col-lg-6">
 						<div class="input-group">
-							<input type="text" name="syndromeName" class="form-control" data-bind="value: syndromeName" placeholder="症状名..."> 
+							<input type="text" name="syndromeName" class="form-control" data-bind="value: syndromeName" placeholder="症状名称..."> 
 							<span class="input-group-btn">
 								<button class="btn btn-default" type="button" data-bind="click: search">查询</button>
 							</span>
@@ -43,12 +43,12 @@
                         </thead>
                         <tbody data-bind="foreach: {data: syndromes, as: 'syndrome'}">
                           <tr>
-                            <th data-bind="text: syndrome.id">1</th>
-                            <td data-bind="text: syndrome.symptomName">Mark</td>
-                            <td data-bind="text: syndrome.symptomCategory">Mark</td>
-                            <td data-bind="text: syndrome.description">Mark</td>
-                            <td data-bind="text: syndrome.syndromeElementStart">Mark</td>
-                            <td data-bind="text: syndrome.syndromeElementEnd">Mark</td>
+                            <th data-bind="text: syndrome.id"></th>
+                            <td data-bind="text: syndrome.symptomName"></td>
+                            <td data-bind="text: syndrome.symptomCategory"></td>
+                            <td data-bind="text: syndrome.description"></td>
+                            <td data-bind="text: syndrome.syndromeElementStart"></td>
+                            <td data-bind="text: syndrome.syndromeElementEnd"></td>
                             <td><a data-bind="attr: { href: '${SPM_CONTEXT}/syndrome/update/' + syndrome.id() }">修改</a></td>
                             <td><a href="#" data-bind="click: deleteItem">删除</a></td>
                           </tr>

@@ -30,9 +30,9 @@
                         </thead>
                         <tbody data-bind="foreach: {data: syndromeElements, as: 'syndromeElement'}">
                           <tr>
-                            <th data-bind="text: syndromeElement.id">1</th>
-                            <td data-bind="text: syndromeElement.syndromeElementStart">Mark</td>
-                            <td data-bind="text: syndromeElement.syndromeElementEnd">Mark</td>
+                            <th data-bind="text: syndromeElement.id"></th>
+                            <td data-bind="text: syndromeElement.syndromeElementStart"></td>
+                            <td data-bind="text: syndromeElement.syndromeElementEnd"></td>
                             <!-- ko if: syndromeElement.isRelate() == 1 -->
 	                            <td>是</td>
 						    <!-- /ko -->

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>查询</title>
+<title>症状种查询</title>
 <%@include file="../common/resource.jsp"%>
 <script src="${SPM_CONTEXT}/js/views/syndrome/search.js"></script>
 </head>
