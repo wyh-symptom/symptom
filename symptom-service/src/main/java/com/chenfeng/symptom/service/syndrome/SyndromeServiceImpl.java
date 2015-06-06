@@ -37,7 +37,7 @@ public class SyndromeServiceImpl extends CrudServiceImpl<Syndrome, Long, Syndrom
     }
 
 	@Override
-	public List<SyndromeInitOutput> findSyndromeInitData() {
+	public List<Map<String, Object>> findSyndromeInitData() {
 		List<SyndromeInitOutput> syndromeInitOutputs = new ArrayList<>();
 		Map<String, List<Syndrome>> syndromeNameMap = new LinkedHashMap<>();
 		List<Syndrome> syndromes  = repository.findAll();
@@ -58,11 +58,33 @@ public class SyndromeServiceImpl extends CrudServiceImpl<Syndrome, Long, Syndrom
 		for (String syndromeName : syndromeNameMap.keySet()) {
 			SyndromeInitOutput syndromeInitOutput = new SyndromeInitOutput();
 			syndromeInitOutput.setSymptomName(syndromeName);
+			syndromeInitOutput.setSymptomCategory(syndromeNameMap.get(syndromeName).get(0).getSymptomCategory());
 			syndromeInitOutput.setSyndromes(syndromeNameMap.get(syndromeName));
 			syndromeInitOutputs.add(syndromeInitOutput);
 		}
 		
-		return syndromeInitOutputs;
+		Map<String, List<SyndromeInitOutput>> syndromeInitOutputMap = new LinkedHashMap<>();
+		for (SyndromeInitOutput syndromeInitOutput : syndromeInitOutputs) {
+		    if (syndromeInitOutputMap.containsKey(syndromeInitOutput.getSymptomCategory())) {
+		        List<SyndromeInitOutput> sdm = syndromeInitOutputMap.get(syndromeInitOutput.getSymptomCategory());
+                sdm.add(syndromeInitOutput);
+                syndromeInitOutputMap.put(syndromeInitOutput.getSymptomCategory(), sdm);
+            } else {
+                List<SyndromeInitOutput> sdm = new ArrayList<>();
+                sdm.add(syndromeInitOutput);
+                syndromeInitOutputMap.put(syndromeInitOutput.getSymptomCategory(), sdm);
+            }
+        }
+		
+		List<Map<String, Object>> maps = new ArrayList<>();
+		for (String syndromeCategoryName : syndromeInitOutputMap.keySet()) {
+		    Map<String, Object> syndromeInitOutputsMap = new LinkedHashMap<>();
+            syndromeInitOutputsMap.put("syndromeCategoryName", syndromeCategoryName);
+            syndromeInitOutputsMap.put("syndromeNames", syndromeInitOutputMap.get(syndromeCategoryName));
+            maps.add(syndromeInitOutputsMap);
+        }
+		
+		return maps;
 	}
 
     @Override

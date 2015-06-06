@@ -30,7 +30,7 @@
                                 <label for="symptomCategory" class="col-sm-2 control-label">症状种类:</label>
                                 <div class="col-sm-6">
                                 	<select class="form-control" name="symptomCategory" id="symptomCategory">
-                                		<option value="">请选择症状种类</option>
+                                		<!-- <option value="">请选择症状种类</option> -->
                                 	
                                 		<c:forEach items="${zzCategory}" var="categeory">
                                 			<c:if test="${categeory == syndrome.symptomCategory}">

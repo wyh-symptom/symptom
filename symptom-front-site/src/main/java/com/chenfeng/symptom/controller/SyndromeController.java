@@ -21,11 +21,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.chenfeng.symptom.domain.common.pagehelper.Page;
 import com.chenfeng.symptom.domain.model.mybatis.Syndrome;
 import com.chenfeng.symptom.service.syndrome.SyndromeCreateInput;
-import com.chenfeng.symptom.service.syndrome.SyndromeInitOutput;
 import com.chenfeng.symptom.service.syndrome.SyndromeService;
 import com.chenfeng.symptom.service.syndrome_element.SyndromeElementService;
 import com.chenfeng.symptom.util.Bz;
-import com.mysql.fabric.xmlrpc.base.Array;
 
 @Controller
 @RequestMapping(value = "syndrome")
@@ -128,7 +126,7 @@ public class SyndromeController {
     @RequestMapping(value = "init", method = RequestMethod.POST)
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public List<SyndromeInitOutput> init() {
+    public List<Map<String, Object>> init() {
     	
     	return syndromeService.findSyndromeInitData();
     }
