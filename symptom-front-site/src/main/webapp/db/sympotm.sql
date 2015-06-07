@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost
-Source Server Version : 50520
+Source Server Version : 50532
 Source Host           : localhost:3306
 Source Database       : sympotm
 
 Target Server Type    : MYSQL
-Target Server Version : 50520
+Target Server Version : 50532
 File Encoding         : 65001
 
-Date: 2015-05-30 15:34:40
+Date: 2015-06-07 20:13:03
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -27,11 +27,8 @@ CREATE TABLE `t_syndrome` (
   `syndrome_element_start` varchar(100) NOT NULL,
   `syndrome_element_end` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
--- ----------------------------
--- Records of t_syndrome
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for `t_syndrome_element`
@@ -43,9 +40,7 @@ CREATE TABLE `t_syndrome_element` (
   `syndrome_element_end` varchar(100) NOT NULL,
   `relate_type` tinyint(2) NOT NULL DEFAULT '1',
   `is_relate` tinyint(2) NOT NULL,
+  `description` varchar(1000) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
--- ----------------------------
--- Records of t_syndrome_element
--- ----------------------------

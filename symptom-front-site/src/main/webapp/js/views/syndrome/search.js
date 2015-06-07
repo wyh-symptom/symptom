@@ -74,14 +74,21 @@
 				n.treeIconCss = ko.observable('treegrid-expander glyphicon glyphicon-plus');
 				n.isVisible = ko.observable(false);
 				n.onClick = function() {
+					var isVisible = n.isVisible();
 					$.each(data, function(k, sn) {
 						sn.isVisible(false);
 						sn.treegrCss('treegrid-' + n.treegrid + ' treegrid-collapsed');
 						sn.treeIconCss('treegrid-expander glyphicon glyphicon-plus');
 					});
-					n.isVisible(true);
-					n.treegrCss('treegrid-' + n.treegrid + ' treegrid-expanded');
-					n.treeIconCss('treegrid-expander glyphicon glyphicon-minus');
+					if (isVisible) {
+						n.isVisible(false);
+						n.treegrCss('treegrid-' + n.treegrid + ' treegrid-collapsed');
+						n.treeIconCss('treegrid-expander glyphicon glyphicon-plus');
+					} else {
+						n.isVisible(true);
+						n.treegrCss('treegrid-' + n.treegrid + ' treegrid-expanded');
+						n.treeIconCss('treegrid-expander glyphicon glyphicon-minus');
+					}
 				}
 				
 				$.each(n.syndromeNames, function(j, item) {
