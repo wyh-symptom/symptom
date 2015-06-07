@@ -109,17 +109,20 @@ public class SyndromeController {
     	List<Map<String, Object>> resultList = new ArrayList<Map<String,Object>>();
     	for (int k = 0; k < list.size(); k++) {
     		zuHe = list.get(k);
-    		String[][] relate = new String[zuHe.size()][2];
+    		String[][] relate = new String[zuHe.size()][4];
     		for (int m : zuHe.keySet()){
     			relate[m] = zuHe.get(m);
     		}
     		Map<String, Object> result = Bz.findRelate(relate, syndromeElementService);
-    		resultList.add(result);
+    		if (result != null) {
+    			resultList.add(result);
+    		}
     	}
     	
     	net.sf.json.JSONArray json = net.sf.json.JSONArray.fromObject(resultList);
     	model.addAttribute("result", json);
     	model.addAttribute("resultList", resultList);
+    	model.addAttribute("size", resultList.size());
     	return "syndrome/image";
     }
     

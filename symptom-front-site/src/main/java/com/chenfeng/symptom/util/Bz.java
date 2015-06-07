@@ -21,29 +21,50 @@ public class Bz {
     @SuppressWarnings("unchecked")
 	public static Map<String, Object> findRelate(String[][] zs, SyndromeElementService syndromeElementService){
         List<String> topList = generateTopList(zs);
-        //从数据库查询顶点集合中个证素之间的关系,形成一个新的证素关系集合 0->start,1->end, 2->关系类型, 3->关系描素
-        String[][] newZs = generateNewZs(topList, zs, syndromeElementService);
-        List<String> zeroList = getZeroList(newZs, topList);    //入度为0的证素集合
+        List<String> zeroList = getZeroList(zs, topList);    //入度为0的证素集合
         int len = zeroList.size();
-        //如果长度大于1，则说明不能形成有且仅有一个入度为0的有向图。则从元素表中添加一个元素， 并且添加该元素与该toplist中元素的关系，重新构造有向图，如果
-        if (len > 1) {	
+        String des = "该有向图符合ISO-R筛选法则，为一级辨证";
+        String[][] newZs = null;
+        if (len > 1) {		//添加元素之间的关系
+        	//从数据库查询顶点集合中个证素之间的关系,形成一个新的证素关系集合 0->start,1->end, 2->关系类型, 3->关系描素
+            newZs = generateNewZs(topList, zs, syndromeElementService);
+            zeroList = getZeroList(newZs, topList);    //入度为0的证素集合
+            len = zeroList.size();
+            if (len > 1) {
+            	//如果长度大于1，则说明不能形成有且仅有一个入度为0的有向图。则从元素表中添加一个元素， 并且添加该元素与该toplist中元素的关系，重新构造有向图
+	        	List<SyndromeElement> list = syndromeElementService.findAll();
+	        	Object[] object = generateOneNewTopList(list, newZs, topList, syndromeElementService);
+	        	boolean flag = (boolean)object[0];
+	        	if (flag) {
+	        		zeroList = (List<String>)object[1];
+	        		len = zeroList.size();
+	        		des = "该有向图符合ISO-R筛选法则，为三级辨证";
+	        	} else {	//没有找到匹配的元素，则从关系表中查找一条关系添加到证素关系中，并且添加2个元素与原顶点集合的所有元素的关系
+	        		object = generateTwoNewTopList(list, newZs, topList, syndromeElementService);
+	        		flag = (boolean)object[0];
+	        		if (flag) {
+	            		zeroList = (List<String>)object[1];
+	            		len = zeroList.size();
+	            		des = "该有向图符合ISO-R筛选法则，为四级辨证";
+	            	}
+	        	}
+            } else {
+            	des = "该有向图符合ISO-R筛选法则，为二级辨证";
+            }
         	
-        	List<SyndromeElement> list = syndromeElementService.findAll();
-        	Object[] object = generateOneNewTopList(list, newZs, topList, syndromeElementService);
-        	boolean flag = (boolean)object[0];
-        	if (flag) {
-        		zeroList = (List<String>)object[1];
-        		len = zeroList.size();
-        	} else {	//没有找到匹配的元素，则从关系表中查找一条关系添加到证素关系中，并且添加2个元素与原顶点集合的所有元素的关系
-        		object = generateTwoNewTopList(list, newZs, topList, syndromeElementService);
-        		flag = (boolean)object[0];
-        		if (flag) {
-            		zeroList = (List<String>)object[1];
-            		len = zeroList.size();
-            	}
-        	}
-        	
+        } else {
+        	String[][] oneZs = new String[zs.length][4];
+            for (int i = 0; i < zs.length; i++) {
+            	oneZs[i][0] = zs[i][0];
+            	oneZs[i][1] = zs[i][1];
+            	oneZs[i][2] = "1";	//默认设置为因果关系
+            	oneZs[i][3] = "";	//症状表中没有关系备注信息
+            }
+        	newZs = oneZs;
         }
+        if (len > 1) 
+        	return null;
+        
         //计算度最多的证素
         //List<String> maxList = calucMaxZs(topList, newZs);
         //Map<String, Object> relateMap = new HashMap<String, Object>();
@@ -66,6 +87,7 @@ public class Bz {
         resultMap.put("zeroList", zeroList);
         resultMap.put("relate", finalMermaidStr.substring(0, finalMermaidStr.length()-1));
         resultMap.put("subList", topList);
+        resultMap.put("des", des);
         /*resultMap.put("maxList", maxList);
         if (len == 1) {
         	String des = "根节点证素:"+ zeroList.get(0) + "   关键证素:";
@@ -312,12 +334,8 @@ public class Bz {
             else {
             	newZs[i][2] = zs[i][2];;	
             }
-            
-            if (zs[i][3] == null || "".equals(zs[i][3]))
-            	newZs[i][3] = "";	//症状表中没有关系备注信息
-            else {
-            	newZs[i][3] = zs[i][3];
-            }
+           
+            newZs[i][3] = zs[i][3];
         }
         if (len > 0) {
             for (int i = zs.length; i < newZs.length; i++) {

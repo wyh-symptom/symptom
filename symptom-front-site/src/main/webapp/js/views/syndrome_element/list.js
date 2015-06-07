@@ -73,7 +73,11 @@
 				data : {page: page, syndromeElementStart: syndromeElementStart, syndromeElementEnd: syndromeElementEnd},
 				success : function(data) {
 					var temp = ko.mapping.fromJS(data.content);
-					bindEvent.bindPaginator(data.currentPage + 1, data.totalPages);
+					if(data.totalPages > 0)
+						bindEvent.bindPaginator(data.currentPage + 1, data.totalPages);
+					 else {
+							$(constant.PAGINATOR).empty();
+					}
 					format.formatInit(temp());
 					viewModel.syndromeElements(temp());
 				}
