@@ -38,7 +38,7 @@
 				</div>
 				
 			    <div class="row">
-			        <div class="col-sm-4">
+			        <div class="col-sm-2">
 	                    <div class="panel panel-primary">
                           <div class="panel-heading">症状名称</div>
                           <!-- <div class="list-group" data-bind="foreach: { data: syndromeCategoryNames, as: 'syndromeCategory' }">
@@ -75,7 +75,7 @@
 						</div>
 			        </div>
 			        
-			        <div class="col-sm-4">
+			        <div class="col-sm-6">
 			            <div class="panel panel-primary">
 						  <div class="panel-heading">症状属</div>
 						  <div class="list-group" data-bind="foreach: { data: values, as: 'value' }">
@@ -84,7 +84,7 @@
                             </div>
 						</div>
 			        </div>
-			        <div class="col-sm-4">
+			        <div class="col-sm-2">
 	                    <div class="panel panel-primary">
                           <div class="panel-heading">已选症状集合</div>
                           <ul class="list-group" data-bind="foreach: symptomNames">

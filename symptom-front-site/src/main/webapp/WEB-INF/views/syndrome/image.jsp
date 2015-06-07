@@ -28,6 +28,8 @@ div { MARGIN-RIGHT: auto; MARGIN-LEFT: auto; }
        var total = global_data.length;	//总共可以画的图片数量
        var curr_index = 0 ;		//当前第几张
        jQuery(function(){
+   			
+   			
     		if (global_data && global_data.length > 0) {
     			if (global_data.length > 1) {
     				$("#nextImage").show();
@@ -73,12 +75,7 @@ div { MARGIN-RIGHT: auto; MARGIN-LEFT: auto; }
 		<table align="center">
 			<tr>
 				<td colspan="2"><label for="txtname">备注:</label>
-					<c:if test="${mermaid.len == 1}">
-						<input id="txtname" name="txtname" size="30" value="该有向图符合ISO-R筛选法则"/>
-					</c:if>
-					<c:if test="${mermaid.len != 1}">
-						<input id="txtname" name="txtname" size="30" value="该有向图不符合ISO-R筛选法则"/>
-					</c:if>
+					<input id="txtname" name="txtname" size="40" value="${mermaid.des}"/>
 				</td>
 			</tr>
 		</table>
@@ -94,16 +91,31 @@ div { MARGIN-RIGHT: auto; MARGIN-LEFT: auto; }
 	
 	</div>
 	</c:forEach>
-	<div style="padding-top:0px;margin-top:0;">
-		<button id="preImage" style="display:none;">上一张</button>
-		<button id="nextImage" style="display:none;">下一张</button>
-	</div>
- 		
+	<c:if test="${size > 0}">
+		<div style="padding-top:0px;margin-top:0;">
+			<button id="preImage" style="display:none;">上一张</button>
+			<button id="nextImage" style="display:none;">下一张</button>
+		</div>
+ 	</c:if>
+ 	<c:if test="${size == 0}">
+ 		<div style="padding-top:0px;margin-top:0;">
+			没有符合ISO-R筛选法则的有向图。
+		</div>
+ 	</c:if>
     
  
   <script type="text/javascript">
 		$('.list-group-item-success').removeClass('list-group-item-success');
 		$('.bind-menu-syndrome-search').addClass('list-group-item-success');
+		function change_color(){
+			var obj = jQuery(".mermaid");
+			$(obj).each(function(){
+				var rect = $(this).find(".node rect").first();
+				rect.css("fill", "red");
+			})
+		}
+		setTimeout("change_color()", 100);
+			
  </script>
 
 </div>
