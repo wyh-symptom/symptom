@@ -40,12 +40,6 @@
                                 </div>
 							</div>
 							<div class="form-group">
-                                <label for="description" class="col-sm-2 control-label">关系备注:</label>
-                                <div class="col-sm-6">
-                                    <textarea class="form-control" name="description" id="description" rows="3" cols=""></textarea>
-                                </div>
-                            </div>
-							<div class="form-group">
                                 <label for="relateType" class="col-sm-2 control-label">关系类型:</label>
                                 <div class="col-sm-6">
                                 	<select class="form-control" name="relateType" id="relateType">
@@ -55,6 +49,13 @@
                                 	</select>
                                 </div>
                             </div>
+							<div class="form-group">
+                                <label for="description" class="col-sm-2 control-label">关系备注:</label>
+                                <div class="col-sm-6">
+                                    <textarea class="form-control" name="description" id="description" rows="3" cols=""></textarea>
+                                </div>
+                            </div>
+							
 
 							
 							<div class="form-group">

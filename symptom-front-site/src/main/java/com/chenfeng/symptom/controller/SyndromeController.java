@@ -119,6 +119,7 @@ public class SyndromeController {
     	
     	net.sf.json.JSONArray json = net.sf.json.JSONArray.fromObject(resultList);
     	model.addAttribute("result", json);
+    	model.addAttribute("resultList", resultList);
     	return "syndrome/image";
     }
     
