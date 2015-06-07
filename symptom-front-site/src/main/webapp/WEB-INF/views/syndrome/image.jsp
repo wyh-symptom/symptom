@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>症状种</title>
+<title>病机有向图</title>
 <%@include file="../common/resource.jsp"%>
 <script src="${SPM_CONTEXT}/js/views/jmgraph/jmgraph.debug.js"></script>
 <script type="text/javascript" src="${SPM_CONTEXT}/js/views/jmgraph/images.js" ></script>
@@ -409,7 +409,7 @@ function draw(data) {
 			
 			x += 120;
 			y += 120;
-			cell = editor.addCell({position :{x:x,y:y},style:'max_process'});
+			cell = editor.addCell({position :{x:x,y:y},style:'process'});
 			cell.value(maxArr[j]);
 			
 		}
@@ -417,7 +417,7 @@ function draw(data) {
 		for(var i = 0; i < elementArr.length; i++) {	//画出其他非顶点集合
 			x += 120;
 			y += 120;
-			cell = editor.addCell({position :{x:x,y:y},style:'subflow'});
+			cell = editor.addCell({position :{x:x,y:y},style:'process'});
 			cell.value(elementArr[i]);
 			
 		}
@@ -475,7 +475,7 @@ function draw(data) {
 			<td colspan="2">
 			<label for="txtname">备注:</label><input id="txtname" name="txtname" size="100"/>
 			<br/>
-			<label for="txtdes">说明:</label><input id="txtdes" name="txtdes" size="100"/>	
+			<!-- <label for="txtdes">说明:</label><input id="txtdes" name="txtdes" size="100"/> -->	
 			</td>
 			</tr>
 			<tr>

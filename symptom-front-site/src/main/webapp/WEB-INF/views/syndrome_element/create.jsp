@@ -35,17 +35,20 @@
 								
 								<div class="checkbox col-sm-1">
                                     <label> 
-                                       <input name="isRelate" value="1" type="checkbox">
+                                       <input name="isRelate" value="1" type="checkbox" checked="checked">
                                     </label>
                                 </div>
 							</div>
-							
+							<div class="form-group">
+                                <label for="description" class="col-sm-2 control-label">关系备注:</label>
+                                <div class="col-sm-6">
+                                    <textarea class="form-control" name="description" id="description" rows="3" cols=""></textarea>
+                                </div>
+                            </div>
 							<div class="form-group">
                                 <label for="relateType" class="col-sm-2 control-label">关系类型:</label>
                                 <div class="col-sm-6">
                                 	<select class="form-control" name="relateType" id="relateType">
-                                		<option value="0">请选择关系类型</option>
-                                	
                                 		<c:forEach items="${relateTypes}" var="type">
                                 				<option value="${type.key}">${type.value}</option>
                                 		</c:forEach>

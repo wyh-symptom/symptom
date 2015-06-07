@@ -39,12 +39,17 @@
                                     </label>
                                 </div>
 							</div>
+							<div class="form-group">
+                                <label for="description" class="col-sm-2 control-label">关系备注:</label>
+                                <div class="col-sm-6">
+                                    <textarea class="form-control" name="description" id="description" rows="3" cols="">${description}</textarea>
+                                </div>
+                            </div>
 							
 							<div class="form-group">
                                 <label for="relateType" class="col-sm-2 control-label">关系类型:</label>
                                 <div class="col-sm-6">
                                 	<select class="form-control" name="relateType" id="relateType">
-                                		<option value="0">请选择关系类型</option>
                                 		<c:forEach items="${relateTypes}" var="type">
                                 			<c:if test="${type.key == syndromeElement.relateType}">
                                 				<option value="${type.key}" selected="selected">${type.value}</option>

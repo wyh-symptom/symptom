@@ -35,7 +35,7 @@
                             <th>ID</th>
                             <th>症状名</th>
                             <th>种类</th>
-                            <th>描述</th>
+                            <!-- <th>描述</th> -->
                             <th>症素A</th>
                             <th>症素B</th>
                             <th colspan="2"></th>
@@ -46,7 +46,7 @@
                             <th data-bind="text: syndrome.id"></th>
                             <td data-bind="text: syndrome.symptomName"></td>
                             <td data-bind="text: syndrome.symptomCategory"></td>
-                            <td data-bind="text: syndrome.description"></td>
+                           <!--  <td data-bind="text: syndrome.description"></td> -->
                             <td data-bind="text: syndrome.syndromeElementStart"></td>
                             <td data-bind="text: syndrome.syndromeElementEnd"></td>
                             <td><a data-bind="attr: { href: '${SPM_CONTEXT}/syndrome/update/' + syndrome.id() }">修改</a></td>

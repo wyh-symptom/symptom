@@ -26,8 +26,17 @@ public class SyndromeElementInput {
 	private Integer relateType;
     
     private Integer isRelate;
+    private String description;
 
-    public String getSyndromeElementStart() {
+    public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getSyndromeElementStart() {
         return syndromeElementStart;
     }
 
