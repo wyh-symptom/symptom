@@ -78,14 +78,15 @@ public class Bz {
         	} else {
         		key = relateArr[0] + "--" + relateArr[3] + "-->" + relateArr[1];
         	}
-        		
+        	
         	mermaidStr.append(key+";");
         }
         String finalMermaidStr = mermaidStr.toString();
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("len", len);      //len代表当前组合可以画出几个有向图。
         resultMap.put("zeroList", zeroList);
-        resultMap.put("relate", finalMermaidStr.substring(0, finalMermaidStr.length()-1));
+        resultMap.put("relate", finalMermaidStr.substring(0, finalMermaidStr.length()-1).replaceAll("，", ",")
+        		.replaceAll("、", ","));
         resultMap.put("subList", topList);
         resultMap.put("des", des);
         /*resultMap.put("maxList", maxList);
