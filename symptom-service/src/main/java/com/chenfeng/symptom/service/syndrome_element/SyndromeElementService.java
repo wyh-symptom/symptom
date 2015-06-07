@@ -39,7 +39,9 @@ public interface SyndromeElementService extends CrudService<SyndromeElement, Lon
 	 * @return
 	 *
 	 * @author wangyuhao
+	 * @param syndromeElementEnd 
+	 * @param syndromeElementStart 
 	 */
-    Page<SyndromeElement> findPageSyndromeElement(int page);
+    Page<SyndromeElement> findPageSyndromeElement(int page, String syndromeElementStart, String syndromeElementEnd);
 
 }

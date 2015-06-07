@@ -13,9 +13,30 @@
 		<div class="row">
 			<%@ include file="../common/menu.jsp"%>
 			<div class="col-sm-10">
-			    <p class="text-right">
-					<a href="${SPM_CONTEXT}/syndrome/element/create"><button type="button" class="btn btn-info">创建</button></a>
-				</p>
+                
+                <div class="row">
+					<div class="col-lg-4">
+                        <input type="text" class="form-control" data-bind="value: syndromeElementStart" placeholder="症素A">
+                    </div>
+                    <div class="col-lg-4">
+                        <input type="text" class="form-control" data-bind="value: syndromeElementEnd" placeholder="症素B">
+                    </div>
+                    
+                    <div class="col-lg-2">
+                        <p class="text-left">
+                            <a href="javascript:void();">
+                                <button type="button" class="btn btn-default" data-bind="click: search">查询</button>
+                            </a>
+                        </p>
+                    </div>
+
+					<div class="col-lg-2">
+                        <p class="text-right">
+		                    <a href="${SPM_CONTEXT}/syndrome/element/create"><button type="button" class="btn btn-info">创建</button></a>
+		                </p>
+                    </div>
+                </div>
+                
                 
 				<table class="table table-striped table-bordered">
                         <thead>

@@ -7,7 +7,7 @@
 
 	var viewModel = {
 		syndromes : ko.observableArray([]),
-		syndromeName : ko.observable(""),
+		syndromeName : ko.observable(''),
 		search : function() {
 			bindEvent.getData(0, this.syndromeName());
 		}
@@ -71,7 +71,6 @@
 				dataType : 'JSON',
 				data : {page: page, syndromeName: syndromeName},
 				success : function(data) {
-					console.debug(data);
 					var temp = ko.mapping.fromJS(data.content); 
 					if(data.totalPages > 0) {
 						bindEvent.bindPaginator(data.currentPage + 1, data.totalPages);

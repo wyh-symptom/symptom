@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -47,8 +48,14 @@ public class SyndromeElementServiceImpl extends
 	}
 
     @Override
-    public Page<SyndromeElement> findPageSyndromeElement(int page) {
+    public Page<SyndromeElement> findPageSyndromeElement(int page, String syndromeElementStart, String syndromeElementEnd) {
+        if (StringUtils.isBlank(syndromeElementStart)) {
+        	syndromeElementStart = null;
+		}
+        if (StringUtils.isBlank(syndromeElementEnd)) {
+        	syndromeElementEnd = null;
+        }
         
-        return repository.findPageSyndromeElement(new RowBounds(page * Constant.PAGE_SIZE, Constant.PAGE_SIZE));
+        return repository.findPageSyndromeElement(new RowBounds(page * Constant.PAGE_SIZE, Constant.PAGE_SIZE), syndromeElementStart, syndromeElementEnd);
     }
 }

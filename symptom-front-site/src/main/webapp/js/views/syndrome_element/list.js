@@ -2,11 +2,16 @@
 
 	var constant = {
 		MENU_CSS : '.bind-menu-syndrome-element',
-		PAGINATOR : '#paginator',
+		PAGINATOR : '#paginator'
 	};
 
 	var viewModel = {
-		syndromeElements : ko.observableArray([])
+		syndromeElements : ko.observableArray([]),
+		syndromeElementStart: ko.observable(''),
+		syndromeElementEnd: ko.observable(''),
+		search : function() {
+			bindEvent.getData(0, this.syndromeElementStart(), this.syndromeElementEnd());
+		}
 	};
 
 	var format = {
@@ -54,18 +59,18 @@
 	                }
 	            },
 	            onPageClicked: function(e,originalEvent,type,page){
-	            	bindEvent.getData(page - 1);
+	            	bindEvent.getData(page - 1, viewModel.syndromeElementStart(), viewModel.syndromeElementEnd());
 	            }
 			}
 			
 			$(constant.PAGINATOR).bootstrapPaginator(options);
 		},
-		getData : function(page) {
+		getData : function(page, syndromeElementStart, syndromeElementEnd) {
 			$.ajax({
 				type : 'POST',
 				url : $.SPM.context + '/syndrome/element/list',
 				dataType : 'JSON',
-				data : {page: page},
+				data : {page: page, syndromeElementStart: syndromeElementStart, syndromeElementEnd: syndromeElementEnd},
 				success : function(data) {
 					var temp = ko.mapping.fromJS(data.content);
 					bindEvent.bindPaginator(data.currentPage + 1, data.totalPages);
@@ -80,7 +85,7 @@
 		init : function() {
 			ko.applyBindings(viewModel);
 			bindEvent.bindMenuCss();
-			bindEvent.getData(0);
+			bindEvent.getData(0, '', '');
 		}
 	};
 

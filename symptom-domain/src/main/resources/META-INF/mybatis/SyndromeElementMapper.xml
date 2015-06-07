@@ -150,9 +150,17 @@
   </select>
   
   <select id="findPageSyndromeElement" resultMap="BaseResultMap" >
-    select 
+    SELECT
     <include refid="Base_Column_List" />
-    from t_syndrome_element
-    order by id asc
+	FROM
+	    t_syndrome_element
+	WHERE 1=1 
+	  <if test="syndromeElementStart != null" >
+		AND syndrome_element_start LIKE CONCAT('%' ,#{syndromeElementStart,jdbcType=VARCHAR} , '%')
+      </if>
+	  <if test="syndromeElementEnd != null" >
+		AND syndrome_element_end LIKE CONCAT('%' ,#{syndromeElementEnd,jdbcType=VARCHAR} , '%')
+      </if>
+	ORDER BY id ASC
   </select>
 </mapper>

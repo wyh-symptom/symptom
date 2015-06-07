@@ -1,7 +1,5 @@
 package com.chenfeng.symptom.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -52,10 +50,14 @@ public class SyndromeElementController {
     @RequestMapping(value = "list", method = RequestMethod.POST)
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public Page<SyndromeElement> doList(@RequestParam(required = false, defaultValue = "1", value = "page") int page) {
-        
-        return syndromeElementService.findPageSyndromeElement(page);
-    }
+	public Page<SyndromeElement> doList(
+			@RequestParam(required = false, defaultValue = "1", value = "page") int page,
+			@RequestParam(required = false, value = "syndromeElementStart") String syndromeElementStart, 
+			@RequestParam(required = false, value = "syndromeElementEnd")  String syndromeElementEnd) {
+
+    	
+		return syndromeElementService.findPageSyndromeElement(page, syndromeElementStart, syndromeElementEnd);
+	}
 
     @RequestMapping(value = "update/{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
