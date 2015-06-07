@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="dist/mermaid.forest.css"/>
+
+
+  <script src="dist/mermaid.js"></script>
+  <scrpt src="dist/mermaid.full.js"></scrpt>
+  <style type="text/css">
+html {
+  font-family: 'trebuchet ms', verdana, arial;
+  color: #333333;
+}
+  </style>
+    <script>
+    //browserify --entry src/mermaid.js -u d3 -o ./dist/mermaid.brow.slim.js
+        var mermaid_config = {
+            startOnLoad:true
+        }
+        mermaid.ganttConfig = {
+            titleTopMargin:25,
+            barHeight:20,
+            barGap:4,
+            topPadding:50,
+            sidePadding:75,
+            gridLineStartPadding:35,
+            fontSize:11,
+            numberSectionStyles:3,
+            axisFormatter: [
+                // Within a day
+                ["%I:%M", function (d) {
+                    return d.getHours();
+                }],
+                // Monday a week
+                ["w. %U", function (d) {
+                    return d.getDay() == 1;
+                }],
+                // Day within a week (not monday)
+                ["%a %d", function (d) {
+                    return d.getDay() && d.getDate() != 1;
+                }],
+                // within a month
+                ["%b %d", function (d) {
+                    return d.getDate() != 1;
+                }],
+                // Month
+                ["%m-%y", function (d) {
+                    return d.getMonth();
+                }]
+            ]
+        };
+    </script>
+    <script>
+        function apa(){
+           // console.log('CLICKED');
+        }
+    </script>
+    <lnk rel="stylesheet" href="seq.css"/>
+</head>
+    <body>
+
+	 <div  class="mermaid">
+                 graph TD;
+    A-->B;A-->C;B-->D;C-->中文;    
+	ab1 -- tjojho --> ab3;
+         </div>
+
+    <div  class="mermaid">
+        graph TB
+            subgraph LevelAB1s
+                subgraph LevelAB1C1
+                    d1-->d2;d1-->d3
+                end
+                subgraph X
+                    x-->x2;x-->x3
+                end
+            end
+    </div>
+    <div class="mermaid">
+        graph TB
+        subgraph A
+            subgraph AA
+                aa1 --> aa2;aa1 --> aa3;aa1 --> aa4
+                subgraph New top
+                    nt1 --> nt2
+                    nt1 --> nt3
+                end
+            end
+            subgraph AB
+                ab1 --> ab2
+                ab1 --> ab3
+            end
+        end
+    </div>
+   
+
+    <div class="mermaid">
+        graph TB
+            ab1 -- tjojho --> ab3;
+			ab1 -- tjojho --> ab4;
+    </div>
+    
+  
+    </body>
+</html>
