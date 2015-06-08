@@ -38,16 +38,9 @@
 				</div>
 				
 			    <div class="row">
-			        <div class="col-sm-2">
+			        <div class="col-sm-3">
 	                    <div class="panel panel-primary">
                           <div class="panel-heading">症状名称</div>
-                          <!-- <div class="list-group" data-bind="foreach: { data: syndromeCategoryNames, as: 'syndromeCategory' }">
-                              <a href="#" data-bind="text: syndromeCategory.syndromeCategoryName, css: checkedCss, click: onClick">
-                              </a>
-                            </div> -->
-
-                                
-
 							<table class="table tree-2 table-bordered table-striped table-condensed">
 								<tbody data-bind="foreach: { data: keys, as: 'key' }">
 									<tr data-bind="css: key.treegrCss">
@@ -61,7 +54,6 @@
 									<!-- ko foreach: { data: key.syndromeNames, as: 'sn' } -->
 									<tr data-bind="css: sn.treegrCss, visible: $parent.isVisible">
 										<td data-bind="click: sn.onClick">
-											<span class="treegrid-indent"></span>
 											<span class="treegrid-expander"></span>
 											<!-- ko text: sn.symptomName -->
 											    Node 1-1
@@ -84,7 +76,7 @@
                             </div>
 						</div>
 			        </div>
-			        <div class="col-sm-2">
+			        <div class="col-sm-3">
 	                    <div class="panel panel-primary">
                           <div class="panel-heading">已选症状集合</div>
                           <ul class="list-group" data-bind="foreach: symptomNames">
