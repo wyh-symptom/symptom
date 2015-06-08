@@ -37,6 +37,8 @@ public class Bz {
 	        	boolean flag = (boolean)object[0];
 	        	if (flag) {
 	        		zeroList = (List<String>)object[1];
+	        		newZs = (String[][])object[2];
+	        		topList = (List<String>)object[3];
 	        		len = zeroList.size();
 	        		des = "该有向图符合ISO-R筛选法则，为三级辨证";
 	        	} else {	//没有找到匹配的元素，则从关系表中查找一条关系添加到证素关系中，并且添加2个元素与原顶点集合的所有元素的关系
@@ -44,8 +46,12 @@ public class Bz {
 	        		flag = (boolean)object[0];
 	        		if (flag) {
 	            		zeroList = (List<String>)object[1];
+	            		newZs = (String[][])object[2];
+		        		topList = (List<String>)object[3];
 	            		len = zeroList.size();
 	            		des = "该有向图符合ISO-R筛选法则，为四级辨证";
+	            	} else {
+	            		des = "不能成满足条件的有向图";
 	            	}
 	        	}
             } else {
@@ -62,9 +68,9 @@ public class Bz {
             }
         	newZs = oneZs;
         }
-        if (len > 1) 
+        if (len > 1)  {
         	return null;
-        
+        }
         //计算度最多的证素
         //List<String> maxList = calucMaxZs(topList, newZs);
         //Map<String, Object> relateMap = new HashMap<String, Object>();
@@ -81,6 +87,7 @@ public class Bz {
         	
         	mermaidStr.append(key+";");
         }
+        //mermaidStr.append("肺阴虚--因果关系-->阴虚肺燥，肺系不利则咳嗽、咯痰;");
         String finalMermaidStr = mermaidStr.toString();
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("len", len);      //len代表当前组合可以画出几个有向图。
@@ -127,6 +134,9 @@ public class Bz {
     	List<String> zeroList = null;
     	boolean flag = false;
     	List<String> oneList = null;
+    	String[][] newZs = null;
+    	Object[] object = new Object[4];
+    	object[0] = flag;
     	for (int i = 0; i < elementList.size(); i++) {
     		if (topList.contains(elementList.get(i))) {
     			continue;
@@ -136,17 +146,19 @@ public class Bz {
     		tempZs = copyArray(zs, 0);	//不修改原始的证素关系
     		oneList = new ArrayList<String>();
     		oneList.add(elementList.get(i));
-    		String[][] newZs = generateNewZs(temp, oneList, tempZs, syndromeElementService);
+    		newZs = generateNewZs(temp, oneList, tempZs, syndromeElementService);
     		temp.add(elementList.get(i));
     		zeroList = getZeroList(newZs, temp);
     		if (zeroList.size() == 1) {		//找到满足条件的元素；则停止循环
-    			zs = newZs;
     			topList.add(elementList.get(i));
     			flag = true;
+    			object[0] = flag;
+    			object[1] = zeroList;
+    			object[2] = newZs;
+    			object[3] = topList;
     			break;
     		}
     	}
-    	Object[] object = {flag, zeroList};
     	return object;
     }
     
@@ -167,6 +179,8 @@ public class Bz {
     	List<String> zeroList = null;
     	List<String> twoList = new ArrayList<String>();
     	boolean flag = false;
+    	Object[] object = new Object[4];
+    	object[0] = flag;
     	for (int i = 0; i < all; i++) {
     		el = list.get(i);
     		if (el.getIsRelate().intValue() == 1) {
@@ -194,11 +208,14 @@ public class Bz {
         				topList.add(el.getSyndromeElementEnd());
         			}
         			flag = true;
+        			object[0] = flag;
+        			object[1] = zeroList;
+        			object[2] = newZs;
+        			object[3] = topList;
         			break;
         		}
     		}
     	}
-    	Object[] object = {flag, zeroList};
     	return object;
     }
     
