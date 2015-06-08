@@ -75,7 +75,7 @@ div { MARGIN-RIGHT: auto; MARGIN-LEFT: auto; }
 		<table align="center">
 			<tr>
 				<td colspan="2"><label for="txtname">备注:</label>
-					<input id="txtname" name="txtname" size="40" value="${mermaid.des}"/>
+					<input id="txtname" name="txtname" size="60" value="${mermaid.des}"/>
 				</td>
 			</tr>
 		</table>

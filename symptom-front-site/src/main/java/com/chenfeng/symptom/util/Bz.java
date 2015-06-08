@@ -40,7 +40,7 @@ public class Bz {
 	        		newZs = (String[][])object[2];
 	        		topList = (List<String>)object[3];
 	        		len = zeroList.size();
-	        		des = "该有向图符合ISO-R筛选法则，为三级辨证";
+	        		des = "该有向图符合ISO-R筛选法则，为三级辨证("+object[4]+")";
 	        	} else {	//没有找到匹配的元素，则从关系表中查找一条关系添加到证素关系中，并且添加2个元素与原顶点集合的所有元素的关系
 	        		object = generateTwoNewTopList(list, newZs, topList, syndromeElementService);
 	        		flag = (boolean)object[0];
@@ -49,7 +49,7 @@ public class Bz {
 	            		newZs = (String[][])object[2];
 		        		topList = (List<String>)object[3];
 	            		len = zeroList.size();
-	            		des = "该有向图符合ISO-R筛选法则，为四级辨证";
+	            		des = "该有向图符合ISO-R筛选法则，为四级辨证("+object[4]+")";
 	            	} else {
 	            		des = "不能成满足条件的有向图";
 	            	}
@@ -135,7 +135,7 @@ public class Bz {
     	boolean flag = false;
     	List<String> oneList = null;
     	String[][] newZs = null;
-    	Object[] object = new Object[4];
+    	Object[] object = new Object[5];
     	object[0] = flag;
     	for (int i = 0; i < elementList.size(); i++) {
     		if (topList.contains(elementList.get(i))) {
@@ -156,6 +156,7 @@ public class Bz {
     			object[1] = zeroList;
     			object[2] = newZs;
     			object[3] = topList;
+    			object[4] = elementList.get(i);
     			break;
     		}
     	}
@@ -179,7 +180,7 @@ public class Bz {
     	List<String> zeroList = null;
     	List<String> twoList = new ArrayList<String>();
     	boolean flag = false;
-    	Object[] object = new Object[4];
+    	Object[] object = new Object[5];
     	object[0] = flag;
     	for (int i = 0; i < all; i++) {
     		el = list.get(i);
@@ -212,6 +213,7 @@ public class Bz {
         			object[1] = zeroList;
         			object[2] = newZs;
         			object[3] = topList;
+        			object[4] = el.getSyndromeElementStart() + "-->" + el.getSyndromeElementEnd();
         			break;
         		}
     		}
