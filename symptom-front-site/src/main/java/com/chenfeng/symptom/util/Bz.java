@@ -21,34 +21,37 @@ public class Bz {
     @SuppressWarnings("unchecked")
 	public static Map<String, Object> findRelate(String[][] zs, SyndromeElementService syndromeElementService){
         List<String> topList = generateTopList(zs);
-        List<String> zeroList = getZeroList(zs, topList);    //入度为0的证素集合
-        int len = zeroList.size();
+        /*List<String> zeroList = getZeroList(zs, topList);    //入度为0的证素集合
+        int len = zeroList.size();*/
+        GraphFindCycle gfc = new GraphFindCycle();
+        boolean enableGraph = gfc.decideGenerateGraph(topList, zs);
         String des = "该有向图符合ISO-R筛选法则，为一级辨证";
         String[][] newZs = null;
-        if (len > 1) {		//添加元素之间的关系
+        if (!enableGraph) {		//第一条不满足，添加元素之间的关系
         	//从数据库查询顶点集合中个证素之间的关系,形成一个新的证素关系集合 0->start,1->end, 2->关系类型, 3->关系描素
             newZs = generateNewZs(topList, zs, syndromeElementService);
-            zeroList = getZeroList(newZs, topList);    //入度为0的证素集合
-            len = zeroList.size();
-            if (len > 1) {
-            	//如果长度大于1，则说明不能形成有且仅有一个入度为0的有向图。则从元素表中添加一个元素， 并且添加该元素与该toplist中元素的关系，重新构造有向图
+            //zeroList = getZeroList(newZs, topList);    //入度为0的证素集合
+            //len = zeroList.size();
+            enableGraph = gfc.decideGenerateGraph(topList, newZs);
+            if (!enableGraph) {
+            	//false，第二条不满足。则从元素表中添加一个元素， 并且添加该元素并且添加该元素与toplist中元素的关系，重新构造有向图
 	        	List<SyndromeElement> list = syndromeElementService.findAll();
 	        	Object[] object = generateOneNewTopList(list, newZs, topList, syndromeElementService);
-	        	boolean flag = (boolean)object[0];
-	        	if (flag) {
-	        		zeroList = (List<String>)object[1];
+	        	enableGraph = (boolean)object[0];
+	        	if (enableGraph) {
+	        		//zeroList = (List<String>)object[1];
 	        		newZs = (String[][])object[2];
 	        		topList = (List<String>)object[3];
-	        		len = zeroList.size();
+	        		//len = zeroList.size();
 	        		des = "该有向图符合ISO-R筛选法则，为三级辨证("+object[4]+")";
 	        	} else {	//没有找到匹配的元素，则从关系表中查找一条关系添加到证素关系中，并且添加2个元素与原顶点集合的所有元素的关系
 	        		object = generateTwoNewTopList(list, newZs, topList, syndromeElementService);
-	        		flag = (boolean)object[0];
-	        		if (flag) {
-	            		zeroList = (List<String>)object[1];
+	        		enableGraph = (boolean)object[0];
+	        		if (enableGraph) {
+	            		//zeroList = (List<String>)object[1];
 	            		newZs = (String[][])object[2];
 		        		topList = (List<String>)object[3];
-	            		len = zeroList.size();
+	            		//len = zeroList.size();
 	            		des = "该有向图符合ISO-R筛选法则，为四级辨证("+object[4]+")";
 	            	} else {
 	            		des = "不能成满足条件的有向图";
@@ -68,9 +71,11 @@ public class Bz {
             }
         	newZs = oneZs;
         }
-        if (len > 1)  {
+        int len = enableGraph ? 1 : 0;
+        if (len == 0)  {
         	return null;
-        }
+        } 
+        
         //计算度最多的证素
         //List<String> maxList = calucMaxZs(topList, newZs);
         //Map<String, Object> relateMap = new HashMap<String, Object>();
@@ -91,7 +96,6 @@ public class Bz {
         String finalMermaidStr = mermaidStr.toString();
         Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("len", len);      //len代表当前组合可以画出几个有向图。
-        resultMap.put("zeroList", zeroList);
         resultMap.put("relate", finalMermaidStr.substring(0, finalMermaidStr.length()-1).replaceAll("，", ",")
         		.replaceAll("、", ","));
         resultMap.put("subList", topList);
@@ -132,11 +136,10 @@ public class Bz {
     	List<String> temp = null;
     	String[][] tempZs = null;
     	List<String> zeroList = null;
-    	boolean flag = false;
     	List<String> oneList = null;
     	String[][] newZs = null;
     	Object[] object = new Object[5];
-    	object[0] = flag;
+    	object[0] = false;
     	for (int i = 0; i < elementList.size(); i++) {
     		if (topList.contains(elementList.get(i))) {
     			continue;
@@ -149,10 +152,11 @@ public class Bz {
     		newZs = generateNewZs(temp, oneList, tempZs, syndromeElementService);
     		temp.add(elementList.get(i));
     		zeroList = getZeroList(newZs, temp);
-    		if (zeroList.size() == 1) {		//找到满足条件的元素；则停止循环
+    		GraphFindCycle gfc = new GraphFindCycle();
+    		boolean enableGraph = gfc.decideGenerateGraph(temp, newZs);
+    		if (enableGraph) {		//找到满足条件的元素；则停止循环
     			topList.add(elementList.get(i));
-    			flag = true;
-    			object[0] = flag;
+    			object[0] = enableGraph;
     			object[1] = zeroList;
     			object[2] = newZs;
     			object[3] = topList;
@@ -179,9 +183,8 @@ public class Bz {
     	String[][] tempZs = null;
     	List<String> zeroList = null;
     	List<String> twoList = new ArrayList<String>();
-    	boolean flag = false;
     	Object[] object = new Object[5];
-    	object[0] = flag;
+    	object[0] = false;
     	for (int i = 0; i < all; i++) {
     		el = list.get(i);
     		if (el.getIsRelate().intValue() == 1) {
@@ -200,7 +203,9 @@ public class Bz {
         		String[][] newZs = generateNewZs(temp, twoList, tempZs, syndromeElementService);
         		temp.addAll(twoList);
         		zeroList = getZeroList(newZs, temp);
-        		if (zeroList.size() == 1) {		//找到满足条件的元素；则停止循环
+        		GraphFindCycle gfc = new GraphFindCycle();
+        		boolean enableGraph = gfc.decideGenerateGraph(temp, newZs);
+        		if (enableGraph) {		//找到满足条件的元素；则停止循环
         			zs = newZs;
         			if (!topList.contains(el.getSyndromeElementStart())) {
         				topList.add(el.getSyndromeElementStart());
@@ -208,8 +213,7 @@ public class Bz {
         			if (!topList.contains(el.getSyndromeElementEnd())) {
         				topList.add(el.getSyndromeElementEnd());
         			}
-        			flag = true;
-        			object[0] = flag;
+        			object[0] = enableGraph;
         			object[1] = zeroList;
         			object[2] = newZs;
         			object[3] = topList;
