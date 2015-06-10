@@ -121,6 +121,7 @@ public class GraphFindCycle {
 	    	boolean flag = true;
 	    	for(int i = 0; i < topList.size(); i++) {
 	    		map = new HashMap<String, Integer>();
+	    		flag = true;
 	    		for(int j = 0; j < topList.size(); j++) {
 	    			if (i == j){	//不计算本身顶点的距离
 	    				continue;

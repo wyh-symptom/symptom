@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.chenfeng.symptom.domain.common.pagehelper.Page;
 import com.chenfeng.symptom.domain.model.mybatis.Syndrome;
+import com.chenfeng.symptom.domain.model.mybatis.SyndromeElement;
 import com.chenfeng.symptom.service.syndrome.SyndromeCreateInput;
 import com.chenfeng.symptom.service.syndrome.SyndromeService;
 import com.chenfeng.symptom.service.syndrome_element.SyndromeElementService;
@@ -107,13 +108,14 @@ public class SyndromeController {
     	
     	Map<Integer, String[]> zuHe = null;
     	List<Map<String, Object>> resultList = new ArrayList<Map<String,Object>>();
+    	List<SyndromeElement> allRelateList = syndromeElementService.findAll();
     	for (int k = 0; k < list.size(); k++) {
     		zuHe = list.get(k);
     		String[][] relate = new String[zuHe.size()][4];
     		for (int m : zuHe.keySet()){
     			relate[m] = zuHe.get(m);
     		}
-    		Map<String, Object> result = Bz.findRelate(relate, syndromeElementService);
+    		Map<String, Object> result = Bz.findRelate(relate, allRelateList);
     		if (result != null) {
     			resultList.add(result);
     		}

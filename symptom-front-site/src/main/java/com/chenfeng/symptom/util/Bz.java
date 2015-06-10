@@ -1,25 +1,24 @@
 package com.chenfeng.symptom.util;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.BeanUtils;
 
 import com.chenfeng.symptom.domain.model.mybatis.SyndromeElement;
-import com.chenfeng.symptom.service.syndrome_element.SyndromeElementInput;
-import com.chenfeng.symptom.service.syndrome_element.SyndromeElementService;
-import com.mysql.fabric.xmlrpc.base.Array;
 
 
 public class Bz {
     
+    /**
+     * @param zs	用户选择的证素关系表
+     * @param allRelateList		存在表中的所有证素关系表
+     * @return
+     */
     @SuppressWarnings("unchecked")
-	public static Map<String, Object> findRelate(String[][] zs, SyndromeElementService syndromeElementService){
+	public static Map<String, Object> findRelate(String[][] zs, List<SyndromeElement> allRelateList){
         List<String> topList = generateTopList(zs);
         /*List<String> zeroList = getZeroList(zs, topList);    //入度为0的证素集合
         int len = zeroList.size();*/
@@ -29,14 +28,14 @@ public class Bz {
         String[][] newZs = null;
         if (!enableGraph) {		//第一条不满足，添加元素之间的关系
         	//从数据库查询顶点集合中个证素之间的关系,形成一个新的证素关系集合 0->start,1->end, 2->关系类型, 3->关系描素
-            newZs = generateNewZs(topList, zs, syndromeElementService);
+            newZs = generateNewZs(topList, zs, allRelateList);
             //zeroList = getZeroList(newZs, topList);    //入度为0的证素集合
             //len = zeroList.size();
             enableGraph = gfc.decideGenerateGraph(topList, newZs);
             if (!enableGraph) {
             	//false，第二条不满足。则从元素表中添加一个元素， 并且添加该元素并且添加该元素与toplist中元素的关系，重新构造有向图
-	        	List<SyndromeElement> list = syndromeElementService.findAll();
-	        	Object[] object = generateOneNewTopList(list, newZs, topList, syndromeElementService);
+	        	//List<SyndromeElement> list = syndromeElementService.findAll();
+	        	Object[] object = generateOneNewTopList(allRelateList, newZs, topList);
 	        	enableGraph = (boolean)object[0];
 	        	if (enableGraph) {
 	        		//zeroList = (List<String>)object[1];
@@ -45,7 +44,7 @@ public class Bz {
 	        		//len = zeroList.size();
 	        		des = "该有向图符合ISO-R筛选法则，为三级辨证("+object[4]+")";
 	        	} else {	//没有找到匹配的元素，则从关系表中查找一条关系添加到证素关系中，并且添加2个元素与原顶点集合的所有元素的关系
-	        		object = generateTwoNewTopList(list, newZs, topList, syndromeElementService);
+	        		object = generateTwoNewTopList(allRelateList, newZs, topList);
 	        		enableGraph = (boolean)object[0];
 	        		if (enableGraph) {
 	            		//zeroList = (List<String>)object[1];
@@ -54,7 +53,7 @@ public class Bz {
 	            		//len = zeroList.size();
 	            		des = "该有向图符合ISO-R筛选法则，为四级辨证("+object[4]+")";
 	            	} else {
-	            		des = "不能成满足条件的有向图";
+	            		des = "没有符合ISO-R筛选法则的有向图";
 	            	}
 	        	}
             } else {
@@ -114,18 +113,17 @@ public class Bz {
     /**
      * 不满足第三点有向图条件，重新构造顶点集合和证素关系
      * 从元素表中添加一个元素到顶点集合， 并且添加该元素与该toplist中元素的关系，重新构造有向图
-     * @param list
+     * @param allRelateList	所有证素关系
      * @param zs
      * @param topList
-     * @param syndromeElementService
      * @return{boolean, zeroList}
      */
-    private static Object[] generateOneNewTopList(List<SyndromeElement> list, String[][] zs, List<String> topList, SyndromeElementService syndromeElementService){
-    	int all = list.size();
+    private static Object[] generateOneNewTopList(List<SyndromeElement> allRelateList, String[][] zs, List<String> topList){
+    	int all = allRelateList.size();
     	SyndromeElement el = null;
     	List<String> elementList = new ArrayList<String>();
     	for (int i = 0; i < all; i++) {
-    		el = list.get(i);
+    		el = allRelateList.get(i);
     		if (!elementList.contains(el.getSyndromeElementStart())) {
     			elementList.add(el.getSyndromeElementStart());
     		}
@@ -149,7 +147,7 @@ public class Bz {
     		tempZs = copyArray(zs, 0);	//不修改原始的证素关系
     		oneList = new ArrayList<String>();
     		oneList.add(elementList.get(i));
-    		newZs = generateNewZs(temp, oneList, tempZs, syndromeElementService);
+    		newZs = generateNewZs(temp, oneList, tempZs, allRelateList);
     		temp.add(elementList.get(i));
     		zeroList = getZeroList(newZs, temp);
     		GraphFindCycle gfc = new GraphFindCycle();
@@ -170,14 +168,14 @@ public class Bz {
     /**
      * 不满足第4点有向图条件，重新构造顶点集合和证素关系
      * 从元素表中添加一组关系， 并且添加2个元素与该toplist中元素的关系，重新构造有向图
-     * @param list
+     * @param allRelateList
      * @param zs
      * @param topList
      * @param syndromeElementService
      * @return{boolean, zeroList}
      */
-    private static Object[] generateTwoNewTopList(List<SyndromeElement> list, String[][] zs, List<String> topList, SyndromeElementService syndromeElementService){
-    	int all = list.size();
+    private static Object[] generateTwoNewTopList(List<SyndromeElement> allRelateList, String[][] zs, List<String> topList){
+    	int all = allRelateList.size();
     	SyndromeElement el = null;
     	List<String> temp = null;
     	String[][] tempZs = null;
@@ -186,7 +184,7 @@ public class Bz {
     	Object[] object = new Object[5];
     	object[0] = false;
     	for (int i = 0; i < all; i++) {
-    		el = list.get(i);
+    		el = allRelateList.get(i);
     		if (el.getIsRelate().intValue() == 1) {
     			if (topList.contains(el.getSyndromeElementStart()) && topList.contains(el.getSyndromeElementEnd())) {
         			continue;
@@ -200,7 +198,7 @@ public class Bz {
         		tempZs[tempZs.length - 1][3] = el.getDescription();
         		twoList.add(el.getSyndromeElementStart());
         		twoList.add(el.getSyndromeElementEnd());
-        		String[][] newZs = generateNewZs(temp, twoList, tempZs, syndromeElementService);
+        		String[][] newZs = generateNewZs(temp, twoList, tempZs, allRelateList);
         		temp.addAll(twoList);
         		zeroList = getZeroList(newZs, temp);
         		GraphFindCycle gfc = new GraphFindCycle();
@@ -267,12 +265,12 @@ public class Bz {
      * @param topList
      * @param zs
      */
-    private static String[][] generateNewZs(List<String> topList, String[][] zs, SyndromeElementService syndromeElementService) {
+    private static String[][] generateNewZs(List<String> topList, String[][] zs, List<SyndromeElement> allRelateList) {
         List<Map<Integer, String>> newRelateList = new ArrayList<Map<Integer,String>>();
         String[] currentRelate = new String[3];
         for (int i = 0; i < topList.size(); i++) {
             for (int j = i + 1; j < topList.size(); j++) {
-                currentRelate = compareElement(topList.get(i), topList.get(j), syndromeElementService);
+                currentRelate = compareElement(topList.get(i), topList.get(j), allRelateList);
                 if (Integer.parseInt(currentRelate[0]) == 1) {
                     Map<Integer, String> map = new HashMap<Integer, String>();
                     map.put(0, topList.get(i));
@@ -281,7 +279,7 @@ public class Bz {
                     map.put(3, currentRelate[2]);
                     newRelateList.add(map);
                 }
-                currentRelate = compareElement(topList.get(j), topList.get(i), syndromeElementService);
+                currentRelate = compareElement(topList.get(j), topList.get(i), allRelateList);
                 if (Integer.parseInt(currentRelate[0]) == 1) {
                     Map<Integer, String> map = new HashMap<Integer, String>();
                     map.put(0, topList.get(j));
@@ -321,12 +319,12 @@ public class Bz {
      * @param syndromeElementService
      * @return
      */
-    private static String[][] generateNewZs(List<String> topList, List<String> compareElementList, String[][] zs, SyndromeElementService syndromeElementService) {
+    private static String[][] generateNewZs(List<String> topList, List<String> compareElementList, String[][] zs, List<SyndromeElement> allRelateList) {
         List<Map<Integer, String>> newRelateList = new ArrayList<Map<Integer,String>>();
         String[] currentRelate = new String[3];
         for (int i = 0; i < compareElementList.size(); i++) {
 	        for (int j = 0; j < topList.size(); j++) {
-	        	currentRelate = compareElement(compareElementList.get(i), topList.get(j), syndromeElementService);
+	        	currentRelate = compareElement(compareElementList.get(i), topList.get(j), allRelateList);
 	            if (Integer.parseInt(currentRelate[0]) == 1) {
 	                Map<Integer, String> map = new HashMap<Integer, String>();
 	                map.put(0, compareElementList.get(i));
@@ -335,7 +333,7 @@ public class Bz {
 	                map.put(3, currentRelate[2]);
 	                newRelateList.add(map);
 	            }
-	            currentRelate = compareElement(topList.get(j), compareElementList.get(i), syndromeElementService);
+	            currentRelate = compareElement(topList.get(j), compareElementList.get(i), allRelateList);
 	            if (Integer.parseInt(currentRelate[0]) == 1) {
 	                Map<Integer, String> map = new HashMap<Integer, String>();
 	                map.put(0, topList.get(j));
@@ -380,16 +378,26 @@ public class Bz {
      * @param compareElement
      * @return {关系,关系类型, 关系备注}
      */
-    public static String[] compareElement(String element, String compareElement, SyndromeElementService syndromeElementService) {
-        SyndromeElementInput zs = new SyndromeElementInput();
-        zs.setSyndromeElementStart(element);
-        zs.setSyndromeElementEnd(compareElement);
-        SyndromeElement zs0 = new SyndromeElement();
-        BeanUtils.copyProperties(zs, zs0);
-        List<SyndromeElement>  list = syndromeElementService.findRelateByZs(zs0);
-        int relate = (list != null && list.size() > 0) ? list.get(0).getIsRelate() : 0;
-        int relateType = (list != null && list.size() > 0) ? list.get(0).getRelateType() : 1;	//关系类型
-        String des = (list != null && list.size() > 0) ? list.get(0).getDescription() : "";	//关系备注
+    public static String[] compareElement(String element, String compareElement, List<SyndromeElement> allRelateList) {
+    	SyndromeElement syndromeElement = null;
+    	boolean flag = false;
+        for (int i = 0; i < allRelateList.size(); i++) {
+        	syndromeElement = allRelateList.get(i);
+        	//满足一条关系，则跳出循环
+        	if (element.equals(syndromeElement.getSyndromeElementStart()) 
+        			&& compareElement.equals(syndromeElement.getSyndromeElementEnd())) {
+        		flag = true;
+        		break;
+        	}
+        }
+        int relate = 0;
+        int relateType = 1;
+        String des = "";
+        if (flag) {
+	        relate = syndromeElement.getIsRelate();
+	        relateType = syndromeElement.getRelateType();	//关系类型
+	        des = syndromeElement.getDescription();	//关系备注
+        }
         String[] returnArr = {Integer.toString(relate) , Integer.toString(relateType), des};
         return returnArr;
     }
