@@ -180,7 +180,7 @@ public class Bz {
     	List<String> temp = null;
     	String[][] tempZs = null;
     	List<String> zeroList = null;
-    	List<String> twoList = new ArrayList<String>();
+    	List<String> twoList = null;
     	Object[] object = new Object[5];
     	object[0] = false;
     	for (int i = 0; i < all; i++) {
@@ -196,6 +196,7 @@ public class Bz {
         		tempZs[tempZs.length - 1][1] = el.getSyndromeElementEnd();
         		tempZs[tempZs.length - 1][2] = el.getRelateType().toString();
         		tempZs[tempZs.length - 1][3] = el.getDescription();
+        		twoList = new ArrayList<String>();
         		twoList.add(el.getSyndromeElementStart());
         		twoList.add(el.getSyndromeElementEnd());
         		String[][] newZs = generateNewZs(temp, twoList, tempZs, allRelateList);
